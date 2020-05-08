@@ -85,7 +85,7 @@ export default {
             );
             this.set ('category', category);
           }
-          if (Discourse.SiteSettings.topic_list_fade_in_time) {
+          if (settings.topic_list_fade_in_time) {
             $ ('#list-area').fadeOut (0);
           }
         },
@@ -95,9 +95,9 @@ export default {
           if (this.get ('tilesStyle')) {
             Ember.run.scheduleOnce ('afterRender', this, this.applyTiles);
           }
-          if (Discourse.SiteSettings.topic_list_fade_in_time) {
+          if (settings.topic_list_fade_in_time) {
             $ ('#list-area').fadeIn (
-              Discourse.SiteSettings.topic_list_fade_in_time
+              settings.topic_list_fade_in_time
             );
           }
         },
@@ -168,7 +168,7 @@ export default {
 
         @discourseComputed ('listChanged')
         thumbnailFirstXRows () {
-          return Discourse.SiteSettings.topic_list_thumbnail_first_x_rows;
+          return settings.topic_list_thumbnail_first_x_rows;
         },
 
         applyTiles () {
@@ -207,7 +207,7 @@ export default {
             this.classNames = ['tiles-grid-item'];
 
             if (
-              Discourse.SiteSettings.topic_list_tiles_larger_featured_tiles &&
+              settings.topic_list_tiles_larger_featured_tiles &&
               topic.tags
             ) {
               if (
@@ -236,13 +236,13 @@ export default {
             });
           } else if (
             defaultThumbnail &&
-            Discourse.SiteSettings.topic_list_default_thumbnail_fallback
+            settings.topic_list_default_thumbnail_fallback
           ) {
             this.set ('thumbnails', defaultThumbnail);
           }
 
           const obj = PostsCountColumn.create ({topic});
-          obj.siteSettings = Discourse.SiteSettings;
+          obj.siteSettings = settings
           this.set ('likesHeat', obj.get ('likesHeat'));
         },
 
@@ -273,7 +273,7 @@ export default {
         },
 
         @discourseComputed featuredTags () {
-          return Discourse.SiteSettings.topic_list_featured_images_tag.split (
+          return settings.topic_list_featured_images_tag.split (
             '|'
           );
         },
@@ -407,7 +407,7 @@ export default {
             likeCount ||
             this.get ('topic.topic_post_can_like') ||
             !this.get ('currentUser') ||
-            Discourse.SiteSettings.topic_list_show_like_on_current_users_posts
+            settings.topic_list_show_like_on_current_users_posts
           ) {
             actions.push (this._likeButton ());
           }

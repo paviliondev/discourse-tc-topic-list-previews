@@ -1,111 +1,142 @@
-import { iconHTML } from "discourse-common/lib/icon-library";
+import {iconHTML} from 'discourse-common/lib/icon-library';
 
-var isThumbnail = function(path) {
-  return typeof path === 'string' &&
-         path !== 'false' &&
-         path !== 'nil' &&
-         path !== 'null' &&
-         path !== '';
+var isThumbnail = function (path) {
+  return (
+    typeof path === 'string' &&
+    path !== 'false' &&
+    path !== 'nil' &&
+    path !== 'null' &&
+    path !== ''
+  );
 };
 
-var previewUrl = function(thumbnails) {
-   // const preferLowRes = (Discourse.User._current === null) ? false : Discourse.User._current.custom_fields.tlp_user_prefs_prefer_low_res_thumbnails;
+var previewUrl = function (thumbnails) {
   if (thumbnails) {
-    return thumbnails[0].url;
-    // if (thumbnails.retina && isThumbnail(thumbnails.retina)) {
-    //   return ((window.devicePixelRatio >= 2) && !preferLowRes) ? thumbnails.retina : thumbnails.normal;
-    // } else if (thumbnails.normal && isThumbnail(thumbnails.normal)) {
-    //   return thumbnails.normal;
-    // } else if (isThumbnail(thumbnails)) {
-    //   return thumbnails;
-    // }
+    const resLevel = window.devicePixelRatio >= 2
+      ? settings.topic_list_thumbnail_resolution_level - 1 < 0
+          ? 0
+          : settings.topic_list_thumbnail_resolution_level - 1
+      : settings.topic_list_thumbnail_resolution_level;
+    return resLevel <= thumbnails.length - 1
+      ? thumbnails[resLevel].url
+      : thumbnails[thumbnails.length - 1].url;
   } else {
     return false;
   }
 };
 
-var renderUnboundPreview = function(thumbnails, params) {
-  const url = previewUrl(thumbnails);
+var renderUnboundPreview = function (thumbnails, params) {
+  const url = previewUrl (thumbnails);
 
   if (!url) return '';
 
   const opts = params.opts || {};
 
-  if (!opts.tilesStyle && Discourse.Site.currentProp('mobileView')) {
+  if (!opts.tilesStyle && Discourse.Site.currentProp ('mobileView')) {
     return `<img class="thumbnail" src="${url}"/>`;
-  };
+  }
 
   const attrWidthSuffix = opts.tilesStyle ? '%' : 'px';
   const attrHeightSuffix = opts.tilesStyle ? '' : 'px';
-  const css_classes = opts.tilesStyle? 'thumbnail tiles-thumbnail' : 'thumbnail';
+  const css_classes = opts.tilesStyle
+    ? 'thumbnail tiles-thumbnail'
+    : 'thumbnail';
 
-  const category_width = params.category ? params.category.topic_list_thumbnail_width : false;
-  const category_height = params.category ? params.category.topic_list_thumbnail_height : false;
-  const featured_width = opts.featured ? settings.topic_list_featured_width ? settings.topic_list_featured_width : 'auto' : false;
-  const featured_height = opts.featured ? settings.topic_list_featured_height : false;
+  const category_width = params.category
+    ? params.category.topic_list_thumbnail_width
+    : false;
+  const category_height = params.category
+    ? params.category.topic_list_thumbnail_height
+    : false;
+  const featured_width = opts.featured
+    ? settings.topic_list_featured_width
+        ? settings.topic_list_featured_width
+        : 'auto'
+    : false;
+  const featured_height = opts.featured
+    ? settings.topic_list_featured_height
+    : false;
   const tiles_width = opts.tilesStyle ? '100' : false;
   const tiles_height = opts.tilesStyle ? 'auto' : false;
   const custom_width = opts.thumbnailWidth ? opts.thumbnailWidth : false;
   const custom_height = opts.thumbnailHeight ? opts.thumbnailHeight : false;
 
-  const height = custom_height || tiles_height || featured_height || category_height || settings.topic_list_thumbnail_height;
-  const width = custom_width || tiles_width || featured_width || category_width || settings.topic_list_thumbnail_width;
+  const height =
+    custom_height ||
+    tiles_height ||
+    featured_height ||
+    category_height ||
+    settings.topic_list_thumbnail_height;
+  const width =
+    custom_width ||
+    tiles_width ||
+    featured_width ||
+    category_width ||
+    settings.topic_list_thumbnail_width;
   const height_style = height ? `height:${height}${attrHeightSuffix};` : ``;
   const style = `${height_style}width:${width}${attrWidthSuffix}`;
 
   return `<img class="${css_classes}" src="${url}" style="${style}" />`;
 };
 
-var testImageUrl = function(thumbnails, callback) {
-  const url = previewUrl(thumbnails);
+var testImageUrl = function (thumbnails, callback) {
+  const url = previewUrl (thumbnails);
   let timeout = settings.topic_list_test_image_url_timeout;
-  let timer, img = new Image();
+  let timer, img = new Image ();
   img.onerror = img.onabort = function () {
-    clearTimeout(timer);
-    callback(false);
+    clearTimeout (timer);
+    callback (false);
   };
   img.onload = function () {
-    clearTimeout(timer);
-    callback(true);
+    clearTimeout (timer);
+    callback (true);
   };
-  timer = setTimeout(function () {
-    callback(false);
+  timer = setTimeout (function () {
+    callback (false);
   }, timeout);
   img.src = url;
 };
 
-let getDefaultThumbnail = function(category) {
+let getDefaultThumbnail = function (category) {
   let catThumb = category ? category.topic_list_default_thumbnail : false;
   let defaultThumbnail = catThumb || settings.topic_list_default_thumbnail;
   return defaultThumbnail ? defaultThumbnail : false;
-}
+};
 
-var buttonHTML = function(action) {
+var buttonHTML = function (action) {
   action = action || {};
 
   var html = "<button class='list-button " + action.class + "'";
-  if (action.title) { html += 'title="' + I18n.t(action.title) + '"'; }
-  if (action.disabled) {html += ' disabled';}
-  html += `>${iconHTML(action.icon)}`;
-  html += "</button>";
+  if (action.title) {
+    html += 'title="' + I18n.t (action.title) + '"';
+  }
+  if (action.disabled) {
+    html += ' disabled';
+  }
+  html += `>${iconHTML (action.icon)}`;
+  html += '</button>';
   return html;
 };
 
-var animateHeart = function($elem, start, end, complete) {
-  if (Ember.testing) { return Ember.run(this, complete); }
+var animateHeart = function ($elem, start, end, complete) {
+  if (Ember.testing) {
+    return Ember.run (this, complete);
+  }
 
-  $elem.stop()
-       .css('textIndent', start)
-       .animate({ textIndent: end }, {
-          complete,
-          step(now) {
-            $(this).css('transform','scale('+now+')');
-          },
-          duration: 150
-        }, 'linear');
+  $elem.stop ().css ('textIndent', start).animate (
+    {textIndent: end},
+    {
+      complete,
+      step (now) {
+        $ (this).css ('transform', 'scale(' + now + ')');
+      },
+      duration: 150,
+    },
+    'linear'
+  );
 };
 
-const featuredImagesEnabled = function(category = null, isTopic = false) {
+const featuredImagesEnabled = function (category = null, isTopic = false) {
   if (isTopic && !settings.topic_list_featured_images_topic) {
     return false;
   }
@@ -116,4 +147,11 @@ const featuredImagesEnabled = function(category = null, isTopic = false) {
   }
 };
 
-export { renderUnboundPreview, testImageUrl, buttonHTML, animateHeart, featuredImagesEnabled, getDefaultThumbnail };
+export {
+  renderUnboundPreview,
+  testImageUrl,
+  buttonHTML,
+  animateHeart,
+  featuredImagesEnabled,
+  getDefaultThumbnail,
+};

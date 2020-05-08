@@ -3,6 +3,12 @@
     "about_url": "",
     "component": true,
     "modifiers": {
-      "serialize_topic_excerpts": true
+      "serialize_topic_excerpts": true,
+      "topic_thumbnail_sizes": [
+        [100, 100],
+        [200, 200],
+        [400, 400],
+        [800, 800]
+      ]
     }
 }
