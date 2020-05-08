@@ -1,0 +1,8 @@
+{
+    "name": "Topic List Previews",
+    "about_url": "",
+    "component": true,
+    "modifiers": {
+      "serialize_topic_excerpts": true
+    }
+}
