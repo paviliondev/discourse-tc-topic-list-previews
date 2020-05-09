@@ -332,16 +332,13 @@ button.list-button {
   width: 100%;
 
   .topics {
-
-    display: inline-flex;
-    width:1100px;
+    display: flex;
     overflow-x: scroll;
-    column-gap: 5px;
-    grid-row-gap: 5px;
 
     .tlp-featured-topic {
 
       display:block;
+      padding-right: 5px;
       cursor: pointer;
 
      .featured-details {
