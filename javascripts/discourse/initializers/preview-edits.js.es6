@@ -272,7 +272,8 @@ export default {
           });
         },
 
-        @discourseComputed featuredTags () {
+        @discourseComputed
+        featuredTags () {
           return settings.topic_list_featured_images_tag.split (
             '|'
           );

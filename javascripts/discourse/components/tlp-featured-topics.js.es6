@@ -1,13 +1,15 @@
 import discourseComputed, { on, observes } from "discourse-common/utils/decorators";
 import { cookAsync } from 'discourse/lib/text';
+import {findOrResetCachedTopicList} from 'discourse/lib/cached-topic-list';
 
 export default Ember.Component.extend({
   classNameBindings: [':tlp-featured-topics', 'hasTopics'],
   hasTopics: Ember.computed.notEmpty('featuredTopics'),
   featuredTopics: null,
 
-  @on('init')
+
   @observes('featuredTopics')
+  @on('init')
   setup() {
     this.appEvents.trigger('topic:refresh-timeline-position');
   },

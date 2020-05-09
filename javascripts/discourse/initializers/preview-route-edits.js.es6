@@ -4,10 +4,12 @@ import { withPluginApi } from 'discourse/lib/plugin-api';
 import PreloadStore from "preload-store";
 import CategoryList from "discourse/models/category-list";
 import TopicList from "discourse/models/topic-list";
+import {findOrResetCachedTopicList} from 'discourse/lib/cached-topic-list';
 
 export default {
   name: 'preview-route-edits',
   initialize(container){
+
     const site = container.lookup('site:main');
 
     if (site.mobileView) return;
@@ -46,14 +48,18 @@ export default {
       route.reopen({
         model(data, transition) {
           return this._super(data, transition).then((result) => {
-            let featuredTopics = null;
+            if (settings.topic_list_featured_images) {
+              let featuredTopics = null;
+              let filter = `tags/${settings.topic_list_featured_images_tag}`;
+              let lastTopicList = findOrResetCachedTopicList (this.session, filter);
+              this.store.findFiltered ('topicList', {filter}).then (list => {
+                this.setProperties ({
+                  featuredTopics: Ember.Object.create (list),
+                });
 
-            if (result && result.topic_list && result.topic_list.featured_topics) {
-              featuredTopics = result.topic_list.featured_topics;
+                this.controllerFor('discovery').set('featuredTopics', this.featuredTopics);
+              });
             }
-
-            this.controllerFor('discovery').set('featuredTopics', featuredTopics);
-
             return result;
           })
         }
@@ -120,8 +126,6 @@ export default {
             }
             // Otherwise, return the ajax result
             return ajax(`/categories_and_${filter}`).then(result => {
-              this.setFeaturedTopics(result);
-
               return Ember.Object.create({
                 categories: CategoryList.categoriesFrom(this.store, result),
                 topics: TopicList.topicsFrom(this.store, result),

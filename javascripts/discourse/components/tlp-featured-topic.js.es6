@@ -27,6 +27,16 @@ export default Ember.Component.extend({
     }
   },
 
+   @discourseComputed
+  featuredUser() {
+    return this.get('topic').posters[0].user;
+  },
+
+  @discourseComputed
+  featuredUsername() {
+    return this.get('topic').posters[0].user.username;
+  },
+
   @discourseComputed
   featuredTags() {
     return settings.topic_list_featured_images_tag.split('|');
