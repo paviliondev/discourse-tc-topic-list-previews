@@ -71,7 +71,7 @@ topic_list_default_thumbnail_fallback:
   description:
     en:  "Use the default thumbnail when a topic has no previewed image."
 topic_list_thumbnail_resolution_level:
-  default: 0
+  default: 2
   type: integer
   description:
     en:  "Resolution level of thumbnail used: 0 is original, 1 is up to 800x800 , 2 is up to 400x400, 3 is up to 200x200, 4 is up to 100x100"
