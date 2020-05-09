@@ -17,8 +17,10 @@ export default Ember.Component.extend({
         if (!imageLoaded) {
           Ember.run.scheduleOnce('afterRender', this, () => {
             if (defaultThumbnail) {
+              if (this._state === 'destroying') return;
               this.$('img.thumbnail').attr('src', defaultThumbnail);
             } else {
+              if (this._state === 'destroying') return;
               this.$().hide();
             }
           });
