@@ -36,10 +36,6 @@ var renderUnboundPreview = function (thumbnails, params) {
     return `<img class="thumbnail" src="${url}"/>`;
   }
 
-  if (opts.featured == true) {
-    return `<img class="thumbnail" src="${url}"/>`;
-  }
-
   const attrWidthSuffix = opts.tilesStyle ? '%' : 'px';
   const attrHeightSuffix = opts.tilesStyle ? '' : 'px';
   const css_classes = opts.tilesStyle
@@ -49,18 +45,13 @@ var renderUnboundPreview = function (thumbnails, params) {
   const category_width = params.category
     ? params.category.topic_list_thumbnail_width
     : false;
+
   const category_height = params.category
     ? params.category.topic_list_thumbnail_height
     : false;
-  const featured_width = 'auto'
-  // opts.featured
-//    ? settings.topic_list_featured_width
-        //? settings.topic_list_featured_width
-        //: 'auto'
-    //: false;
-  const featured_height = 'auto';//opts.featured
-    //? settings.topic_list_featured_height
-    //: false;
+
+  const featured_width = opts.featured ? settings.topic_list_featured_width ? settings.topic_list_featured_width : 'auto' : false;
+  const featured_height = opts.featured ? settings.topic_list_featured_height : false;
   const tiles_width = opts.tilesStyle ? '100' : false;
   const tiles_height = opts.tilesStyle ? 'auto' : false;
   const custom_width = opts.thumbnailWidth ? opts.thumbnailWidth : false;
@@ -72,12 +63,14 @@ var renderUnboundPreview = function (thumbnails, params) {
     featured_height ||
     category_height ||
     settings.topic_list_thumbnail_height;
+
   const width =
     custom_width ||
     tiles_width ||
     featured_width ||
     category_width ||
     settings.topic_list_thumbnail_width;
+
   const height_style = height ? `height:${height}${attrHeightSuffix};` : ``;
   const style = `${height_style}width:${width}${attrWidthSuffix}`;
 
