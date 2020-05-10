@@ -33,7 +33,7 @@ var renderUnboundPreview = function (thumbnails, params) {
   const opts = params.opts || {};
 
   if ((!opts.tilesStyle && !opts.featured && Discourse.Site.currentProp ('mobileView'))) {
-    return `<img class="thumbnail" src="${url}"/>`;
+    return `<img class="thumbnail" src="${url}" loading="lazy"/>`;
   }
 
   const attrWidthSuffix = opts.tilesStyle ? '%' : 'px';
@@ -74,7 +74,7 @@ var renderUnboundPreview = function (thumbnails, params) {
   const height_style = height ? `height:${height}${attrHeightSuffix};` : ``;
   const style = `${height_style}width:${width}${attrWidthSuffix}`;
 
-  return `<img class="${css_classes}" src="${url}" style="${style}" />`;
+  return `<img class="${css_classes}" src="${url}" style="${style}" loading="lazy"/>`;
 };
 
 var testImageUrl = function (thumbnails, callback) {
