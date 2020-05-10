@@ -29,7 +29,7 @@ export default Ember.Component.extend({
     }
   },
 
-   @discourseComputed
+  @discourseComputed
   featuredUser() {
     return this.get('topic').posters[0].user;
   },
@@ -37,6 +37,11 @@ export default Ember.Component.extend({
   @discourseComputed
   featuredUsername() {
     return this.get('topic').posters[0].user.username;
+  },
+
+  @discourseComputed
+  featuredExcerpt() {
+    return settings.topic_list_featured_excerpt > 0 ? this.get('topic').excerpt.slice(0,settings.topic_list_featured_excerpt) : false;
   },
 
   @discourseComputed

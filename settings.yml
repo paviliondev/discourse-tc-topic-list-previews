@@ -137,10 +137,10 @@ topic_list_featured_title:
   description:
     en: "Featured images title. Supports Markdown."
 topic_list_featured_excerpt:
-  default: true
-  type: bool
+  default: 100
+  type: integer
   description:
-    en: "PLACEHOLDER, DOESN'T PRESENTLY WORK Include topic excerpt in featured image."
+    en: "Include topic excerpt in featured image and determine its length.  Set it to 0 for don't include"
 topic_list_test_image_url_timeout:
   default: 5000
   type: integer
