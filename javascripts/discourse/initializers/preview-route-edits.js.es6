@@ -69,14 +69,20 @@ export default {
       route.reopen({
         afterModel(model, transition) {
           return this._super(model, transition).then((result) => {
-            let featuredTopics = null;
+            if (settings.topic_list_featured_images_category) {
+              //debugger;
+              let featuredTopics = null;
+              ///c/incident/11?tags=
+              let filter = `tags/${settings.topic_list_featured_images_tag}`;
+              let lastTopicList = findOrResetCachedTopicList (this.session, filter);
+              this.store.findFiltered ('topicList', {filter}).then (list => {
+                this.setProperties ({
+                  featuredTopics: Ember.Object.create (list),
+                });
 
-            if (result[1] && result[1].topic_list && result[1].topic_list.featured_topics) {
-              featuredTopics = result[1].topic_list.featured_topics;
+                this.controllerFor('discovery').set('featuredTopics', this.featuredTopics);
+              });
             }
-
-            this.controllerFor('discovery').set('featuredTopics', featuredTopics);
-
             return result;
           })
         }
@@ -89,11 +95,15 @@ export default {
         setFeaturedTopics(topicList) {
           let featuredTopics = null;
 
-          if (topicList && topicList.topic_list && topicList.topic_list.featured_topics) {
-            featuredTopics = topicList.topic_list.featured_topics;
-          }
+          let filter = `tags/${settings.topic_list_featured_images_tag}`;
+          let lastTopicList = findOrResetCachedTopicList (this.session, filter);
+          this.store.findFiltered ('topicList', {filter}).then (list => {
+            this.setProperties ({
+              featuredTopics: Ember.Object.create (list),
+            });
 
-          this.controllerFor('discovery').set('featuredTopics', featuredTopics);
+            this.controllerFor('discovery').set('featuredTopics', this.featuredTopics);
+          })
         },
 
         // unfortunately we have to override this whole method to extract the featured topics

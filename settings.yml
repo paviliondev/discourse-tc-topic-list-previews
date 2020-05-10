@@ -3,21 +3,34 @@ topic_list_tiles:
   default: latest|new|unread|top|tags|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile
   description:
     en: "The lists that will be styled with tiles format.  Can be one of latest|new|unread|top|tags|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile"
+topic_list_tiles_categories:
+  type: list
+  list_type: category
+  default: ""
+  description:
+    en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK The categories that will be styled with tiles format."
 topic_list_thumbnail:
   type: list
   default: latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile
   description:
     en: "The lists that will include thumbnails.  Can be one of latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile"
+topic_list_thumbnails_categories:
+  type: list
+  list_type: category
+  default: ""
+  description:
+    en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK The categories that will include thumbnails."
 topic_list_excerpt:
   type: list
   default: latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile
   description:
     en:  "The lists that will include excerpts.  Can be one of latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile"
-topic_list_action:
+topic_list_excerpts_categories:
   type: list
-  default: latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile
+  list_type: category
+  default: ""
   description:
-    en:  "PLACEHOLDER, DOESN'T PRESENTLY WORK, WAITING FOR DISCOURSE SUPPORT The lists that will include actions.  Can be one of latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile"
+    en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK The categories that will include excerpts."
 topic_list_tiles_transition_time:
   default: 0.5
   type: float
@@ -51,25 +64,20 @@ topic_list_set_category_defaults:
   type: bool
   description:
     en:  "Set site topic list display settings as defaults for category topic lists."
-topic_list_show_like_on_current_users_posts:
-  default: false
-  type: bool
-  description:
-    en:  "Show an inactive like button in topic list items previewing a post created by the current user (non-default Discourse behavior)."
 topic_list_excerpt_length:
   default: 200
   description: 
-    en:  "Character length of topic excerpts."
+    en:  "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Character length of topic excerpts."
 topic_list_default_thumbnail:
   default: ''
   type: string
   description:
-    en:  "Image URL for default thumbnail if topic thumbnail is inaccessible."
+    en:  "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Image URL for default thumbnail if topic thumbnail is inaccessible."
 topic_list_default_thumbnail_fallback:
   default: false
-  type: bool
+  type: string
   description:
-    en:  "Use the default thumbnail when a topic has no previewed image."
+    en:  "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Use the default thumbnail when a topic has no previewed image."
 topic_list_thumbnail_resolution_level:
   default: 2
   type: integer
@@ -94,24 +102,15 @@ topic_list_featured_images:
   default: false
   type: bool
   description:
-    en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Enable featured images for non-category routes."
-topic_list_featured_images_full_res:
-  default: false
-  type: bool
-  description:
-    en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Force featured images to use full size original images (use with caution wrt user bandwidth as ignores user pref)"
+    en: "Enable featured images for non-category routes."
 topic_list_featured_images_category:
   default: false
   type: bool
   description:
-    en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Apply featured images site setting to all categories."
-topic_list_featured_images_topic:
-  default: false
-  type: bool
-  description:
-    en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Show featured images above topics."
+    en: "Apply featured images site setting to all category discovery routes"
 topic_list_featured_images_tag:
   type: list
+  list_type: tag
   default: ''
   description:
     en: "Featured images tag."
@@ -119,11 +118,11 @@ topic_list_featured_images_tag_show:
   default: true
   type: bool
   description:
-    en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Show featured images tag below featured images."
+    en: "Show featured images tag below featured images."
 topic_list_featured_images_count:
   default: 4
   description:
-    en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Featured images count."
+    en: "Featured images count."
 topic_list_featured_width:
   default: 100
   description:
@@ -142,14 +141,6 @@ topic_list_featured_excerpt:
   type: bool
   description:
     en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Include topic excerpt in featured image."
-topic_list_featured_order:
-  default: 'tag'
-  type: 'enum'
-  description:
-    en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Order featured images by when topic was created, or featured tag was applied."
-  choices:
-    - tag
-    - topic
 topic_list_test_image_url_timeout:
   default: 5000
   type: integer

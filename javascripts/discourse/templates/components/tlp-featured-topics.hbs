@@ -5,7 +5,7 @@
     </div>
   {{/if}}
   <div class="topics">
-    {{#each this.featuredTopics.topic_list.topics as |t|}}
+    {{#each featuredTopics as |t|}}
       {{tlp-featured-topic topic=t}}
     {{/each}}
   </div>
