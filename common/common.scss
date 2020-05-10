@@ -334,6 +334,7 @@ button.list-button {
   .topics {
     display: flex;
     overflow-x: scroll;
+    overflow-y: hidden;
 
     .tlp-featured-topic {
 
