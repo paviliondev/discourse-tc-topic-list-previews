@@ -64,10 +64,6 @@ topic_list_set_category_defaults:
   type: bool
   description:
     en:  "Set site topic list display settings as defaults for category topic lists."
-topic_list_excerpt_length:
-  default: 200
-  description: 
-    en:  "PLACEHOLDER, DOESN'T PRESENTLY WORK Character length of topic excerpts."
 topic_list_default_thumbnail:
   default: ''
   type: string
