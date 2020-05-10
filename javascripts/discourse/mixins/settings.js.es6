@@ -15,11 +15,14 @@ export default Ember.Mixin.create({
         if (!discoveryList && !suggestedList && !(currentRoute.indexOf('userActivity') > -1) && !(currentRoute.indexOf('tag') > -1)) return false;
 
         const category = this.get('category');
-        const catSetting = category ? category.get(setting) : false;
         const siteSetting = settings[setting] ? settings[setting].toString() : false;
         const filterArr = filter ? filter.split('/') : [];
         const filterType = filterArr[filterArr.length - 1];
-        const catEnabled = catSetting && catSetting.split('|').indexOf(filterType) > -1;
+
+        const catEnabled = category && ((setting == 'topic_list_thumbnail' && settings.topic_list_thumbnails_categories.includes(category.id)) ||
+                            (setting == 'topic_list_excerpt' && settings.topic_list_excerpts_categories.includes(category.id)) ||
+                            (setting == 'topic_list_tiles' && settings.topic_list_tiles_categories.includes(category.id)))
+
         const siteEnabled = siteSetting && siteSetting.split('|').indexOf(filterType) > -1;
         const siteDefaults = settings.topic_list_set_category_defaults;
         const isTopic = (filterType == 'suggested');

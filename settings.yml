@@ -8,7 +8,7 @@ topic_list_tiles_categories:
   list_type: category
   default: ""
   description:
-    en: "PLACEHOLDER, DOESN'T PRESENTLY WORK The categories that will be styled with tiles format."
+    en: "The categories that will be styled with tiles format."
 topic_list_thumbnail:
   type: list
   default: latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile
@@ -19,7 +19,7 @@ topic_list_thumbnails_categories:
   list_type: category
   default: ""
   description:
-    en: "PLACEHOLDER, DOESN'T PRESENTLY WORK The categories that will include thumbnails."
+    en: "The categories that will include thumbnails."
 topic_list_excerpt:
   type: list
   default: latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile
@@ -30,7 +30,7 @@ topic_list_excerpts_categories:
   list_type: category
   default: ""
   description:
-    en: "PLACEHOLDER, DOESN'T PRESENTLY WORK The categories that will include excerpts."
+    en: "The categories that will include excerpts."
 topic_list_tiles_transition_time:
   default: 0.5
   type: float
