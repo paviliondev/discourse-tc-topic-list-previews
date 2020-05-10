@@ -68,12 +68,12 @@ topic_list_default_thumbnail:
   default: ''
   type: string
   description:
-    en:  "PLACEHOLDER, DOESN'T PRESENTLY WORK Image URL for default thumbnail if topic thumbnail is inaccessible."
+    en:  "Image URL for default thumbnail if topic thumbnail is inaccessible."
 topic_list_default_thumbnail_fallback:
   default: false
   type: string
   description:
-    en:  "PLACEHOLDER, DOESN'T PRESENTLY WORK Use the default thumbnail when a topic has no previewed image."
+    en:  "Use the default thumbnail when a topic has no previewed image."
 topic_list_thumbnail_resolution_level:
   default: 2
   type: integer
