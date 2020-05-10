@@ -1,6 +1,7 @@
 import loadScript from 'discourse/lib/load-script';
 
 window.addEventListener ('resize', resizeAllGridItems);
+window.addEventListener ('scroll', resizeAllGridItems);
 
 function resizeGridItem (item, grid, rowHeight, rowGap) {
   loadScript (
