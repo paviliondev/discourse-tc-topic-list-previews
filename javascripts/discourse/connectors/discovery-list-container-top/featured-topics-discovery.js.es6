@@ -12,7 +12,7 @@ export default {
     );
     const controller = getOwner (this).lookup ('controller:discovery');
     const featuredTopics = controller.get ('featuredTopics');
-    let reducedFeaturedTopics = featuredTopics ?  featuredTopics.topic_list.topics.slice(0,settings.topic_list_featured_images_count) : [];
+    let reducedFeaturedTopics = featuredTopics ? settings.topic_list_featured_images_count == 0 ? featuredTopics.topic_list.topics : featuredTopics.topic_list.topics.slice(0,settings.topic_list_featured_images_count) : [];
 
     component.set ('featuredTopics', reducedFeaturedTopics);
 
@@ -20,7 +20,7 @@ export default {
       if (this._state === 'destroying') return;
 
       const featuredTopics = controller.get ('featuredTopics');
-      const reducedFeaturedTopics = featuredTopics ?  featuredTopics.topic_list.topics.slice(0,settings.topic_list_featured_images_count) : [];
+      const reducedFeaturedTopics = featuredTopics ? settings.topic_list_featured_images_count == 0 ? featuredTopics.topic_list.topics : featuredTopics.topic_list.topics.slice(0,settings.topic_list_featured_images_count) : [];
 
       component.set ('featuredTopics', reducedFeaturedTopics);
     });

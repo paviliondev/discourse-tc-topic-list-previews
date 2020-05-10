@@ -118,9 +118,9 @@ topic_list_featured_images_tag_show:
   description:
     en: "Show featured images tag below featured images."
 topic_list_featured_images_count:
-  default: 4
+  default: 0
   description:
-    en: "Featured Images Topics set count. NB If featured Topics don't contain a thumbnail the number of images will be fewer, just raise the number."
+    en: "Featured Images Topics set count. Set to zero for no limit. NB If featured Topics don't contain a thumbnail the number of images will be fewer, just raise the number."
 topic_list_featured_width:
   default: 0
   type: integer
