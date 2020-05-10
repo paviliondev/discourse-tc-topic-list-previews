@@ -8,7 +8,7 @@ topic_list_tiles_categories:
   list_type: category
   default: ""
   description:
-    en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK The categories that will be styled with tiles format."
+    en: "PLACEHOLDER, DOESN'T PRESENTLY WORK The categories that will be styled with tiles format."
 topic_list_thumbnail:
   type: list
   default: latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile
@@ -19,7 +19,7 @@ topic_list_thumbnails_categories:
   list_type: category
   default: ""
   description:
-    en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK The categories that will include thumbnails."
+    en: "PLACEHOLDER, DOESN'T PRESENTLY WORK The categories that will include thumbnails."
 topic_list_excerpt:
   type: list
   default: latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile
@@ -30,7 +30,7 @@ topic_list_excerpts_categories:
   list_type: category
   default: ""
   description:
-    en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK The categories that will include excerpts."
+    en: "PLACEHOLDER, DOESN'T PRESENTLY WORK The categories that will include excerpts."
 topic_list_tiles_transition_time:
   default: 0.5
   type: float
@@ -67,17 +67,17 @@ topic_list_set_category_defaults:
 topic_list_excerpt_length:
   default: 200
   description: 
-    en:  "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Character length of topic excerpts."
+    en:  "PLACEHOLDER, DOESN'T PRESENTLY WORK Character length of topic excerpts."
 topic_list_default_thumbnail:
   default: ''
   type: string
   description:
-    en:  "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Image URL for default thumbnail if topic thumbnail is inaccessible."
+    en:  "PLACEHOLDER, DOESN'T PRESENTLY WORK Image URL for default thumbnail if topic thumbnail is inaccessible."
 topic_list_default_thumbnail_fallback:
   default: false
   type: string
   description:
-    en:  "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Use the default thumbnail when a topic has no previewed image."
+    en:  "PLACEHOLDER, DOESN'T PRESENTLY WORK Use the default thumbnail when a topic has no previewed image."
 topic_list_thumbnail_resolution_level:
   default: 2
   type: integer
@@ -126,21 +126,21 @@ topic_list_featured_images_count:
 topic_list_featured_width:
   default: 100
   description:
-    en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Featured image width.  Setting this to zero will make it responsive to image aspect ratio."
+    en: "PLACEHOLDER, DOESN'T PRESENTLY WORK Featured image width.  Setting this to zero will make it responsive to image aspect ratio."
 topic_list_featured_height:
   default: 100
   description:
-    en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Featured image height."
+    en: "PLACEHOLDER, DOESN'T PRESENTLY WORK Featured image height."
 topic_list_featured_title:
   default: ''
   type: string
   description:
-    en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Featured images title. Supports Markdown."
+    en: "Featured images title. Supports Markdown."
 topic_list_featured_excerpt:
   default: true
   type: bool
   description:
-    en: "PLACEHOLDER, FEATURED IMAGES DOESN'T PRESENTLY WORK Include topic excerpt in featured image."
+    en: "PLACEHOLDER, DOESN'T PRESENTLY WORK Include topic excerpt in featured image."
 topic_list_test_image_url_timeout:
   default: 5000
   type: integer
