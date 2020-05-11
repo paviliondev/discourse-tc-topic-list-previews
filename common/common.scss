@@ -23,7 +23,7 @@
     box-sizing: border-box;
     cursor: pointer;
     border-radius: 3px;
-    grid-row-end: span 5;
+    grid-row-end: span 8;
   }
 
   .tiles-grid-item-content {
@@ -35,6 +35,19 @@
      "theader theader theader theader theader"
      "photo photo photo photo photo"
      "details details details details details"
+     "tags tags tags tags tags"
+     "meta meta meta meta actions"
+  }
+
+  .tiles-grid-item-content-2 {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1 1 1 1 auto;
+    grid-template-rows: auto auto auto auto auto;
+    grid-template-areas:
+     "theader theader theader theader theader"
+     "photo photo photo details details"
+     "photo photo photo details details"
      "tags tags tags tags tags"
      "meta meta meta meta actions"
   }
@@ -134,7 +147,7 @@
       max-width: 100%;
       float: left;
       clear: both;
-      
+
       overflow-wrap: break-word;
       word-wrap: break-word;
 
@@ -203,6 +216,11 @@
     text-align: right;
     vertical-align: bottom;
   }
+}
+
+.tiles-grid-item-content-2 .topic-excerpt {
+  margin-top: 0px;
+  padding-left: 10px;
 }
 
 .topic-thumbnail {

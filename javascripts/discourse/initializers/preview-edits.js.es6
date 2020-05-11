@@ -249,6 +249,7 @@ export default {
         @on ('didInsertElement')
         _setupDOM () {
           const topic = this.get ('topic');
+          const thumbnails = topic.get ('thumbnails');
           if (
             topic.get ('thumbnails') &&
             this.get ('thumbnailFirstXRows') &&
@@ -256,6 +257,12 @@ export default {
           ) {
             this.set ('showThumbnail', false);
           }
+
+          if (thumbnails != null && ((thumbnails[0].width * 16) < (thumbnails[0].height * 9))) {
+            parent = document.querySelector(`#${this.elementId}`);
+            parent.childNodes[1].className = 'tiles-grid-item-content-2'
+          };
+
           this._afterRender ();
         },
 
