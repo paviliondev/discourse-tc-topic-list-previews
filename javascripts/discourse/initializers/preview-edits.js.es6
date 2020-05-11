@@ -16,6 +16,7 @@ import {resizeAllGridItems} from '../lib/gridupdate';
 import Settings from '../mixins/settings';
 import Topic from 'discourse/models/topic';
 import loadScript from 'discourse/lib/load-script';
+import { cookAsync } from 'discourse/lib/text';
 
 export default {
   name: 'preview-edits',
@@ -218,6 +219,8 @@ export default {
                 this.classNames.push ('tiles-grid-item-width2');
               }
             }
+            const raw = topic.excerpt
+            cookAsync(raw).then((cooked) => this.set('excerpt', cooked));
           }
 
           if (thumbnails) {
