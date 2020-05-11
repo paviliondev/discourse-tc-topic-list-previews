@@ -8,9 +8,7 @@ function resizeGridItem (item, grid, rowHeight, rowGap) {
     'https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js'
   ).then (() => {
     imagesLoaded (item, function () {
-      const contentHeight = item
-        .querySelector ('.tiles-grid-item-content')
-        .getBoundingClientRect ().height;
+      const contentHeight = item.childNodes[1].getBoundingClientRect ().height;
       const rowSpan = Math.ceil (
         (contentHeight + rowGap) / (rowHeight + rowGap)
       );
