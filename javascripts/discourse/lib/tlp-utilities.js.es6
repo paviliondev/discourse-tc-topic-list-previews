@@ -11,7 +11,6 @@ var isThumbnail = function (path) {
 };
 
 var previewUrl = function (thumbnails) {
-  debugger;
   if (thumbnails) {
     const resLevel = window.devicePixelRatio >= 2
       ? settings.topic_list_thumbnail_resolution_level - 1 < 0
