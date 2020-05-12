@@ -1,4 +1,3 @@
-//tiles styling  specific styling
 .tiles-style {
 
   .tiles-grid {
@@ -6,25 +5,53 @@
     .topic-list-item-separator {
       display: none;
     }
-    display: grid;
-    grid-gap: 6px;
-    grid-template-columns: repeat(auto-fill, minmax(320px,1fr));
-    grid-auto-rows: 10px;
+  }
+
+  .tiles-grid-sizer,
+  .tiles-grid-item {
+    // // 1 column on very thin views
+    // width: 100%;
+    // // 2 columns on medium widths
+    // @media screen and (min-width: 501px) and (max-width: 800px) {
+    //   width: calc((100% - 6px)/2);
+    // }
+    // // 3 columns when there is room
+    // @media screen and (min-width: 801px) {
+    //   width: calc((100% - 12px)/3);
+    // }
   }
 
   .tiles-grid-item-width2 {
-    box-sizing: border-box;
-    cursor: pointer;
-    border-radius: 3px;
-    grid-column-end: span 2;
+    // // for items with featured tags
+    // // fill up an entire column for small views
+    // width: 100%;
+    // // fill up two columns when things are a little larger
+    // @media screen and (min-width: 501px) and (max-width: 800px) {
+    //   width: 100%;
+    // }
+    // // Take up 2 of the 3 columns when there is even more room
+    // @media screen and (min-width: 801px) {
+    //   width: calc(67% - 6px);
+    // }
   }
 
-  .tiles-grid-item {
-    box-sizing: border-box;
-    cursor: pointer;
-    border-radius: 3px;
-    grid-row-end: span 8;
-  }
+  .tiles-gutter-sizer {
+     width: 6px;
+   }
+
+
+   .tiles-grid-sizer{
+     // 1 column on very thin views
+     width: 100%;
+     // 2 columns on medium widths
+     @media screen and (min-width: 501px) and (max-width: 800px) {
+       width: calc((100% - 6px)/2);
+     }
+     // 3 columns when there is room
+     @media screen and (min-width: 801px) {
+       width: calc((100% - 12px)/3);
+     }
+    }
 
   .tiles-grid-item-content {
     padding: 10px;

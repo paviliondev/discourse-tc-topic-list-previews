@@ -118,6 +118,9 @@ export default {
           if (this.get ('tilesStyle')) {
             this.$ ().parents ('#list-area').toggleClass ('tiles-style', true);
             this.$ ('tbody').toggleClass ('tiles-grid', true);
+            if ( !this.$( ".tiles-grid-sizer" ).length) {
+              this.$(".tiles-grid").prepend("<div class='tiles-grid-sizer'></div><div class='tiles-gutter-sizer'></div>");
+            };
           }
         },
 
@@ -238,6 +241,7 @@ export default {
               }
             });
           } else if (
+            debugger;
             defaultThumbnail &&
             settings.topic_list_default_thumbnail_fallback
           ) {
