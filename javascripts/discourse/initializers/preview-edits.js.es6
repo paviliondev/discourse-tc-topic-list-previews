@@ -241,7 +241,7 @@ export default {
             defaultThumbnail &&
             settings.topic_list_default_thumbnail_fallback
           ) {
-            this.set ('thumbnails', defaultThumbnail);
+            this.set ('thumbnails', [{url: defaultThumbnail}]);
           }
 
           const obj = PostsCountColumn.create ({topic});
@@ -382,9 +382,9 @@ export default {
           return this.get ('topic.thumbnails');
         },
 
-        @discourseComputed ('topic.category')
-        defaultThumbnail (category) {
-          return getDefaultThumbnail (category);
+        @discourseComputed
+        defaultThumbnail () {
+          return getDefaultThumbnail ();
         },
 
         @discourseComputed ('tilesStyle', 'thumbnailWidth', 'thumbnailHeight')

@@ -11,6 +11,7 @@ var isThumbnail = function (path) {
 };
 
 var previewUrl = function (thumbnails) {
+  debugger;
   if (thumbnails) {
     const resLevel = window.devicePixelRatio >= 2
       ? settings.topic_list_thumbnail_resolution_level - 1 < 0
@@ -95,9 +96,8 @@ var testImageUrl = function (thumbnails, callback) {
   img.src = url;
 };
 
-let getDefaultThumbnail = function (category) {
-  let catThumb = category ? category.topic_list_default_thumbnail : false;
-  let defaultThumbnail = catThumb || settings.topic_list_default_thumbnail;
+let getDefaultThumbnail = () => {
+  let defaultThumbnail = settings.topic_list_default_thumbnail;
   return defaultThumbnail ? defaultThumbnail : false;
 };
 
