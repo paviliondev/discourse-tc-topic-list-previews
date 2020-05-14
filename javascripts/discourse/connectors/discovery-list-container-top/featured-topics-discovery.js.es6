@@ -3,35 +3,41 @@ import {getOwner} from 'discourse-common/lib/get-owner';
 export default {
   setupComponent (attrs, component) {
 
-    const showFeaturedImages = settings.topic_list_featured_images && attrs.category == null ||
+    const determineImages = (attrs, controller) => {
+
+      var featuredTopics = controller.get ('featuredTopics')
+
+      featuredTopics = featuredTopics ? featuredTopics.topic_list.topics : [];
+
+      const showFeaturedImages = settings.topic_list_featured_images && attrs.category == null ||
         settings.topic_list_featured_images_category && attrs.category != null;
 
-    component.set (
-      'showFeaturedImages',
-      showFeaturedImages
-    );
-    const controller = getOwner (this).lookup ('controller:discovery');
-    const featuredTopics = controller.get ('featuredTopics');
-    let reducedFeaturedTopics = featuredTopics ? settings.topic_list_featured_images_count == 0 ? featuredTopics.topic_list.topics : featuredTopics.topic_list.topics.slice(0,settings.topic_list_featured_images_count) : [];
+      if (attrs.category && settings.topic_list_featured_images_from_current_category_only) {
+        featuredTopics = featuredTopics.filter(topic => topic.category_id == attrs.category.id)
+      }
 
-    component.set ('featuredTopics', reducedFeaturedTopics);
+      const reducedFeaturedTopics = featuredTopics ? settings.topic_list_featured_images_count == 0 ? featuredTopics : featuredTopics.slice(0,settings.topic_list_featured_images_count) : []
+
+      component.set ('showFeaturedImages', showFeaturedImages);
+      component.set ('featuredTopics', reducedFeaturedTopics);
+    };
+
+    const controller = getOwner (this).lookup ('controller:discovery');
+
+    determineImages(attrs, controller);
 
     controller.addObserver ('featuredTopics', () => {
+
       if (this._state === 'destroying') return;
 
-      const featuredTopics = controller.get ('featuredTopics');
-      const reducedFeaturedTopics = featuredTopics ? settings.topic_list_featured_images_count == 0 ? featuredTopics.topic_list.topics : featuredTopics.topic_list.topics.slice(0,settings.topic_list_featured_images_count) : [];
-
-      component.set ('featuredTopics', reducedFeaturedTopics);
+      determineImages(attrs, controller);
     });
 
     controller.addObserver ('category', () => {
+
       if (this._state === 'destroying') return;
 
-      const showFeaturedImages = settings.topic_list_featured_images && controller.get ('category') == null ||
-        settings.topic_list_featured_images_category && controller.get ('category') != null;
-
-      component.set ('showFeaturedImages', showFeaturedImages);
+      determineImages(attrs, controller);
     });
   },
 };

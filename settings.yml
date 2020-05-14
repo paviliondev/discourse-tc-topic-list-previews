@@ -102,6 +102,11 @@ topic_list_featured_images_category:
   type: bool
   description:
     en: "Apply featured images site setting to all category discovery routes"
+topic_list_featured_images_from_current_category_only:
+  default: true
+  type: bool
+  description:
+    en: "Show featured images only that exist in current Category"
 topic_list_featured_images_tag:
   type: list
   list_type: tag
