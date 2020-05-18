@@ -10,7 +10,6 @@ export default Ember.Controller.extend(ModalFunctionality, bufferedProperty("mod
   actions: {
     selectThumbnail: function(image_url, image_upload_id){
       const buffered = this.get('buffered');
-      debugger;
       this.set("buffered.user_chosen_thumbnail_url", image_url);
       this.set("buffered.image_upload_id", image_upload_id);
       this.send('closeModal');

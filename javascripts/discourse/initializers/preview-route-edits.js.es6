@@ -70,7 +70,6 @@ export default {
         afterModel(model, transition) {
           return this._super(model, transition).then((result) => {
             if (settings.topic_list_featured_images_category) {
-              //debugger;
               let featuredTopics = null;
               ///c/incident/11?tags=
               let filter = `tags/${settings.topic_list_featured_images_tag}`;
