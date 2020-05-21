@@ -9,30 +9,30 @@
 
   .tiles-grid-sizer,
   .tiles-grid-item {
-    // // 1 column on very thin views
-    // width: 100%;
-    // // 2 columns on medium widths
-    // @media screen and (min-width: 501px) and (max-width: 800px) {
-    //   width: calc((100% - 6px)/2);
-    // }
-    // // 3 columns when there is room
-    // @media screen and (min-width: 801px) {
-    //   width: calc((100% - 12px)/3);
-    // }
+    // 1 column on very thin views
+    width: 100%;
+    // 2 columns on medium widths
+    @media screen and (min-width: 501px) and (max-width: 800px) {
+      width: calc((100% - 6px)/2);
+    }
+    // 3 columns when there is room
+    @media screen and (min-width: 801px) {
+      width: calc((100% - 12px)/3);
+    }
   }
 
   .tiles-grid-item-width2 {
-    // // for items with featured tags
-    // // fill up an entire column for small views
-    // width: 100%;
-    // // fill up two columns when things are a little larger
-    // @media screen and (min-width: 501px) and (max-width: 800px) {
-    //   width: 100%;
-    // }
-    // // Take up 2 of the 3 columns when there is even more room
-    // @media screen and (min-width: 801px) {
-    //   width: calc(67% - 6px);
-    // }
+    // for items with featured tags
+    // fill up an entire column for small views
+    width: 100%;
+    // fill up two columns when things are a little larger
+    @media screen and (min-width: 501px) and (max-width: 800px) {
+      width: 100%;
+    }
+    // Take up 2 of the 3 columns when there is even more room
+    @media screen and (min-width: 801px) {
+      width: calc(67% - 6px);
+    }
   }
 
   .tiles-gutter-sizer {

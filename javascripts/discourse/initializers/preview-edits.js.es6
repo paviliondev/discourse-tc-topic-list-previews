@@ -22,12 +22,16 @@ export default {
   name: 'preview-edits',
   initialize (container) {
     withPluginApi ('0.8.12', api => {
-      api.onPageChange (() => {
-        loadScript (
-          'https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js'
-        ).then (() => {
-          $ ('.tiles-grid').imagesLoaded (resizeAllGridItems ());
-        });
+
+      //window.addEventListener ('resize', resizeAllGridItems(container.owner.base));
+     // window.addEventListener ('scroll', resizeAllGridItems(container.owner.base));
+      
+      api.onPageChange ((api) => {
+        // loadScript (
+        //   'https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js'
+        // ).then (() => {
+        //   $ ('.tiles-grid').imagesLoaded (resizeAllGridItems (container.owner.base));
+        // });
       });
 
       api.modifyClass ('component:load-more', {
@@ -122,6 +126,18 @@ export default {
               this.$(".tiles-grid").prepend("<div class='tiles-grid-sizer'></div><div class='tiles-gutter-sizer'></div>");
             };
           }
+          if (window.ResizeObserver) {
+            const observer = new ResizeObserver(() => resizeAllGridItems(this)); //container.owner.base
+            observer.observe(this.element);
+            this.set("resizeObserver", observer);
+          }
+          window.onscroll = ((ev) => {resizeAllGridItems(this)});
+          // if (window.scroll) {
+          //  // debugger;
+          //   const observer = new ResizeObserver(() => resizeAllGridItems(container.owner.base));
+          //   observer.observe(this.element);
+          //   this.set("resizeObserver", observer);
+          // }
         },
 
         @discourseComputed ('listChanged')
@@ -143,6 +159,9 @@ export default {
         _tearDown () {
           this.$ ().parents ('#list-area').removeClass ('tiles-style');
           this.$ ('tbody').removeClass ('tiles-grid');
+          if (this.resizeObserver) {
+            this.resizeObserver.unobserve(this.element);
+          }
         },
 
         @discourseComputed ('listChanged')
@@ -176,8 +195,15 @@ export default {
         },
 
         applyTiles () {
-          resizeAllGridItems ();
+          resizeAllGridItems (this);
         },
+
+        // actions: {
+        //   refreshLayout() {
+        //     debugger;
+        //     resizeAllGridItems (this);
+        //   }
+        // }
       });
 
       api.modifyClass ('component:topic-list-item', {
@@ -232,12 +258,15 @@ export default {
                 Ember.run.scheduleOnce ('afterRender', this, () => {
                   if (defaultThumbnail) {
                     const $thumbnail = this.$ ('img.thumbnail');
+                  //  debugger;
                     if ($thumbnail) $thumbnail.attr ('src', defaultThumbnail);
                   } else {
                     const $container = this.$ ('.topic-thumbnail');
                     if ($container) $container.hide ();
                   }
-                });
+                  resizeAllGridItems (this);
+                  //this.sendAction('refreshLayout');
+               });
               }
             });
           } else if (
