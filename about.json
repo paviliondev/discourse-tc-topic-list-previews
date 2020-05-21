@@ -6,6 +6,7 @@
       "svg_icons": ["images"],
       "serialize_topic_excerpts": true,
       "topic_thumbnail_sizes": [
+        [50, 50],
         [100, 100],
         [200, 200],
         [400, 400],

@@ -385,9 +385,9 @@ export default {
           return this.get ('topic.thumbnails');
         },
 
-        @discourseComputed ('topic.category')
-        defaultThumbnail (category) {
-          return getDefaultThumbnail (category);
+        @discourseComputed
+        defaultThumbnail () {
+          return getDefaultThumbnail ();
         },
 
         @discourseComputed ('tilesStyle', 'thumbnailWidth', 'thumbnailHeight')

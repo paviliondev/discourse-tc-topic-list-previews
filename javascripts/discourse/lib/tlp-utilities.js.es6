@@ -10,13 +10,13 @@ var isThumbnail = function (path) {
   );
 };
 
-var previewUrl = function (thumbnails) {
+var previewUrl = function (thumbnails, featured = false) {
+
+  const preferLowRes = (Discourse.User._current === null) ? false : Discourse.User._current.custom_fields.tlp_user_prefs_prefer_low_res_thumbnails;
   if (thumbnails) {
-    const resLevel = window.devicePixelRatio >= 2
-      ? settings.topic_list_thumbnail_resolution_level - 1 < 0
-          ? 0
-          : settings.topic_list_thumbnail_resolution_level - 1
-      : settings.topic_list_thumbnail_resolution_level;
+    let resLevel = featured ? settings.topic_list_featured_images_resolution_level : settings.topic_list_thumbnail_resolution_level; 
+    if (preferLowRes) {resLevel++};
+    if (window.devicePixelRatio && resLevel > 0) {resLevel--};
     return resLevel <= thumbnails.length - 1
       ? thumbnails[resLevel].url
       : thumbnails[thumbnails.length - 1].url;
@@ -26,7 +26,7 @@ var previewUrl = function (thumbnails) {
 };
 
 var renderUnboundPreview = function (thumbnails, params) {
-  const url = previewUrl (thumbnails);
+  const url = previewUrl (thumbnails, params.opts.featured);
 
   if (!url) return '';
 
@@ -95,9 +95,8 @@ var testImageUrl = function (thumbnails, callback) {
   img.src = url;
 };
 
-let getDefaultThumbnail = function (category) {
-  let catThumb = category ? category.topic_list_default_thumbnail : false;
-  let defaultThumbnail = catThumb || settings.topic_list_default_thumbnail;
+let getDefaultThumbnail = () => {
+  let defaultThumbnail = settings.topic_list_default_thumbnail;
   return defaultThumbnail ? defaultThumbnail : false;
 };
 
