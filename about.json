@@ -3,6 +3,7 @@
     "about_url": "",
     "component": true,
     "modifiers": {
+      "csp_extensions": ["https://unpkg.com"],
       "svg_icons": ["images"],
       "serialize_topic_excerpts": true,
       "topic_thumbnail_sizes": [
