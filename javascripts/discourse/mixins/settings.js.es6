@@ -19,8 +19,8 @@ export default Ember.Mixin.create({
         const filterArr = filter ? filter.split('/') : [];
         const filterType = filterArr[filterArr.length - 1];
 
-        const catEnabled = category && ((setting == 'topic_list_thumbnail' && settings.topic_list_thumbnails_categories.includes(category.id)) ||
-                            (setting == 'topic_list_excerpt' && settings.topic_list_excerpts_categories.includes(category.id)) ||
+        const catEnabled = category && ((setting == 'topic_list_thumbnails' && settings.topic_list_thumbnails_categories.includes(category.id)) ||
+                            (setting == 'topic_list_excerpts' && settings.topic_list_excerpts_categories.includes(category.id)) ||
                             (setting == 'topic_list_tiles' && settings.topic_list_tiles_categories.includes(category.id)))
 
         const siteEnabled = siteSetting && siteSetting.split('|').indexOf(filterType) > -1;

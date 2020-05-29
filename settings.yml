@@ -9,7 +9,7 @@ topic_list_tiles_categories:
   default: ""
   description:
     en: "The categories that will be styled with tiles format."
-topic_list_thumbnail:
+topic_list_thumbnails:
   type: list
   default: latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile
   description:
@@ -20,7 +20,7 @@ topic_list_thumbnails_categories:
   default: ""
   description:
     en: "The categories that will include thumbnails."
-topic_list_excerpt:
+topic_list_excerpts:
   type: list
   default: latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile
   description:
@@ -31,6 +31,22 @@ topic_list_excerpts_categories:
   default: ""
   description:
     en: "The categories that will include excerpts."
+topic_list_actions:
+  type: list
+  default: latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile
+  description:
+    en: "The lists that will include actions.  Can be one of latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile"
+topic_list_actions_categories:
+  type: list
+  list_type: category
+  default: ""
+  description:
+    en: "The categories that will include actions."
+topic_list_show_like_on_current_users_posts:
+  type: bool
+  default: true
+  description:
+    en:  "Show an inactive like button in topic list items previewing a post created by the current user (non-default Discourse behavior)."
 topic_list_tiles_transition_time:
   default: 0.5
   type: float

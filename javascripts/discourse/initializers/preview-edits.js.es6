@@ -17,6 +17,7 @@ import Settings from '../mixins/settings';
 import Topic from 'discourse/models/topic';
 import loadScript from 'discourse/lib/load-script';
 import { cookAsync } from 'discourse/lib/text';
+import { debounce } from '@ember/runloop';
 
 export default {
   name: 'preview-edits',
@@ -149,17 +150,17 @@ export default {
 
         @discourseComputed ('listChanged')
         showThumbnail () {
-          return this._settingEnabled ('topic_list_thumbnail');
+          return this._settingEnabled ('topic_list_thumbnails');
         },
 
         @discourseComputed ('listChanged')
         showExcerpt () {
-          return this._settingEnabled ('topic_list_excerpt');
+          return this._settingEnabled ('topic_list_excerpts');
         },
 
         @discourseComputed ('listChanged')
         showActions () {
-          return this._settingEnabled ('topic_list_action');
+          return this._settingEnabled ('topic_list_actions');
         },
 
         @discourseComputed ('listChanged')
@@ -189,7 +190,7 @@ export default {
         notTilesStyle: not ('parentView.tilesStyle'),
         showThumbnail: and ('thumbnails', 'parentView.showThumbnail'),
         showExcerpt: and ('topic.excerpt', 'parentView.showExcerpt'),
-        showActions: alias ('parentView.showActions'),
+        showActions: and ('topic.sidecar_installed', 'parentView.showActions'),
         thumbnailFirstXRows: alias ('parentView.thumbnailFirstXRows'),
         category: alias ('parentView.category'),
         currentRoute: alias ('parentView.currentRoute'),
@@ -313,12 +314,13 @@ export default {
         },
 
         _setupActions () {
+
           let postId = this.get ('topic.topic_post_id'),
             $bookmark = this.$ ('.topic-bookmark'),
             $like = this.$ ('.topic-like');
 
           $bookmark.on ('click.topic-bookmark', () => {
-            this.toggleBookmark ($bookmark);
+            this.debouncedToggleBookmark ();
           });
 
           $like.on ('click.topic-like', () => {
@@ -492,9 +494,14 @@ export default {
 
         // Action toggles and server methods
 
-        toggleBookmark ($bookmark) {
+        toggleBookmark () {
+          let $bookmark = this.$ ('.topic-bookmark');
           sendBookmark (this.topic, !$bookmark.hasClass ('bookmarked'));
           $bookmark.toggleClass ('bookmarked');
+        },
+
+        debouncedToggleBookmark () {
+          Ember.run.debounce(this, this.toggleBookmark, 500);
         },
 
         toggleLike ($like, postId) {
@@ -514,7 +521,12 @@ export default {
             });
           }
         },
+
+        debouncedToggleLike () {
+          Ember.run.debounce(this, this.toggleLike, 500);
+        },
       });
+
 
       api.modifyClass ('component:topic-timeline', {
         @on ('didInsertElement')

@@ -1,1 +1,3 @@
-{{select-thumbnail topic_id=model.id topic_title=model.title buffered=buffered}}
+{{#if topic.sidecar_installed}}
+  {{select-thumbnail topic_id=model.id topic_title=model.title buffered=buffered}}
+{{/if}}
