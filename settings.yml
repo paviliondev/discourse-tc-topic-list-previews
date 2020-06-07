@@ -94,7 +94,7 @@ topic_list_thumbnail_resolution_level:
   default: 2
   type: integer
   description:
-    en:  "Resolution level of thumbnail used: 0 is original, 1 is up to 800x800 , 2 is up to 400x400, 3 is up to 200x200, 4 is up to 100x100, 5 is up to 50x50"
+    en:  "Resolution level of thumbnail used in the Topic List: 0 is original, 1 is next highest, up to 5 lowest. Actual resolution will depend on number of thumbnails available for any one image. Experiment for best setting for your site, but 2 is recommended for Tiles"
 topic_list_thumbnail_width:
   default: 150
   description:
