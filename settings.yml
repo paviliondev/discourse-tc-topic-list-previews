@@ -117,7 +117,7 @@ topic_list_featured_images_resolution_level:
   default: 2
   type: integer
   description:
-    en:  "Resolution level of thumbnail used in Featured Images: 0 is original, 1 is next highest, up to 5 lowest. Actual resolution will depend on number of thumbnails available for any one image.  Experiment for best setting for your site.
+    en:  "Resolution level of thumbnail used in Featured Images: 0 is original, 1 is next highest, up to 5 lowest. Actual resolution will depend on number of thumbnails available for any one image.  Experiment for best setting for your site."
 topic_list_featured_images_category:
   default: false
   type: bool
