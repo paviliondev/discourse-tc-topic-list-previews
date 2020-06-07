@@ -15,7 +15,7 @@ var previewUrl = function (thumbnails, featured = false) {
   const preferLowRes = (Discourse.User._current === null) ? false : Discourse.User._current.custom_fields.tlp_user_prefs_prefer_low_res_thumbnails;
   if (thumbnails) {
     let resLevel = featured ? settings.topic_list_featured_images_resolution_level : settings.topic_list_thumbnail_resolution_level; 
-    resLevel = Math.round(thumbnails.length/5 * resLevel);
+    resLevel = Math.round(((thumbnails.length - 1)/6) * resLevel);
     if (preferLowRes) {resLevel++};
     if (window.devicePixelRatio && resLevel > 0) {resLevel--};
     return resLevel <= thumbnails.length - 1
