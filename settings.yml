@@ -147,6 +147,11 @@ topic_list_featured_images_count:
   default: 0
   description:
     en: "Featured Images Topics set count. Set to zero for no limit. NB If featured Topics don't contain a thumbnail the number of images will be fewer, just raise the number."
+topic_list_featured_images_created_order:
+  default: false
+  type: bool
+  description:
+    en: "Featured Images order, set to true if you want images to appear in created order, not in order of latest post"
 topic_list_featured_width:
   default: 0
   type: integer

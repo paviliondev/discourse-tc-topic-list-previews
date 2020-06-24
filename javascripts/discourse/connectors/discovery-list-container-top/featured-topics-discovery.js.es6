@@ -14,9 +14,19 @@ export default {
 
       if (controller.category && settings.topic_list_featured_images_from_current_category_only) {
         featuredTopics = featuredTopics.filter(topic => topic.category_id == controller.category.id)
-      }
+      };
 
-      const reducedFeaturedTopics = featuredTopics ? settings.topic_list_featured_images_count == 0 ? featuredTopics : featuredTopics.slice(0,settings.topic_list_featured_images_count) : []
+      const reducedFeaturedTopics = featuredTopics ? settings.topic_list_featured_images_count == 0 ? featuredTopics : featuredTopics.slice(0,settings.topic_list_featured_images_count) : [];
+
+      if (settings.topic_list_featured_images_created_order) {
+        reducedFeaturedTopics.sort((a, b) => {
+          var keyA = new Date(a.created_at), keyB = new Date(b.created_at);
+          // Compare the 2 dates
+          if (keyA < keyB) return 1;
+          if (keyA > keyB) return -1;
+          return 0;
+        });
+      }
 
       component.set ('showFeaturedImages', showFeaturedImages);
       component.set ('featuredTopics', reducedFeaturedTopics);
