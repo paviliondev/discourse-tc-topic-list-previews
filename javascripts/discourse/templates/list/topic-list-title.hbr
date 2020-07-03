@@ -16,12 +16,10 @@
       {{#if topic.featured_link}}
         {{topic-featured-link topic}}
       {{/if}}
-      {{~raw-plugin-outlet name="topic-list-after-title"}}
     {{else}}
       {{#if topic.featured_link}}
         {{topic-featured-link topic}}
       {{/if}}
-      {{~raw-plugin-outlet name="topic-list-after-title"}}
       {{#if mobileView}}
         {{#if topic.unseen}}
           <span class="badge-notification new-topic"></span>
