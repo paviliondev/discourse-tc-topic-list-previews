@@ -25,7 +25,7 @@ export default Ember.Mixin.create({
 
         const siteEnabled = siteSetting && siteSetting.split('|').indexOf(filterType) > -1;
         const siteDefaults = settings.topic_list_set_category_defaults;
-        const isTopic = (filterType == 'suggested');
+        const isTopic = ['suggested', 'suggested-mobile'].includes(filterType);
 
         return isTopic ? siteEnabled : (category ? (catEnabled || siteDefaults && siteEnabled) : siteEnabled);
       },
