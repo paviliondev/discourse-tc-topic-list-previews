@@ -2,7 +2,7 @@ topic_list_tiles:
   type: list
   default: latest|new|unread|top|tags|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile
   description:
-    en: "The lists that will be styled with tiles format.  Can be one of latest|new|unread|top|tags|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile"
+    en: "The lists that will be styled with tiles format.  Can be one of latest|new|unread|top|tags|suggested|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|suggested-mobile"
 topic_list_tiles_categories:
   type: list
   list_type: category
