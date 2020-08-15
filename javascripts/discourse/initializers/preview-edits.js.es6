@@ -18,6 +18,7 @@ import Topic from 'discourse/models/topic';
 import loadScript from 'discourse/lib/load-script';
 import { cookAsync } from 'discourse/lib/text';
 import { debounce } from '@ember/runloop';
+import { inject as service } from "@ember/service";
 
 export default {
   name: 'preview-edits',
@@ -45,7 +46,7 @@ export default {
       api.modifyClass ('component:basic-topic-list', Settings);
 
       api.modifyClass ('component:basic-topic-list', {
-        router: Ember.inject.service ('-routing'),
+        router: service('router'),
         classNameBindings: [
           'showThumbnail',
           'showExcerpt',
@@ -68,8 +69,8 @@ export default {
       api.modifyClass ('component:topic-list', Settings);
 
       api.modifyClass ('component:topic-list', {
-        router: Ember.inject.service ('-routing'),
-        currentRoute: alias ('router.router.currentRouteName'),
+        router: service('router'),
+        currentRoute: alias ('router.currentRouteName'),
         classNameBindings: [
           'showThumbnail',
           'showExcerpt',
