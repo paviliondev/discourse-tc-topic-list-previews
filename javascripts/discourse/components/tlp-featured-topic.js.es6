@@ -44,7 +44,7 @@ export default Ember.Component.extend({
 
   @discourseComputed
   featuredExcerpt() {
-    return settings.topic_list_featured_excerpt > 0 ? this.get('topic').excerpt.slice(0,settings.topic_list_featured_excerpt) : false;
+    return (settings.topic_list_featured_excerpt > 0 && this.get('topic').excerpt) ? this.get('topic').excerpt.slice(0,settings.topic_list_featured_excerpt) : false;
   },
 
   @discourseComputed
