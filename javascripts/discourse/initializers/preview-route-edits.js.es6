@@ -44,7 +44,7 @@ export default {
           return this._super(data, transition).then((result) => {
             if (settings.topic_list_featured_images) {
               let featuredTopics = null;
-              let filter = `tags/${settings.topic_list_featured_images_tag}`;
+              let filter = `tag/${settings.topic_list_featured_images_tag}`;
               let lastTopicList = findOrResetCachedTopicList (this.session, filter);
               this.store.findFiltered ('topicList', {filter}).then (list => {
                 this.setProperties ({
@@ -67,8 +67,7 @@ export default {
           return this._super(model, transition).then((result) => {
             if (settings.topic_list_featured_images_category) {
               let featuredTopics = null;
-              ///c/incident/11?tags=
-              let filter = `tags/${settings.topic_list_featured_images_tag}`;
+              let filter = `tag/${settings.topic_list_featured_images_tag}`;
               let lastTopicList = findOrResetCachedTopicList (this.session, filter);
               this.store.findFiltered ('topicList', {filter}).then (list => {
                 this.setProperties ({
@@ -90,7 +89,7 @@ export default {
         setFeaturedTopics(topicList) {
           let featuredTopics = null;
 
-          let filter = `tags/${settings.topic_list_featured_images_tag}`;
+          let filter = `tag/${settings.topic_list_featured_images_tag}`;
           let lastTopicList = findOrResetCachedTopicList (this.session, filter);
           this.store.findFiltered ('topicList', {filter}).then (list => {
             this.setProperties ({
