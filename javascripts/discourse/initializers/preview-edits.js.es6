@@ -23,7 +23,7 @@ import { inject as service } from "@ember/service";
 export default {
   name: 'preview-edits',
   initialize (container) {
-    withPluginApi ('0.8.12', api => {
+    withPluginApi ('0.8.40', api => {
       api.onPageChange (() => {
         loadScript (
           'https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js'
