@@ -1,0 +1,7 @@
+
+:root {
+  --secondary-hover: #{darken($secondary, 3%)};
+  --primary-60-light-or-secondary-40-light: #{dark-light-choose(
+      scale-color($primary, $lightness: 60%), scale-color($secondary, $lightness: 40%)
+    )};
+}

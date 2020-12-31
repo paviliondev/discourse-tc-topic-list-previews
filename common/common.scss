@@ -248,7 +248,7 @@ html:not(.tile-style) .topic-actions {
 }
 
 .like-count, .list-vote-count {
-  color: dark-light-choose(scale-color($primary, $lightness: 60%), scale-color($secondary, $lightness: 40%));
+  color: var(--primary-60-light-or-secondary-40-light);
   font-size: 13px;
   display: inline-block;
   vertical-align: bottom;

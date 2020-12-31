@@ -99,7 +99,7 @@
   }
 
   .tiles-grid-item:hover {
-    background-color: darken($secondary, 2%);
+    background-color: var(--secondary-hover);
     lighten: ($primary, 70%);
   }
 
