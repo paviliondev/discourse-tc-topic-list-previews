@@ -297,15 +297,6 @@ export default {
           });
         },
 
-        click (e) {
-          if (this.get ('tilesStyle')) {
-            if ($ (e.target).parents ('.list-button').length == 0) {
-              DiscourseURL.routeTo (this.get ('topic.lastReadUrl'));
-            }
-          }
-          this._super (e);
-        },
-
         _sizeThumbnails () {
           this.$ ('.topic-thumbnail img').on ('load', function () {
             $ (this).css ({
