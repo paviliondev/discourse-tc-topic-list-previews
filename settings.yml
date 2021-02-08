@@ -11,7 +11,7 @@ topic_list_tiles_categories:
     en: "The categories that will be styled with tiles format."
 topic_list_thumbnails:
   type: list
-  default: latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile|activity-topics-mobile|activity-portfolio-mobile
+  default: latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|suggested-mobile|agenda-mobile|activity-topics-mobile|activity-portfolio-mobile
   description:
     en: "The lists that will include thumbnails.  Can be one of latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile|activity-topics-mobile|activity-portfolio-mobile"
 topic_list_thumbnails_categories:
