@@ -1,7 +1,7 @@
 import { featuredImagesEnabled } from '../lib/tlp-utilities';
 import { ajax } from 'discourse/lib/ajax';
 import { withPluginApi } from 'discourse/lib/plugin-api';
-import PreloadStore from "preload-store";
+import PreloadStore from "discourse/lib/preload-store";
 import CategoryList from "discourse/models/category-list";
 import TopicList from "discourse/models/topic-list";
 import {findOrResetCachedTopicList} from 'discourse/lib/cached-topic-list';
