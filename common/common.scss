@@ -9,7 +9,7 @@
     display: grid;
     grid-gap: 6px;
     grid-template-columns: repeat(auto-fill, minmax(320px,1fr));
-    grid-auto-rows: 10px;
+    grid-template-rows: masonry;
   }
 
   .tiles-grid-item-width2 {
@@ -23,7 +23,7 @@
     box-sizing: border-box;
     cursor: pointer;
     border-radius: 3px;
-    grid-row-end: span 8;
+   // grid-row-end: span 8;
   }
 
   .tiles-grid-item-content {
