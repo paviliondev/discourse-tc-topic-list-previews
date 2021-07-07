@@ -41,10 +41,7 @@
 
   .tiles-grid-item:hover {
     background-color: darken($secondary, 2%);
-    lighten: ($primary, 70%);
-  }
-
-  .tiles-grid-item:active {
+    color: lighten($primary, 70%);
   }
 
   .topic-header-grid {
@@ -392,6 +389,7 @@ button.list-button {
 
       img {
         -webkit-filter: brightness(50%);
+        filter: brightness(50%);
         transition: background-color 200ms linear;
       }
 
@@ -406,6 +404,7 @@ button.list-button {
 
         img {
           -webkit-filter: brightness(150%);
+          filter: brightness(150%);
           visibility: visible;
         }
       }
@@ -493,7 +492,7 @@ img.select-thumbnail-preview {
 
 .tiles-grid-item:hover {
   background-color: darken($secondary, 3%);
-  lighten: ($primary, 70%);
+  color: lighten($primary, 70%);
 }
 
 .tiles-grid-item:active {
