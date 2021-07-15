@@ -307,6 +307,8 @@ export default {
 
         _setupActions () {
 
+          if (this._state === 'destroying') return;
+
           let postId = this.get ('topic.topic_post_id'),
             $bookmark = this.$ ('.topic-bookmark'),
             $like = this.$ ('.topic-like');
