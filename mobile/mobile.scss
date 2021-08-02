@@ -1,9 +1,9 @@
 .mobile-view .topic-list {
-  
+
   .topic-thumbnail {
     padding: 0;
   }
-  
+
   .topic-details {
     max-height: initial;
     position: relative;
@@ -11,42 +11,42 @@
     min-height: 45px;
     overflow: hidden;
   }
-  
+
   .topic-excerpt {
     max-height: initial;
     width: 100%;
   }
-  
+
   .topic-category {
     margin-top: 6px;
     display: block;
   }
-  
+
   .topic-actions {
     margin-top: 5px;
     float: none;
   }
-  
+
   .list-button {
     font-size: 1em;
     padding: 0 10px 0 0px;
   }
-  
+
   .like-count {
     font-size: 1em;
     line-height: 1em;
     float: left;
     margin-right: 8px;
   }
-  
+
   .list-button i {
     vertical-align: top;
   }
-  
+
   .num.activity {
     float: right;
   }
-  
+
   img.thumbnail:not(.tiles-thumbnail) {
     max-width:80px;
     max-height:80px;
@@ -99,8 +99,7 @@
   }
 
   .tiles-grid-item:hover {
-    background-color: darken($secondary, 2%);
-    lighten: ($primary, 70%);
+    background-color: var(--blend-primary-secondary-5);
   }
 
   .tiles-grid-item:active {
@@ -126,7 +125,7 @@
      }
 
     a.title {
-      color: $primary;
+      color: var(--primary);
     }
 
     a.topic-featured-link {
@@ -241,10 +240,10 @@
     .list-button {
       font-size: 1em;
       padding: 0 0 0 10px;
-      color: $primary-medium;
+      color: var(--primary-medium);
 
       &.has-like, &.topic-like:not([disabled]):hover {
-        color: $love;
+        color: var(--love);
       }
     }
   }

@@ -40,8 +40,7 @@
   }
 
   .tiles-grid-item:hover {
-    background-color: darken($secondary, 2%);
-    lighten: ($primary, 70%);
+    background-color: var(--blend-primary-secondary-5);
   }
 
   .tiles-grid-item:active {
@@ -71,7 +70,7 @@
      }
 
     a.title {
-      color: $primary;
+      color: var(--primary);
     }
 
     a.topic-featured-link {
@@ -135,7 +134,7 @@
       float: left;
       clear: both;
       padding-right: 0px;
-      
+
       overflow-wrap: break-word;
       word-wrap: break-word;
 
@@ -162,7 +161,7 @@
     grid-area: meta;
 
     .topic-views {
-      color: $primary-medium;
+      color: var(--primary-medium);
     }
 
     .topic-replies span {
@@ -253,7 +252,7 @@ html:not(.tile-style) .topic-actions {
 }
 
 .like-count, .list-vote-count {
-  color: dark-light-choose(scale-color($primary, $lightness: 60%), scale-color($secondary, $lightness: 40%));
+  color: var(--primary-medium);
   font-size: 13px;
   display: inline-block;
   vertical-align: bottom;
@@ -293,7 +292,7 @@ button.list-button {
   }
 
   &.has-like, &.topic-like:not([disabled]):hover {
-    color: $love;
+    color: var(--love);
   }
 
   &.has-like[disabled]:hover {
@@ -306,7 +305,7 @@ button.list-button {
 
   &.bookmarked, &.topic-bookmark:hover {
     i.fa-bookmark, .d-icon-bookmark {
-      color: $tertiary;
+      color: var(--tertiary);
     }
   }
 }
@@ -318,7 +317,7 @@ button.list-button {
 
   &.has-like {
     .fa-heart, .d-icon-heart {
-      color: $love !important;
+      color: var(--love) !important;
     }
   }
 }
@@ -398,10 +397,10 @@ button.list-button {
       .content, .content a {
 
         z-index: 2;
-        color: $secondary;
+        color: var(--secondary);
 
         a.mention {
-          background-color: $primary-high;
+          background-color: var(--primary-high);
         }
 
         img {
@@ -449,7 +448,7 @@ img.select-thumbnail-options:active {
 }
 
 img.select-thumbnail-preview {
-  border: solid 1px $primary-medium;
+  border: solid 1px var(--primary-medium);
   margin: 5px 0px 5px 0px;
   padding: 5px;
   width: 148px;
@@ -469,21 +468,21 @@ img.select-thumbnail-preview {
   margin-left: 2px;
   display: inline-flex;
   cursor: pointer;
-  
-  background-color: $tertiary;
+
+  background-color: var(--tertiary);
 
   label {
-    color: $secondary;
+    color: var(--secondary);
     display: inline-block;
     cursor: pointer;
   }
   svg {
-    color: $secondary;
+    color: var(--secondary);
     display: inline-block;
   }
 
   &:hover {
-    background-color: darken($tertiary, 5%);
+    background-color: var(--tertiary-hover);
   }
 }
 
@@ -492,8 +491,7 @@ img.select-thumbnail-preview {
 }
 
 .tiles-grid-item:hover {
-  background-color: darken($secondary, 3%);
-  lighten: ($primary, 70%);
+  background-color: var(--blend-primary-secondary-5);
 }
 
 .tiles-grid-item:active {
