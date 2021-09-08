@@ -44,16 +44,20 @@ export default {
         },
       });
 
-      api.modifyClass ('component:basic-topic-list', Settings);
+      // api.modifyClass ('component:basic-topic-list', Settings);
 
       api.modifyClass ('component:basic-topic-list', {
-        router: service('router'),
-        classNameBindings: [
-          'showThumbnail',
-          'showExcerpt',
-          'showActions',
-          'tilesStyle',
-        ],
+       topicListPreviewsService: service("topic-list-previews"),
+      classNameBindings: [
+        "hasThumbnails:showThumbnail",
+        "hasTiles:tiles-style",
+        "hasExcerpts:showExcerpt",
+        "hasActions:showActions",
+      ],
+            hasThumbnails: readOnly("topicListPreviewsService.displayThumbnails"),
+      hasTiles: readOnly("topicListPreviewsService.displayTiles"),
+      hasExcerpts: readOnly("topicListPreviewsService.displayExcerpts"),
+      hasActions: readOnly("topicListPreviewsService.displayActions"),
         currentRoute: alias ('router.currentRouteName'),
         listChanged: false,
 
@@ -202,10 +206,10 @@ export default {
           'topic.thumbnails',
         ],
 
-        tilesStyle: readOnly("topicListPreviewsService.displayTiles"),
-        showThumbnail: readOnly("topicListPreviewsService.displayThumbnails"),
-        showExcerpt: readOnly("topicListPreviewsService.displayExcerpts"),
-        showActions: readOnly("topicListPreviewsService.displayActions"),
+        tilesStyle: readOnly('topicListPreviewsService.displayTiles'),
+        showThumbnail: readOnly('topicListPreviewsService.displayThumbnails'),
+        showExcerpt: readOnly('topicListPreviewsService.displayExcerpts'),
+        showActions: and ('topic.sidecar_installed', 'topicListPreviewsService.displayActions'),
         thumbnailFirstXRows: alias ('parentView.thumbnailFirstXRows'),
         category: alias ('parentView.category'),
         // currentRoute: alias ('parentView.currentRoute'),

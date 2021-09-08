@@ -32,11 +32,11 @@ const actionTags = settings.topic_list_actions_tags.split("|");
 export default Service.extend({
   router: service("router"),
 
-  enabledForCurrentTopicListRouteType(currentTopicListRoute, routeType) {
+  enabledForCurrentTopicListRouteType(currentTopicListRoute, infoType) {
     let checkList = [];
     let found = false;
-
-    switch(routeType)
+    
+    switch(infoType)
     {
       case "thumbnails":
         checkList = thumbnailsTopicLists;
@@ -51,12 +51,26 @@ export default Service.extend({
         checkList = actionsTopicLists;
     }
 
-    checkList.every((item) => {
-      if (currentTopicListRoute.indexOf(item) > 0) {
+    checkList.every(item => {
+      let onMobile = Site.current().mobileView;
+      let mobileSetting = false;
+    
+      if (item.indexOf("mobile") > -1) {
+        mobileSetting = true
+        item = item.substring(0, item.indexOf("-mobile") -1)
+      }
+
+      if (item.indexOf("suggested") > -1) {
+        item = "topic"
+      }
+
+      if (currentTopicListRoute.indexOf(item) > -1) {
         found = true;
         return false;
       }
+      return true;
     })
+
     return found
   },
 
@@ -112,7 +126,7 @@ export default Service.extend({
     if (actionCategories.includes(viewingCategoryId) || actionTags.includes(viewingTagId) || this.enabledForCurrentTopicListRouteType(currentTopicListRoute,"actions")) {
       displayMode.push("actions");
     }
-//    debugger;
+
     return displayMode;
   },
 
