@@ -1,4 +1,4 @@
-topic_list_tiles:
+topic_list_tiles_topic_lists:
   type: list
   default: latest|new|unread|top|tags|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|activity-topics-mobile|activity-portfolio-mobile
   description:
@@ -9,7 +9,13 @@ topic_list_tiles_categories:
   default: ""
   description:
     en: "The categories that will be styled with tiles format."
-topic_list_thumbnails:
+topic_list_tiles_tags:
+  type: list
+  list_type: tag
+  default: ""
+  description:
+    en: "The tags that will be styled with tiles format."
+topic_list_thumbnails_topic_lists:
   type: list
   default: latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|suggested-mobile|agenda-mobile|activity-topics-mobile|activity-portfolio-mobile
   description:
@@ -20,7 +26,13 @@ topic_list_thumbnails_categories:
   default: ""
   description:
     en: "The categories that will include thumbnails."
-topic_list_excerpts:
+topic_list_thumbnails_tags:
+  type: list
+  list_type: tag
+  default: ""
+  description:
+    en: "The categories that will include thumbnails."
+topic_list_excerpts_topic_lists:
   type: list
   default: latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile|activity-topics-mobile|activity-portfolio-mobile
   description:
@@ -31,7 +43,13 @@ topic_list_excerpts_categories:
   default: ""
   description:
     en: "The categories that will include excerpts."
-topic_list_actions:
+topic_list_excerpts_tags:
+  type: list
+  list_type: tag
+  default: ""
+  description:
+    en: "The tags that will include excerpts."
+topic_list_actions_topic_lists:
   type: list
   default: latest|new|unread|top|tags|suggested|agenda|activity-topics|activity-portfolio|latest-mobile|new-mobile|unread-mobile|top-mobile|tags-mobile|agenda-mobile|activity-topics-mobile|activity-portfolio-mobile
   description:
@@ -42,6 +60,12 @@ topic_list_actions_categories:
   default: ""
   description:
     en: "The categories that will include actions."
+topic_list_actions_tags:
+  type: list
+  list_type: tag
+  default: ""
+  description:
+    en: "The tags that will include actions."
 topic_list_show_like_on_current_users_posts:
   type: bool
   default: true

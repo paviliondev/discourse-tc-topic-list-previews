@@ -19,6 +19,7 @@ import loadScript from 'discourse/lib/load-script';
 import { cookAsync } from 'discourse/lib/text';
 import { debounce } from '@ember/runloop';
 import { inject as service } from "@ember/service";
+import { readOnly } from "@ember/object/computed";
 
 export default {
   name: 'preview-edits',
@@ -28,7 +29,7 @@ export default {
         loadScript (
           'https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js'
         ).then (() => {
-          $ ('.tiles-grid').imagesLoaded (resizeAllGridItems ());
+          $ ('.tiles-style').imagesLoaded (resizeAllGridItems ());
         });
       });
 
@@ -66,18 +67,30 @@ export default {
         },
       });
 
-      api.modifyClass ('component:topic-list', Settings);
+      // api.modifyClass ('component:topic-list', Settings);
 
       api.modifyClass ('component:topic-list', {
-        router: service('router'),
-        currentRoute: alias ('router.currentRouteName'),
-        classNameBindings: [
-          'showThumbnail',
-          'showExcerpt',
-          'showActions',
-          'tilesStyle',
-        ],
-        listChanged: false,
+        topicListPreviewsService: service("topic-list-previews"),
+        //currentRoute: alias ('router.currentRouteName'),
+        // classNameBindings: [
+        //   'showThumbnail',
+        //   'showExcerpt',
+        //   'showActions',
+        //   'tilesStyle',
+        // ],
+      classNameBindings: [
+        "hasThumbnails:showThumbnail",
+        "hasTiles:tiles-style",
+        "hasExcerpts:showExcerpt",
+        "hasActions:showActions",
+      ],
+      hasThumbnails: readOnly("topicListPreviewsService.displayThumbnails"),
+      hasTiles: readOnly("topicListPreviewsService.displayTiles"),
+      hasExcerpts: readOnly("topicListPreviewsService.displayExcerpts"),
+      hasActions: readOnly("topicListPreviewsService.displayActions"),
+
+        
+      //  listChanged: false,
 
         @on ('init')
         setup () {
@@ -95,7 +108,7 @@ export default {
 
         @on ('didRender')
         completeRender () {
-          if (this.get ('tilesStyle')) {
+          if (this.get ('hasTiles')) {
             Ember.run.scheduleOnce ('afterRender', this, this.applyTiles);
           }
           if (settings.topic_list_fade_in_time) {
@@ -111,63 +124,63 @@ export default {
           this.toggleProperty ('listChanged');
         },
 
-        @on ('didInsertElement')
-        @observes ('tilesStyle')
-        setupListStyle () {
-          if (!this.$ ()) {
-            return;
-          }
-          if (this.get ('tilesStyle')) {
-            this.$ ().parents ('#list-area').toggleClass ('tiles-style', true);
-            this.$ ('tbody').toggleClass ('tiles-grid', true);
-          }
-        },
+        // @on ('didInsertElement')
+        // @observes ('tilesStyle')
+        // setupListStyle () {
+        //   if (!this.$ ()) {
+        //     return;
+        //   }
+        //   if (this.get ('tilesStyle')) {
+        //     this.$ ().parents ('#list-area').toggleClass ('tiles-style', true);
+        //     this.$ ('tbody').toggleClass ('tiles-grid', true);
+        //   }
+        // },
 
-        @discourseComputed ('listChanged')
-        routeShortName () {
-          return this.get ('router').currentRouteName.split ('.')[0];
-        },
+        // @discourseComputed ('listChanged')
+        // routeShortName () {
+        //   return this.get ('router').currentRouteName.split ('.')[0];
+        // },
 
-        @discourseComputed ('routeShortName')
-        discoveryList () {
-          return this.get ('routeShortName') == 'discovery';
-        },
+        // @discourseComputed ('routeShortName')
+        // discoveryList () {
+        //   return this.get ('routeShortName') == 'discovery';
+        // },
 
-        @discourseComputed ('routeShortName')
-        suggestedList () {
-          return this.get ('routeShortName') == 'topic';
-        },
+        // @discourseComputed ('routeShortName')
+        // suggestedList () {
+        //   return this.get ('routeShortName') == 'topic';
+        // },
 
-        @on ('willDestroyElement')
-        _tearDown () {
-          this.$ ().parents ('#list-area').removeClass ('tiles-style');
-          this.$ ('tbody').removeClass ('tiles-grid');
-        },
+        // @on ('willDestroyElement')
+        // _tearDown () {
+        //   this.$ ().parents ('#list-area').removeClass ('tiles-style');
+        //   this.$ ('tbody').removeClass ('tiles-grid');
+        // },
 
-        @discourseComputed ('listChanged')
-        tilesStyle () {
-          return this._settingEnabled ('topic_list_tiles');
-        },
+        // @discourseComputed ('listChanged')
+        // tilesStyle () {
+        //   return this._settingEnabled ('topic_list_tiles');
+        // },
 
-        @discourseComputed ('listChanged')
-        showThumbnail () {
-          return this._settingEnabled ('topic_list_thumbnails');
-        },
+        // @discourseComputed ('listChanged')
+        // showThumbnail () {
+        //   return this._settingEnabled ('topic_list_thumbnails');
+        // },
 
-        @discourseComputed ('listChanged')
-        showExcerpt () {
-          return this._settingEnabled ('topic_list_excerpts');
-        },
+        // @discourseComputed ('listChanged')
+        // showExcerpt () {
+        //   return this._settingEnabled ('topic_list_excerpts');
+        // },
 
-        @discourseComputed ('listChanged')
-        showActions () {
-          return this._settingEnabled ('topic_list_actions');
-        },
+        // @discourseComputed ('listChanged')
+        // showActions () {
+        //   return this._settingEnabled ('topic_list_actions');
+        // },
 
-        @discourseComputed ('listChanged')
-        skipHeader () {
-          return this.get ('tilesStyle') || this.get ('site.mobileView');
-        },
+        // @discourseComputed ('listChanged')
+        // skipHeader () {
+        //   return this.get ('tilesStyle') || this.get ('site.mobileView');
+        // },
 
         @discourseComputed ('listChanged')
         thumbnailFirstXRows () {
@@ -180,6 +193,7 @@ export default {
       });
 
       api.modifyClass ('component:topic-list-item', {
+        topicListPreviewsService: service("topic-list-previews"),
         canBookmark: Ember.computed.bool ('currentUser'),
         rerenderTriggers: [
           'bulkSelectEnabled',
@@ -187,14 +201,25 @@ export default {
           'likeDifference',
           'topic.thumbnails',
         ],
-        tilesStyle: alias ('parentView.tilesStyle'),
-        notTilesStyle: not ('parentView.tilesStyle'),
-        showThumbnail: and ('thumbnails', 'parentView.showThumbnail'),
-        showExcerpt: and ('topic.excerpt', 'parentView.showExcerpt'),
-        showActions: and ('topic.sidecar_installed', 'parentView.showActions'),
+
+        tilesStyle: readOnly("topicListPreviewsService.displayTiles"),
+        showThumbnail: readOnly("topicListPreviewsService.displayThumbnails"),
+        showExcerpt: readOnly("topicListPreviewsService.displayExcerpts"),
+        showActions: readOnly("topicListPreviewsService.displayActions"),
         thumbnailFirstXRows: alias ('parentView.thumbnailFirstXRows'),
         category: alias ('parentView.category'),
-        currentRoute: alias ('parentView.currentRoute'),
+        // currentRoute: alias ('parentView.currentRoute'),
+
+        
+        // tilesStyle: alias ('parentView.tilesStyle'),
+        // notTilesStyle: not ('parentView.tilesStyle'),
+        // showThumbnail: and ('thumbnails', 'parentView.showThumbnail'),
+        // showExcerpt: and ('topic.excerpt', 'parentView.showExcerpt'),
+        // showActions: and ('topic.sidecar_installed', 'parentView.showActions'),
+        // thumbnailFirstXRows: alias ('parentView.thumbnailFirstXRows'),
+        // category: alias ('parentView.category'),
+        // currentRoute: alias ('parentView.currentRoute'),
+
 
         // Lifecyle logic
 

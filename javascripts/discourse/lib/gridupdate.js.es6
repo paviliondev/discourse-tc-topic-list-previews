@@ -19,10 +19,18 @@ function resizeGridItem (item, grid, rowHeight, rowGap) {
 
 function resizeAllGridItems () {
   const allItems = document.getElementsByClassName ('tiles-grid-item');
-  const grid = document.getElementsByClassName ('tiles-grid')[0];
-  if (!grid) {
-    return;
-  }
+  // let grid = false;
+  // if (document.getElementsByClassName ('tiles-style')) {
+  //   debugger;
+  //   const grid = document.getElementsByTagName('tbody')[0];
+  // }
+  // debugger;
+    
+  // if (!grid) {
+  //   return;
+  // }
+
+  const grid = document.getElementsByTagName('tbody')[0];
   const rowHeight = parseInt (
     window.getComputedStyle (grid).getPropertyValue ('grid-auto-rows')
   );

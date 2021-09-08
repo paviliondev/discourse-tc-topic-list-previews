@@ -1,6 +1,7 @@
 export default Ember.Mixin.create({
 
     _settingEnabled(setting) {
+      debugger;
 
         const routeEnabled = this.get('routeEnabled');
         if (routeEnabled) {
