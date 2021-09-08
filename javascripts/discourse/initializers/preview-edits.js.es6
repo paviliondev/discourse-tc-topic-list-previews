@@ -137,6 +137,7 @@ export default {
         ],
 
         tilesStyle: readOnly('topicListPreviewsService.displayTiles'),
+        notTilesStyle: not ('topicListPreviewsService.displayTiles'),
         showThumbnail: readOnly('topicListPreviewsService.displayThumbnails'),
         showExcerpt: readOnly('topicListPreviewsService.displayExcerpts'),
         showActions: and ('topic.sidecar_installed', 'topicListPreviewsService.displayActions'),

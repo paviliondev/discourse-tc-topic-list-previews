@@ -35,7 +35,7 @@ export default Service.extend({
   enabledForCurrentTopicListRouteType(currentTopicListRoute, infoType) {
     let checkList = [];
     let found = false;
-    
+
     switch(infoType)
     {
       case "thumbnails":
@@ -53,21 +53,22 @@ export default Service.extend({
 
     if (currentTopicListRoute == 'userActivity.portfolio') currentTopicListRoute = 'activity-portfolio';
     if (currentTopicListRoute == 'userActivity.topics') currentTopicListRoute = 'activity-topics';
+    if (currentTopicListRoute.indexOf("topic") > -1) currentTopicListRoute = 'suggested';
+
+    let onMobile = Site.current().mobileView;
 
     checkList.every(item => {
-      let onMobile = Site.current().mobileView;
+      
       let mobileSetting = false;
+      let itemShortRouteName = item
     
-      if (item.indexOf("mobile") > -1) {
+      if (item.indexOf("-mobile") > -1) {
         mobileSetting = true
-        item = item.substring(0, item.indexOf("-mobile") -1)
+        itemShortRouteName = item.substring(0,item.indexOf("-mobile"))
       }
 
-      if (item.indexOf("suggested") > -1) {
-        item = "topic"
-      }
+      if (currentTopicListRoute.indexOf(itemShortRouteName) > -1 && ((onMobile && mobileSetting) || (!onMobile && !mobileSetting))) {
 
-      if (currentTopicListRoute.indexOf(item) > -1) {
         found = true;
         return false;
       }
