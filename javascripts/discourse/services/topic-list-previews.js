@@ -51,6 +51,9 @@ export default Service.extend({
         checkList = actionsTopicLists;
     }
 
+    if (currentTopicListRoute == 'userActivity.portfolio') currentTopicListRoute = 'activity-portfolio';
+    if (currentTopicListRoute == 'userActivity.topics') currentTopicListRoute = 'activity-topics';
+
     checkList.every(item => {
       let onMobile = Site.current().mobileView;
       let mobileSetting = false;

@@ -13,7 +13,6 @@ import {addLike, sendBookmark, removeLike} from '../lib/actions';
 import {withPluginApi} from 'discourse/lib/plugin-api';
 import PostsCountColumn from 'discourse/raw-views/list/posts-count-column';
 import {resizeAllGridItems} from '../lib/gridupdate';
-import Settings from '../mixins/settings';
 import Topic from 'discourse/models/topic';
 import loadScript from 'discourse/lib/load-script';
 import { cookAsync } from 'discourse/lib/text';
@@ -44,20 +43,19 @@ export default {
         },
       });
 
-      // api.modifyClass ('component:basic-topic-list', Settings);
 
       api.modifyClass ('component:basic-topic-list', {
-       topicListPreviewsService: service("topic-list-previews"),
-      classNameBindings: [
-        "hasThumbnails:showThumbnail",
-        "hasTiles:tiles-style",
-        "hasExcerpts:showExcerpt",
-        "hasActions:showActions",
-      ],
-            hasThumbnails: readOnly("topicListPreviewsService.displayThumbnails"),
-      hasTiles: readOnly("topicListPreviewsService.displayTiles"),
-      hasExcerpts: readOnly("topicListPreviewsService.displayExcerpts"),
-      hasActions: readOnly("topicListPreviewsService.displayActions"),
+        topicListPreviewsService: service("topic-list-previews"),
+        classNameBindings: [
+          "hasThumbnails:showThumbnail",
+          "hasTiles:tiles-style",
+          "hasExcerpts:showExcerpt",
+          "hasActions:showActions",
+        ],
+        hasThumbnails: readOnly("topicListPreviewsService.displayThumbnails"),
+        hasTiles: readOnly("topicListPreviewsService.displayTiles"),
+        hasExcerpts: readOnly("topicListPreviewsService.displayExcerpts"),
+        hasActions: readOnly("topicListPreviewsService.displayActions"),
         currentRoute: alias ('router.currentRouteName'),
         listChanged: false,
 
@@ -71,30 +69,20 @@ export default {
         },
       });
 
-      // api.modifyClass ('component:topic-list', Settings);
-
       api.modifyClass ('component:topic-list', {
         topicListPreviewsService: service("topic-list-previews"),
-        //currentRoute: alias ('router.currentRouteName'),
-        // classNameBindings: [
-        //   'showThumbnail',
-        //   'showExcerpt',
-        //   'showActions',
-        //   'tilesStyle',
-        // ],
-      classNameBindings: [
-        "hasThumbnails:showThumbnail",
-        "hasTiles:tiles-style",
-        "hasExcerpts:showExcerpt",
-        "hasActions:showActions",
-      ],
-      hasThumbnails: readOnly("topicListPreviewsService.displayThumbnails"),
-      hasTiles: readOnly("topicListPreviewsService.displayTiles"),
-      hasExcerpts: readOnly("topicListPreviewsService.displayExcerpts"),
-      hasActions: readOnly("topicListPreviewsService.displayActions"),
+        classNameBindings: [
+          "hasThumbnails:showThumbnail",
+          "hasTiles:tiles-style",
+          "hasExcerpts:showExcerpt",
+          "hasActions:showActions",
+        ],
+        hasThumbnails: readOnly("topicListPreviewsService.displayThumbnails"),
+        hasTiles: readOnly("topicListPreviewsService.displayTiles"),
+        hasExcerpts: readOnly("topicListPreviewsService.displayExcerpts"),
+        hasActions: readOnly("topicListPreviewsService.displayActions"),
 
-        
-      //  listChanged: false,
+        listChanged: false,
 
         @on ('init')
         setup () {
@@ -128,64 +116,6 @@ export default {
           this.toggleProperty ('listChanged');
         },
 
-        // @on ('didInsertElement')
-        // @observes ('tilesStyle')
-        // setupListStyle () {
-        //   if (!this.$ ()) {
-        //     return;
-        //   }
-        //   if (this.get ('tilesStyle')) {
-        //     this.$ ().parents ('#list-area').toggleClass ('tiles-style', true);
-        //     this.$ ('tbody').toggleClass ('tiles-grid', true);
-        //   }
-        // },
-
-        // @discourseComputed ('listChanged')
-        // routeShortName () {
-        //   return this.get ('router').currentRouteName.split ('.')[0];
-        // },
-
-        // @discourseComputed ('routeShortName')
-        // discoveryList () {
-        //   return this.get ('routeShortName') == 'discovery';
-        // },
-
-        // @discourseComputed ('routeShortName')
-        // suggestedList () {
-        //   return this.get ('routeShortName') == 'topic';
-        // },
-
-        // @on ('willDestroyElement')
-        // _tearDown () {
-        //   this.$ ().parents ('#list-area').removeClass ('tiles-style');
-        //   this.$ ('tbody').removeClass ('tiles-grid');
-        // },
-
-        // @discourseComputed ('listChanged')
-        // tilesStyle () {
-        //   return this._settingEnabled ('topic_list_tiles');
-        // },
-
-        // @discourseComputed ('listChanged')
-        // showThumbnail () {
-        //   return this._settingEnabled ('topic_list_thumbnails');
-        // },
-
-        // @discourseComputed ('listChanged')
-        // showExcerpt () {
-        //   return this._settingEnabled ('topic_list_excerpts');
-        // },
-
-        // @discourseComputed ('listChanged')
-        // showActions () {
-        //   return this._settingEnabled ('topic_list_actions');
-        // },
-
-        // @discourseComputed ('listChanged')
-        // skipHeader () {
-        //   return this.get ('tilesStyle') || this.get ('site.mobileView');
-        // },
-
         @discourseComputed ('listChanged')
         thumbnailFirstXRows () {
           return settings.topic_list_thumbnail_first_x_rows;
@@ -212,18 +142,6 @@ export default {
         showActions: and ('topic.sidecar_installed', 'topicListPreviewsService.displayActions'),
         thumbnailFirstXRows: alias ('parentView.thumbnailFirstXRows'),
         category: alias ('parentView.category'),
-        // currentRoute: alias ('parentView.currentRoute'),
-
-        
-        // tilesStyle: alias ('parentView.tilesStyle'),
-        // notTilesStyle: not ('parentView.tilesStyle'),
-        // showThumbnail: and ('thumbnails', 'parentView.showThumbnail'),
-        // showExcerpt: and ('topic.excerpt', 'parentView.showExcerpt'),
-        // showActions: and ('topic.sidecar_installed', 'parentView.showActions'),
-        // thumbnailFirstXRows: alias ('parentView.thumbnailFirstXRows'),
-        // category: alias ('parentView.category'),
-        // currentRoute: alias ('parentView.currentRoute'),
-
 
         // Lifecyle logic
 
