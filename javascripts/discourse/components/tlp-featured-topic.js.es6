@@ -18,13 +18,13 @@ export default Ember.Component.extend({
           Ember.run.scheduleOnce('afterRender', this, () => {
             if (defaultThumbnail) {
               if (this._state === 'destroying') return;
-              const $thumbnail = this.$("img.thumbnail");
+              const $thumbnail = this.element('img.thumbnail');
               if ($thumbnail) {
                 $thumbnail.attr('src', defaultThumbnail);
               }
             } else {
               if (this._state === 'destroying') return;
-              this.$().hide();
+              this.element.hide();
             }
           });
         }

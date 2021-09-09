@@ -143,6 +143,7 @@ export default {
         showActions: and ('topic.sidecar_installed', 'topicListPreviewsService.displayActions'),
         thumbnailFirstXRows: alias ('parentView.thumbnailFirstXRows'),
         category: alias ('parentView.category'),
+        thumbnails: alias ('topic.thumbnails'),
 
         // Lifecyle logic
 
@@ -319,11 +320,6 @@ export default {
             }
           });
           return posterNames;
-        },
-
-        @discourseComputed ('topic.thumbnails')
-        thumbnails () {
-          return this.get ('topic.thumbnails');
         },
 
         @discourseComputed
