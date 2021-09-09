@@ -34,7 +34,6 @@ export default Service.extend({
 
   enabledForCurrentTopicListRouteType(currentTopicListRoute, infoType) {
     let checkList = [];
-    let found = false;
 
     switch(infoType)
     {
@@ -57,7 +56,7 @@ export default Service.extend({
 
     let onMobile = Site.current().mobileView;
 
-    checkList.every(item => {
+    let found_item = checkList.find(item => {
       
       let mobileSetting = false;
       let itemShortRouteName = item
@@ -68,14 +67,11 @@ export default Service.extend({
       }
 
       if (currentTopicListRoute.indexOf(itemShortRouteName) > -1 && ((onMobile && mobileSetting) || (!onMobile && !mobileSetting))) {
-
-        found = true;
-        return false;
+        return true;
       }
-      return true;
+      return false;
     })
-
-    return found
+    return (found_item && found_item.length > 0)
   },
 
   @discourseComputed(
