@@ -6,7 +6,7 @@
 
 <td class='main-link clearfix' colspan="{{titleColSpan}}">
   {{#if tilesStyle}}
-    <div class="tiles-grid-item-content">
+    <div class="tiles-grid-item-content" style="background: url('{{preview-unbound thumbnails category=category opts=thumbnailOpts}}');">
       <div class="topic-header-grid">
           {{raw "list/topic-list-title" topic=topic tilesStyle=tilesStyle showTopicPostBadges=showTopicPostBadges}}
           <div class="topic-category">
@@ -17,9 +17,9 @@
         </div>
     {{/if}}
 
-    {{#if showThumbnail}}
+    {{!-- {{#if showThumbnail}}
       {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
-    {{/if}}
+    {{/if}} --}}
 
     <div class="topic-details">
     {{#if notTilesStyle}}

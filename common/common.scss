@@ -32,11 +32,24 @@
   .tiles-grid-item-content {
     padding: 10px;
     display: grid;
+    background-size: stretch;
+    backdrop-filter: brightness(30%);
+
+    // -webkit-filter: blur(1px);
+    // -moz-filter: blur(1px);
+    // -o-filter: blur(1px);
+    // -ms-filter: blur(1px);
+   //filter: blur(3px);
+   z-index: 1;
+   // background: darken;
+   //filter: brightness(2);
+   //background-blend-mode: mixed;
+
+    //margin: 10px;
     grid-template-columns: 1 1 1 1 auto;
-    grid-template-rows: auto auto auto auto auto;
+    grid-template-rows: auto auto auto auto;
     grid-template-areas:
      "theader theader theader theader theader"
-     "photo photo photo photo photo"
      "details details details details details"
      "tags tags tags tags tags"
      "meta meta meta meta actions"
@@ -51,6 +64,27 @@
 
   .topic-header-grid {
     grid-area: theader;
+    z-index: 99;
+  
+  
+    // background: inherit;
+    // background-clip: text;
+//     color: white;
+    // filter: invert(1);
+
+    // -webkit-filter: none;
+    // -moz-filter: none;
+    // -o-filter: none;
+    // -ms-filter: none;
+    // filter: none;
+    
+    // color: white;
+    // mix-blend-mode: exclusion;
+
+    //background: rgba(0, 0, 0, .7);
+    // margin: 10px;
+    //color: white !important;
+
     display: grid;
     grid-template-columns: auto auto;
     grid-template-rows: auto auto;
@@ -64,6 +98,7 @@
   }
 
   .topic-title {
+  
     font-size: 1.143em;
     grid-area: title;
     padding: 0 0 0 0;
@@ -116,8 +151,12 @@
   }
 
   .topic-thumbnail{
-    grid-area: photo;
-    padding: 0 0 4px 0;
+    //grid-area: photo;
+    //padding: 0 0 4px 0;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    //height: 100$;
   }
 
   .thumbnail {
@@ -129,6 +168,7 @@
   .topic-details {
     grid-area: details;
     padding: 0 0 4px 0;
+
 
     .topic-excerpt {
       line-height: 1.3;

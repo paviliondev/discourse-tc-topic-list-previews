@@ -74,8 +74,11 @@ var renderUnboundPreview = function (thumbnails, params) {
 
   const height_style = height ? `height:${height}${attrHeightSuffix};` : ``;
   const style = `${height_style}width:${width}${attrWidthSuffix}`;
-
-  return `<img class="${css_classes}" src="${url}" style="${style}" loading="lazy"/>`;
+  if (opts.tilesStyle)  {
+    return url
+  } else {
+    return `<img class="${css_classes}" src="${url}" style="${style}" loading="lazy"/>`;
+  }
 };
 
 var testImageUrl = function (thumbnails, callback) {
