@@ -104,13 +104,13 @@
     }
   }
 
-
-
-  .topic-category{
+  .topic-category {
     grid-area: category;
     padding: 0 0 4px 0;
+    .badge-wrapper.box span {
+      border-radius: 3px;
+    }
   }
-
 
   .image {
     grid-area: photo;
@@ -180,7 +180,8 @@
 
     .discourse-tag.box {
       border-radius:3px;
-      background-color: var(--primary-medium)
+      background-color: var(--primary-medium);
+      color: var(--secondary);
     }
   }
 
