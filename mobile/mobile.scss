@@ -1,5 +1,4 @@
 .mobile-view .topic-list {
-
   .topic-thumbnail {
     padding: 0;
   }
@@ -48,8 +47,8 @@
   }
 
   img.thumbnail:not(.tiles-thumbnail) {
-    max-width:80px;
-    max-height:80px;
+    max-width: 80px;
+    max-height: 80px;
   }
 
   .discourse-tags {
@@ -62,9 +61,8 @@
 
 //tiles styling  specific styling
 .mobile-view .tiles-style {
-
   tbody {
-    display:block;
+    display: block;
     .topic-list-item-separator {
       display: none;
     }
@@ -77,25 +75,21 @@
   }
 
   .tiles-gutter-sizer {
-     width: 6px;
-   }
+    width: 6px;
+  }
 
   .tiles-grid-item {
     box-sizing: border-box;
     cursor: pointer;
-    float:top;
-    margin-bottom: 6px;
     border-radius: 3px;
-    padding:10px;
-    display: grid;
-    grid-template-columns: 1 1 1 1 auto;
-    grid-template-rows: auto auto auto auto auto;
-    grid-template-areas:
-     "theader theader theader theader theader"
-     "photo photo photo photo photo"
-     "details details details details details"
-     "tags tags tags tags tags"
-     "meta meta meta meta actions"
+    grid-row-end: span 24;
+  }
+
+  .tiles-grid-item-width2 {
+    box-sizing: border-box;
+    cursor: pointer;
+    border-radius: 3px;
+    grid-column-end: span 1;
   }
 
   .tiles-grid-item:hover {
@@ -105,14 +99,23 @@
   .tiles-grid-item:active {
   }
 
+  .tiles-grid-item-content {
+    display: grid;
+    grid-template-columns: 1;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "photo"
+      "details";
+  }
+
   .topic-header-grid {
     grid-area: theader;
     display: grid;
     grid-template-columns: auto auto;
     grid-template-rows: auto auto;
     grid-template-areas:
-    "title posters"
-    "category posters"
+      "title posters"
+      "category posters";
   }
 
   .topic-title {
@@ -120,9 +123,9 @@
     grid-area: title;
     padding: 0 0 0 0;
 
-     .link-top-line {
-       flex: 1 1 auto;
-     }
+    .link-top-line {
+      flex: 1 1 auto;
+    }
 
     a.title {
       color: var(--primary);
@@ -162,14 +165,31 @@
     float: right;
   }
 
-  .topic-category{
+  .topic-category {
     grid-area: category;
     padding: 0 0 4px 0;
+    .badge-wrapper.box span {
+      border-radius: 3px;
+    }
   }
 
-  .topic-thumbnail{
+  .image {
     grid-area: photo;
-    padding: 0 0 4px 0;
+  }
+
+  .topic-thumbnail {
+    padding: 0px;
+    z-index: -1;
+    width: 100%;
+    display: block;
+  }
+
+  .image-mask {
+    position: relative;
+    margin-bottom: -200px;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
   }
 
   .thumbnail {
@@ -178,41 +198,77 @@
     }
   }
 
-  img.thumbnail {
-    }
-
   .topic-details {
     grid-area: details;
-    padding: 0 0 4px 0;
-    min-height: 0px;
+    padding: 0 10px 10px 10px;
+    z-index: 10;
+    grid-template-columns: 1 1 1 1 auto;
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+      "theader theader theader theader theader"
+      "excerpt excerpt excerpt excerpt excerpt"
+      "tags tags tags tags tags"
+      "meta meta meta meta actions";
+  }
 
-    .topic-excerpt {
-      line-height: 1.3;
-      max-height: 200px;
-      max-width: 100%;
-      float: left;
-      clear: both;
-    }
+  .topic-excerpt {
+    grid-area: excerpt;
+    line-height: 1.3;
+    max-height: 300px;
+    max-width: 100%;
+    clear: both;
+    padding-right: 0px;
+
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
   }
 
   .topic-tags {
     grid-area: tags;
+
+    .discourse-tags {
+      display: inline-block;
+    }
+
+    .discourse-tag.box {
+      border-radius: 3px;
+      background-color: var(--primary-medium);
+      color: var(--secondary);
+    }
   }
 
-  .topic-meta{
+  .topic-meta {
     grid-area: meta;
+
+    .topic-views {
+      color: var(--primary-medium);
+    }
+
+    .topic-replies span {
+      padding-left: 3px;
+    }
   }
 
   .topic-poster-names a {
     font-size: 0.9em;
   }
 
-  div.sub, span.sub {
+  div.sub,
+  span.sub {
     padding: 0;
     font-size: 12px;
   }
 
-  .topic-list{
+  .topic-list {
     padding-top: 10px;
   }
 
@@ -242,7 +298,8 @@
       padding: 0 0 0 10px;
       color: var(--primary-medium);
 
-      &.has-like, &.topic-like:not([disabled]):hover {
+      &.has-like,
+      &.topic-like:not([disabled]):hover {
         color: var(--love);
       }
     }
