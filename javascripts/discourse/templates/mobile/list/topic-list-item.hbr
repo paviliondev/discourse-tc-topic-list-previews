@@ -74,12 +74,14 @@
         <span class="age activity" title="{{topic.bumpedAtTitle}}"><a href="{{topic.lastPostUrl}}">{{format-date topic.bumpedAt format="tiny" noTitle="true"}}</a></span>
       </div>
     {{/if}}
-  </div>
 
-  {{#if tilesStyle}}
+      {{#if tilesStyle}}
     {{raw 'list/topic-meta' likesHeat=likesHeat title=view.title topic=topic}}
     {{#if showActions}}
       {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions}}
     {{/if}}
   {{/if}}
+  </div>
+
+
 </td>
