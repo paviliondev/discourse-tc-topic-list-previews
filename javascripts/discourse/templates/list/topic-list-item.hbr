@@ -5,9 +5,22 @@
 {{/if}}
 
 <td class='main-link clearfix' colspan="{{titleColSpan}}">
-  {{#if tilesStyle}}
-    <div class="tiles-grid-item-content" style="background: url('{{preview-unbound thumbnails category=category opts=thumbnailOpts}}');">
-      <div class="topic-header-grid">
+    {{#if tilesStyle}}
+    <div class="tiles-grid-item-content">
+      <div class="image">
+    {{/if}}
+
+    {{#if showThumbnail}}
+      {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
+    {{/if}}
+
+    {{#if tilesStyle}}
+      <div class="image-mask"></div>
+    </div>
+    {{/if}}
+    <div class="topic-details">
+    {{#if tilesStyle}}
+         <div class="topic-header-grid">
           {{raw "list/topic-list-title" topic=topic tilesStyle=tilesStyle showTopicPostBadges=showTopicPostBadges}}
           <div class="topic-category">
             {{#if showCategoryBadge}}
@@ -15,13 +28,7 @@
             {{/if}}
           </div>
         </div>
-    {{/if}}
-
-    {{!-- {{#if showThumbnail}}
-      {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
-    {{/if}} --}}
-
-    <div class="topic-details">
+        {{/if}}
     {{#if notTilesStyle}}
       {{raw "list/topic-list-title"
         topic=topic
@@ -51,11 +58,11 @@
     {{/if}}
 
     {{#if tilesStyle}}
-      </div>
       {{raw 'list/topic-meta' likesHeat=likesHeat title=view.title topic=topic}}
       {{#if showActions}}
         {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions}}
       {{/if}}
+      </div>
     {{/if}}
 </td>
 

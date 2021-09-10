@@ -30,29 +30,12 @@
   }
 
   .tiles-grid-item-content {
-    padding: 10px;
     display: grid;
-    background-size: stretch;
-    backdrop-filter: brightness(30%);
-
-    // -webkit-filter: blur(1px);
-    // -moz-filter: blur(1px);
-    // -o-filter: blur(1px);
-    // -ms-filter: blur(1px);
-   //filter: blur(3px);
-   z-index: 1;
-   // background: darken;
-   //filter: brightness(2);
-   //background-blend-mode: mixed;
-
-    //margin: 10px;
-    grid-template-columns: 1 1 1 1 auto;
-    grid-template-rows: auto auto auto auto;
+    grid-template-columns: 1;
+    grid-template-rows: auto auto;
     grid-template-areas:
-     "theader theader theader theader theader"
-     "details details details details details"
-     "tags tags tags tags tags"
-     "meta meta meta meta actions"
+     "photo"
+     "details"
   }
 
   .tiles-grid-item:hover {
@@ -65,26 +48,6 @@
   .topic-header-grid {
     grid-area: theader;
     z-index: 99;
-  
-  
-    // background: inherit;
-    // background-clip: text;
-//     color: white;
-    // filter: invert(1);
-
-    // -webkit-filter: none;
-    // -moz-filter: none;
-    // -o-filter: none;
-    // -ms-filter: none;
-    // filter: none;
-    
-    // color: white;
-    // mix-blend-mode: exclusion;
-
-    //background: rgba(0, 0, 0, .7);
-    // margin: 10px;
-    //color: white !important;
-
     display: grid;
     grid-template-columns: auto auto;
     grid-template-rows: auto auto;
@@ -141,22 +104,31 @@
     }
   }
 
-  .topic-statuses {
-    float: right;
-  }
+
 
   .topic-category{
     grid-area: category;
     padding: 0 0 4px 0;
   }
 
+
+  .image {
+    grid-area: photo;
+  }
+
   .topic-thumbnail{
-    //grid-area: photo;
-    //padding: 0 0 4px 0;
-    position: absolute;
+    padding: 0px;
     z-index: -1;
     width: 100%;
-    //height: 100$;
+    display:block;
+  }
+
+  .image-mask{
+    position: relative;
+    margin-bottom: -200px;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
   }
 
   .thumbnail {
@@ -167,29 +139,36 @@
 
   .topic-details {
     grid-area: details;
-    padding: 0 0 4px 0;
+    padding: 0 10px 0px 10px;
+    z-index: 10;
+    grid-template-columns: 1 1 1 1 auto;
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+     "theader theader theader theader theader"
+     "excerpt excerpt excerpt excerpt excerpt"
+     "tags tags tags tags tags"
+     "meta meta meta meta actions"
+  }
 
+  .topic-excerpt {
+    grid-area: excerpt;
+    line-height: 1.3;
+    max-height: 300px;
+    max-width: 100%;
+    clear: both;
+    padding-right: 0px;
 
-    .topic-excerpt {
-      line-height: 1.3;
-      max-height: 300px;
-      max-width: 100%;
-      float: left;
-      clear: both;
-      padding-right: 0px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 
-      overflow-wrap: break-word;
-      word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
 
-      -ms-word-break: break-all;
-      word-break: break-all;
-      word-break: break-word;
-
-      -ms-hyphens: auto;
-      -moz-hyphens: auto;
-      -webkit-hyphens: auto;
-      hyphens: auto;
-    }
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
   }
 
   .topic-tags {

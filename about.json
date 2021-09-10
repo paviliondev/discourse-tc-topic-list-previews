@@ -2,6 +2,7 @@
     "name": "Topic List Previews",
     "about_url": "",
     "component": true,
+    "authors": "Robert Barrow, Angus Mcleod",
     "modifiers": {
       "csp_extensions": ["script_src: https://unpkg.com"],
       "svg_icons": ["images"],
@@ -14,5 +15,8 @@
         [800, 800]
       ]
     },
-    "minimum_discourse_version": "2.5.0.beta4"
+    "minimum_discourse_version": "2.5.0.beta4",
+    "assets": {
+      "colorThief": "assets/color-thief.js"
+    }
 }
