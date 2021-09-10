@@ -136,6 +136,7 @@
   }
 
   .topic-details {
+    display: grid;
     grid-area: details;
     padding: 0 10px 10px 10px;
     z-index: 10;

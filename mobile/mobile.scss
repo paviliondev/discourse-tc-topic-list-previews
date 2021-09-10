@@ -203,6 +203,7 @@
 
   .topic-details {
     grid-area: details;
+    display: grid;
     padding: 0 10px 10px 10px;
     z-index: 10;
     grid-template-columns: 1 1 1 1 auto;
