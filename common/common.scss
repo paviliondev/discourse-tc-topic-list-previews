@@ -139,7 +139,7 @@
 
   .topic-details {
     grid-area: details;
-    padding: 0 10px 0px 10px;
+    padding: 0 10px 10px 10px;
     z-index: 10;
     grid-template-columns: 1 1 1 1 auto;
     grid-template-rows: auto auto auto auto;
@@ -176,6 +176,11 @@
 
     .discourse-tags {
         display: inline-block;
+    }
+
+    .discourse-tag.box {
+      border-radius:3px;
+      background-color: var(--primary-medium)
     }
   }
 

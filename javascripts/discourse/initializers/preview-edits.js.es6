@@ -192,7 +192,8 @@ export default {
                   mycolors = colorthief.getColor(
                     _this.element.querySelector("img.thumbnail")
                   );
-
+                  let contentElement =
+                    _this.element
                   let detailsElement =
                     _this.element.querySelector(".topic-details");
                   let titleElement = _this.element.querySelector(
@@ -260,7 +261,7 @@ export default {
                   let maskBackground = `rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, .1) 40%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, .5) 75%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, 1) 100%)`;
 
                   //let maskBackground = `rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, .1) 40%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, .5) 75%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, 1) 100%) repeat scroll 0 0`;
-
+                  contentElement.style.background = newRgb
                   imageMaskElement.style.background = maskBackground;
                 });
               }
