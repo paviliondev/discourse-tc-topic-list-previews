@@ -86,6 +86,30 @@
     cursor: pointer;
     border-radius: 3px;
     grid-row-end: span 24;
+    
+    &.white-text {
+      .topic-details,
+      .topic-title a.title,
+      .topic-featured-link,
+      .topic-excerpt,
+      .discourse-tag,
+      .topic-views,
+      .badge-posts {
+        color: white;
+      }
+    }
+
+    &.black-text {
+      .topic-details,
+      .topic-title a.title,
+      .topic-featured-link,
+      .topic-excerpt,
+      .discourse-tag,
+      .topic-views,
+      .badge-posts {
+        color: black;
+      }
+    }
   }
 
   .tiles-grid-item-width2 {
