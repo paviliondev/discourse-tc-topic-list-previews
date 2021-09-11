@@ -132,7 +132,7 @@ export default {
           "likeDifference",
           "topic.thumbnails",
         ],
-
+        classNameBindings: ["whiteText:white-text:black-text"],
         tilesStyle: readOnly("topicListPreviewsService.displayTiles"),
         notTilesStyle: not("topicListPreviewsService.displayTiles"),
         showThumbnail: readOnly("topicListPreviewsService.displayThumbnails"),
@@ -144,7 +144,16 @@ export default {
         thumbnailFirstXRows: alias("parentView.thumbnailFirstXRows"),
         category: alias("parentView.category"),
         thumbnails: alias("topic.thumbnails"),
-        primaryColour: [],
+        averageIntensity: null,
+
+        @discourseComputed("averageIntensity")
+        whiteText() {
+          if (this.averageIntensity > 128) {
+            return false;
+          } else {
+            return true;
+          }
+        },
 
         // Lifecyle logic
 
@@ -193,22 +202,7 @@ export default {
                     _this.element.querySelector("img.thumbnail")
                   );
                   let contentElement = _this.element;
-                  let detailsElement =
-                    _this.element.querySelector(".topic-details");
-                  let titleElement = _this.element.querySelector(
-                    ".topic-title a.title"
-                  );
-                  let featuredLinkElement = _this.element.querySelector(
-                    ".topic-featured-link"
-                  );
-                  let excerptElement =
-                    _this.element.querySelector(".topic-excerpt");
-                  let tagElements =
-                    _this.element.querySelectorAll(".discourse-tag");
-                  let topicViewsElement =
-                    _this.element.querySelector(".topic-views");
-                  let topicRepliesElement =
-                    _this.element.querySelector(".badge-posts");
+
                   let newRgb =
                     "rgb(" +
                     mycolors[0] +
@@ -217,50 +211,17 @@ export default {
                     "," +
                     mycolors[2] +
                     ")";
-                  let total = mycolors[0] + mycolors[1] + mycolors[2];
 
-                  if (total > (3 * 256) / 2) {
-                    detailsElement.style.color = "black";
-                    titleElement.style.color = "black";
-                    if (featuredLinkElement) {
-                      featuredLinkElement.style.color = "black";
-                    }
-                    if (excerptElement) {
-                      excerptElement.style.color = "black";
-                    }
-                    var index = 0,
-                      length = tagElements.length;
-                    for (; index < length; index++) {
-                      tagElements[index].style.color = "black";
-                    }
-                    topicViewsElement.style.color = "black";
-                    topicRepliesElement.style.color = "black";
-                  } else {
-                    detailsElement.style.color = "white";
-                    titleElement.style.color = "white";
-                    if (featuredLinkElement) {
-                      featuredLinkElement.style.color = "white";
-                    }
-                    if (excerptElement) {
-                      excerptElement.style.color = "white";
-                    }
-                    var index = 0,
-                      length = tagElements.length;
-                    for (; index < length; index++) {
-                      tagElements[index].style.color = "white";
-                    }
-                    topicViewsElement.style.color = "white";
-                    topicRepliesElement.style.color = "white";
-                  }
+                  _this.set(
+                    "averageIntensity",
+                    (mycolors[0] + mycolors[1] + mycolors[2]) / 3
+                  );
 
-                  detailsElement.style.background = newRgb;
+                  contentElement.style.background = newRgb;
 
                   let imageMaskElement =
                     _this.element.querySelector(".image-mask");
-
                   let maskBackground = `rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, .1) 40%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, .5) 75%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, 1) 100%)`;
-
-                  contentElement.style.background = newRgb;
                   imageMaskElement.style.background = maskBackground;
                 });
               }
