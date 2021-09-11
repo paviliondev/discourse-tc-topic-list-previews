@@ -15,7 +15,7 @@
     {{/if}}
 
     {{#if tilesStyle}}
-      <div class="image-mask"></div>
+      <a href='{{topic.url}}' class="image-mask"></a>
     </div>
     {{/if}}
     <div class="topic-details">
@@ -28,7 +28,7 @@
             {{/if}}
           </div>
         </div>
-        {{/if}}
+    {{/if}}
     {{#if notTilesStyle}}
       {{raw "list/topic-list-title"
         topic=topic

@@ -18,7 +18,7 @@
   {{/if}}
 
   {{#if tilesStyle}}
-    <div class="image-mask"></div>
+      <a href='{{topic.url}}' class="image-mask"></a>
     </div>
   {{/if}}
 
