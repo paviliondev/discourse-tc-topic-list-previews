@@ -28,7 +28,7 @@
     border-radius: 3px;
     grid-row-end: span 24;
 
-    &.white-text {
+    &.white-text.has-thumbnail {
       .topic-details,
       .topic-title a.title,
       .topic-featured-link,
@@ -40,7 +40,7 @@
       }
     }
 
-    &.black-text {
+    &.black-text.has-thumbnail {
       .topic-details,
       .topic-title a.title,
       .topic-featured-link,

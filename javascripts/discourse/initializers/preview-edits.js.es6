@@ -132,7 +132,7 @@ export default {
           "likeDifference",
           "topic.thumbnails",
         ],
-        classNameBindings: ["whiteText:white-text:black-text"],
+        classNameBindings: ["whiteText:white-text:black-text", "hasThumbnail"],
         tilesStyle: readOnly("topicListPreviewsService.displayTiles"),
         notTilesStyle: not("topicListPreviewsService.displayTiles"),
         showThumbnail: readOnly("topicListPreviewsService.displayThumbnails"),
@@ -144,6 +144,7 @@ export default {
         thumbnailFirstXRows: alias("parentView.thumbnailFirstXRows"),
         category: alias("parentView.category"),
         thumbnails: alias("topic.thumbnails"),
+        hasThumbnail: and("topic.thumbnails","showThumbnail"),
         averageIntensity: null,
 
         @discourseComputed("averageIntensity")
