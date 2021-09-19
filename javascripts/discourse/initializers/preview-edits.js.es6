@@ -4,11 +4,7 @@ import discourseComputed, {
 } from "discourse-common/utils/decorators";
 import { alias, and, equal, not } from "@ember/object/computed";
 import DiscourseURL from "discourse/lib/url";
-import {
-  testImageUrl,
-  animateHeart,
-  getDefaultThumbnail,
-} from "../lib/tlp-utilities";
+import { testImageUrl, getDefaultThumbnail } from "../lib/tlp-utilities";
 import { addLike, sendBookmark, removeLike } from "../lib/actions";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import PostsCountColumn from "discourse/raw-views/list/posts-count-column";
@@ -19,6 +15,8 @@ import { cookAsync } from "discourse/lib/text";
 import { debounce } from "@ember/runloop";
 import { inject as service } from "@ember/service";
 import { readOnly } from "@ember/object/computed";
+import { computed } from "@ember/object";
+import { htmlSafe } from "@ember/template";
 
 export default {
   name: "preview-edits",
@@ -28,7 +26,12 @@ export default {
         loadScript(
           "https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"
         ).then(() => {
-          $(".tiles-style").imagesLoaded(resizeAllGridItems());
+          if (document.querySelector(".tiles-style")) {
+            imagesLoaded(
+              document.querySelector(".tiles-style"),
+              resizeAllGridItems()
+            );
+          }
         });
       });
 
@@ -93,7 +96,7 @@ export default {
             this.set("category", category);
           }
           if (settings.topic_list_fade_in_time) {
-            $("#list-area").fadeOut(0);
+            this.element.querySelector("#list-area").fadeOut(0);
           }
         },
 
@@ -103,7 +106,9 @@ export default {
             Ember.run.scheduleOnce("afterRender", this, this.applyTiles);
           }
           if (settings.topic_list_fade_in_time) {
-            $("#list-area").fadeIn(settings.topic_list_fade_in_time);
+            this.element
+              .querySelector("#list-area")
+              .fadeIn(settings.topic_list_fade_in_time);
           }
         },
 
@@ -144,16 +149,100 @@ export default {
         thumbnailFirstXRows: alias("parentView.thumbnailFirstXRows"),
         category: alias("parentView.category"),
         thumbnails: alias("topic.thumbnails"),
-        hasThumbnail: and("topic.thumbnails","showThumbnail"),
+        hasThumbnail: and("topic.thumbnails", "showThumbnail"),
         averageIntensity: null,
+        thumbnailIsLoaded: false,
+        background: null,
+        backgroundGradient: null,
+        attributeBindings: ["style"],
+        style: "",
 
         @discourseComputed("averageIntensity")
         whiteText() {
-          if (this.averageIntensity > 128) {
+          if (this.averageIntensity > 127) {
             return false;
           } else {
             return true;
           }
+        },
+
+        @discourseComputed("background")
+        backgroundStyle(background) {
+          return htmlSafe(background);
+        },
+
+        @discourseComputed("backgroundGradient")
+        backgroundGradientStyle(backgroundGradient) {
+          return htmlSafe(backgroundGradient);
+        },
+
+        @observes("thumbnailIsLoaded")
+        updateBackgroundStyle() {
+          if (!this.hasThumbnail || !this.thumbnailIsLoaded) {
+            return;
+          }
+          let _this = this;
+          let results = new Ember.RSVP.Promise(function (resolve) {
+            loadScript(settings.theme_uploads.colorThief).then(() => {
+              let colorthief = new ColorThief();
+              let mycolors = [];
+              let thisThumbnail = _this.element.querySelector("img.thumbnail");
+
+              if (
+                thisThumbnail.naturalWidth != "undefined" &&
+                thisThumbnail.naturalWidth == 0
+              ) {
+                resolve({
+                  background: null,
+                  backgroundGradient: null,
+                  averageIntensity: null,
+                });
+              } else {
+                mycolors = colorthief.getColor(thisThumbnail);
+
+                let newRgb =
+                  "rgb(" +
+                  mycolors[0] +
+                  "," +
+                  mycolors[1] +
+                  "," +
+                  mycolors[2] +
+                  ")";
+
+                let averageIntensity =
+                  (mycolors[0] + mycolors[1] + mycolors[2]) / 3;
+
+                let maskBackground = `rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, .1) 40%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, .5) 75%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, 1) 100%);`;
+                let background = `background: ${newRgb};`;
+                let backgroundGradient = `background: ${maskBackground}`;
+
+                resolve({
+                  background: background,
+                  backgroundGradient: backgroundGradient,
+                  averageIntensity: averageIntensity,
+                });
+              }
+            });
+          });
+
+          results.then((results) => {
+            if (
+              results.background &&
+              results.backgroundGradient &&
+              results.averageIntensity
+            ) {
+              _this.setProperties({
+                background: results.background,
+                backgroundGradient: results.backgroundGradient,
+                averageIntensity: results.averageIntensity,
+              });
+              if (this.tilesStyle) {
+                this.set("style", results.background);
+              }
+              //TODO remove this line when computed properties for backgrounds are functional (issue with raw templates?)
+              this.renderTopicListItem();
+            }
+          });
         },
 
         // Lifecyle logic
@@ -187,43 +276,14 @@ export default {
               if (!imageLoaded) {
                 Ember.run.scheduleOnce("afterRender", this, () => {
                   if (defaultThumbnail) {
-                    const $thumbnail = this.$("img.thumbnail");
+                    const $thumbnail =
+                      this.element.querySelector("img.thumbnail");
                     if ($thumbnail) $thumbnail.attr("src", defaultThumbnail);
                   } else {
-                    const $container = this.$(".topic-thumbnail");
-                    if ($container) $container.hide();
+                    const $container =
+                      this.element.querySelector(".topic-thumbnail");
+                    if ($container) $container.style.display = "none";
                   }
-                });
-              } else {
-                let _this = this;
-                loadScript(settings.theme_uploads.colorThief).then(() => {
-                  let colorthief = new ColorThief();
-                  let mycolors = [];
-                  mycolors = colorthief.getColor(
-                    _this.element.querySelector("img.thumbnail")
-                  );
-                  let contentElement = _this.element;
-
-                  let newRgb =
-                    "rgb(" +
-                    mycolors[0] +
-                    "," +
-                    mycolors[1] +
-                    "," +
-                    mycolors[2] +
-                    ")";
-
-                  _this.set(
-                    "averageIntensity",
-                    (mycolors[0] + mycolors[1] + mycolors[2]) / 3
-                  );
-
-                  contentElement.style.background = newRgb;
-
-                  let imageMaskElement =
-                    _this.element.querySelector(".image-mask");
-                  let maskBackground = `rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, .1) 40%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, .5) 75%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, 1) 100%)`;
-                  imageMaskElement.style.background = maskBackground;
                 });
               }
             });
@@ -245,20 +305,31 @@ export default {
           if (
             topic.get("thumbnails") &&
             this.get("thumbnailFirstXRows") &&
-            this.$().index() > this.get("thumbnailFirstXRows")
+            this.element.index() > this.get("thumbnailFirstXRows")
           ) {
             this.set("showThumbnail", false);
           }
           this._afterRender();
         },
 
-        @observes("thumbnails")
+        updateLoadStatus() {
+          this.set("thumbnailIsLoaded", true);
+          this.updateBackgroundStyle();
+        },
+
         _afterRender() {
+          loadScript(
+            "https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"
+          ).then(() => {
+            if (this.element.querySelector("img.thumbnail")) {
+              imagesLoaded(
+                this.element.querySelector("img.thumbnail"),
+                this.updateLoadStatus()
+              );
+            }
+          });
           Ember.run.scheduleOnce("afterRender", this, () => {
             this._setupTitleCSS();
-            if (this.get("showExcerpt") && !this.get("tilesStyle")) {
-              this._setupExcerptClick();
-            }
             if (this.get("showActions")) {
               this._setupActions();
             }
@@ -271,52 +342,27 @@ export default {
         },
 
         _setupTitleCSS() {
-          let $el = this.$(".topic-title a.visited");
+          let $el = this.element.querySelector(".topic-title a.visited");
           if ($el) {
             $el.closest(".topic-details").addClass("visited");
           }
-        },
-
-        _setupExcerptClick() {
-          this.$(".topic-excerpt").on("click.topic-excerpt", () => {
-            DiscourseURL.routeTo(this.get("topic.lastReadUrl"));
-          });
-        },
-
-        _sizeThumbnails() {
-          this.$(".topic-thumbnail img").on("load", function () {
-            $(this).css({
-              width: $(this)[0].naturalWidth,
-            });
-          });
         },
 
         _setupActions() {
           if (this._state === "destroying") return;
 
           let postId = this.get("topic.topic_post_id"),
-            $bookmark = this.$(".topic-bookmark"),
-            $like = this.$(".topic-like");
-
-          $bookmark.on("click.topic-bookmark", () => {
-            this.debouncedToggleBookmark();
-          });
-
-          $like.on("click.topic-like", () => {
-            if (this.get("currentUser")) {
-              this.toggleLike($like, postId);
-            } else {
-              const controller = container.lookup("controller:application");
-              controller.send("showLogin");
-            }
-          });
-        },
-
-        @on("willDestroyElement")
-        _tearDown() {
-          this.$(".topic-excerpt").off("click.topic-excerpt");
-          this.$(".topic-bookmark").off("click.topic-bookmark");
-          this.$(".topic-like").off("click.topic-like");
+            bookmarkElement = this.element.querySelector(".topic-bookmark"),
+            likeElement = this.element.querySelector(".topic-like");
+          if (bookmarkElement) {
+            bookmarkElement.addEventListener(
+              "click",
+              this.debouncedToggleBookmark
+            );
+          }
+          if (likeElement) {
+            likeElement.addEventListener("click", this.debouncedToggleLike);
+          }
         },
 
         // Overrides
@@ -394,9 +440,11 @@ export default {
           if (this.get("canBookmark")) {
             actions.push(this._bookmarkButton());
             Ember.run.scheduleOnce("afterRender", this, () => {
-              let $bookmarkStatus = this.$(".topic-statuses .op-bookmark");
+              let $bookmarkStatus = this.element.querySelector(
+                ".topic-statuses .op-bookmark"
+              );
               if ($bookmarkStatus) {
-                $bookmarkStatus.hide();
+                $bookmarkStatus.style.display = "none";
               }
             });
           }
@@ -449,12 +497,15 @@ export default {
               : this.get("likeDifference") == null;
             disabled = disabled ? true : unlikeDisabled;
           }
-
           return {
+            type: "like",
             class: classes,
             title: "post.controls.like",
             icon: "heart",
             disabled: disabled,
+            topic_id: this.topic.id,
+            topic_post_id: this.topic.topic_post_id,
+            like_count: this.topic.like_count,
           };
         },
 
@@ -465,61 +516,56 @@ export default {
             classes += " bookmarked";
             title = "bookmarks.created";
           }
-          return { class: classes, title: title, icon: "bookmark" };
+          return {
+            type: "bookmark",
+            class: classes,
+            title: title,
+            icon: "bookmark",
+            topic_id: this.topic.id,
+            topic_post_id: this.topic.topic_post_id,
+          };
         },
 
         // Action toggles and server methods
 
-        toggleBookmark() {
-          let $bookmark = this.$(".topic-bookmark");
-          sendBookmark(this.topic, !$bookmark.hasClass("bookmarked"));
-          $bookmark.toggleClass("bookmarked");
-        },
-
         debouncedToggleBookmark() {
-          Ember.run.debounce(this, this.toggleBookmark, 500);
-        },
-
-        toggleLike($like, postId) {
-          if (this.get("hasLikedDisplay")) {
-            removeLike(postId);
-            this.changeLikeCount(-1);
-          } else {
-            const scale = [1.0, 1.5];
-            return new Ember.RSVP.Promise((resolve) => {
-              animateHeart($like, scale[0], scale[1], () => {
-                animateHeart($like, scale[1], scale[0], () => {
-                  addLike(postId);
-                  this.changeLikeCount(1);
-                  resolve();
-                });
-              });
-            });
-          }
-        },
-
-        debouncedToggleLike() {
-          Ember.run.debounce(this, this.toggleLike, 500);
-        },
-      });
-
-      api.modifyClass("component:topic-timeline", {
-        @on("didInsertElement")
-        refreshTimelinePosition() {
-          this.appEvents.on("topic:refresh-timeline-position", this, () =>
-            this.queueDockCheck()
+          Ember.run.debounce(
+            this,
+            () => {
+              sendBookmark(
+                this.dataset.topic_id,
+                this.dataset.topic_post_id,
+                !this.classList.contains("bookmarked")
+              );
+              this.classList.toggle("bookmarked");
+            },
+            500
           );
         },
 
-        @on("willDestroyElement")
-        removeRefreshTimelinePosition() {
-          try {
-            this.appEvents.off("topic:refresh-timeline-position", this, () =>
-              this.queueDockCheck()
-            );
-          } catch (err) {
-            console.log(err.message);
-          }
+        debouncedToggleLike() {
+          Ember.run.debounce(
+            this,
+            () => {
+              let change = 0;
+              if (this.classList.contains("has-like")) {
+                removeLike(this.dataset.topic_post_id);
+                this.classList.toggle("has-like");
+                change = -1;
+              } else {
+                addLike(this.dataset.topic_post_id);
+                this.classList.toggle("has-like");
+                change = 1;
+                //TODO add back animation?
+              }
+              let newText = "";
+              let count = parseInt(this.querySelector(".like-count").innerHTML);
+              let newCount = (count || 0) + (change || 0);
+              this.querySelector(".like-count").innerHTML =
+                newCount > 0 ? newCount : "";
+            },
+            500
+          );
         },
       });
     });

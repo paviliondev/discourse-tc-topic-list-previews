@@ -19,7 +19,7 @@
 
   {{#if tilesStyle}}
     <a href='{{topic.url}}'>
-      <div class="image-mask"></div>
+      <div class="image-mask" style="{{backgroundGradientStyle}}"></div>
     </a>
     </div>
   {{/if}}
