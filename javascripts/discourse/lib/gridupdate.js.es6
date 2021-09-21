@@ -8,7 +8,7 @@ function resizeGridItem (item, grid, rowHeight, rowGap) {
     'https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js'
   ).then (() => {
     imagesLoaded (item, function () {
-      const contentHeight = item.childNodes[1].getBoundingClientRect ().height;
+      const contentHeight = item.firstElementChild.getBoundingClientRect().height;
       const rowSpan = Math.ceil (
         (contentHeight + rowGap) / (rowHeight + rowGap)
       );

@@ -18,6 +18,8 @@ import { readOnly } from "@ember/object/computed";
 import { computed } from "@ember/object";
 import { htmlSafe } from "@ember/template";
 
+const PLUGIN_ID = "topic-list-previews-tc";
+
 export default {
   name: "preview-edits",
   initialize(container) {
@@ -36,6 +38,7 @@ export default {
       });
 
       api.modifyClass("component:load-more", {
+        pluginId: PLUGIN_ID,
         init() {
           this._super(...arguments);
           if (this.class == "paginated-topics-list") {
@@ -47,6 +50,7 @@ export default {
       });
 
       api.modifyClass("component:basic-topic-list", {
+        pluginId: PLUGIN_ID,
         topicListPreviewsService: service("topic-list-previews"),
         classNameBindings: [
           "hasThumbnails:showThumbnail",
@@ -72,6 +76,7 @@ export default {
       });
 
       api.modifyClass("component:topic-list", {
+        pluginId: PLUGIN_ID,
         topicListPreviewsService: service("topic-list-previews"),
         classNameBindings: [
           "hasThumbnails:showThumbnail",
@@ -97,6 +102,23 @@ export default {
           }
           if (settings.topic_list_fade_in_time) {
             this.element.querySelector("#list-area").fadeOut(0);
+          }
+        },
+
+        @observes("topic.pinned")
+        renderTopicListItem() {
+          debugger;
+          const template = findTemplate("topic-list-item");
+          if (template) {
+            this.set(
+              "topicListItemContents",
+              template(this, RUNTIME_OPTIONS).htmlSafe()
+            );
+            schedule("afterRender", () => {
+              if (this.selected && this.selected.includes(this.topic)) {
+                this.element.querySelector("input.bulk-select").checked = true;
+              }
+            });
           }
         },
 
@@ -129,6 +151,7 @@ export default {
       });
 
       api.modifyClass("component:topic-list-item", {
+        pluginId: PLUGIN_ID,
         topicListPreviewsService: service("topic-list-previews"),
         canBookmark: Ember.computed.bool("currentUser"),
         rerenderTriggers: [
@@ -155,7 +178,7 @@ export default {
         background: null,
         backgroundGradient: null,
         attributeBindings: ["style"],
-        style: "",
+        style: htmlSafe(""),
 
         @discourseComputed("averageIntensity")
         whiteText() {
@@ -174,75 +197,6 @@ export default {
         @discourseComputed("backgroundGradient")
         backgroundGradientStyle(backgroundGradient) {
           return htmlSafe(backgroundGradient);
-        },
-
-        @observes("thumbnailIsLoaded")
-        updateBackgroundStyle() {
-          if (!this.hasThumbnail || !this.thumbnailIsLoaded) {
-            return;
-          }
-          let _this = this;
-          let results = new Ember.RSVP.Promise(function (resolve) {
-            loadScript(settings.theme_uploads.colorThief).then(() => {
-              let colorthief = new ColorThief();
-              let mycolors = [];
-              let thisThumbnail = _this.element.querySelector("img.thumbnail");
-
-              if (
-                thisThumbnail.naturalWidth != "undefined" &&
-                thisThumbnail.naturalWidth == 0
-              ) {
-                resolve({
-                  background: null,
-                  backgroundGradient: null,
-                  averageIntensity: null,
-                });
-              } else {
-                mycolors = colorthief.getColor(thisThumbnail);
-
-                let newRgb =
-                  "rgb(" +
-                  mycolors[0] +
-                  "," +
-                  mycolors[1] +
-                  "," +
-                  mycolors[2] +
-                  ")";
-
-                let averageIntensity =
-                  (mycolors[0] + mycolors[1] + mycolors[2]) / 3;
-
-                let maskBackground = `rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, .1) 40%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, .5) 75%, rgba(${mycolors[0]}, ${mycolors[1]}, ${mycolors[2]}, 1) 100%);`;
-                let background = `background: ${newRgb};`;
-                let backgroundGradient = `background: ${maskBackground}`;
-
-                resolve({
-                  background: background,
-                  backgroundGradient: backgroundGradient,
-                  averageIntensity: averageIntensity,
-                });
-              }
-            });
-          });
-
-          results.then((results) => {
-            if (
-              results.background &&
-              results.backgroundGradient &&
-              results.averageIntensity
-            ) {
-              _this.setProperties({
-                background: results.background,
-                backgroundGradient: results.backgroundGradient,
-                averageIntensity: results.averageIntensity,
-              });
-              if (this.tilesStyle) {
-                this.set("style", results.background);
-              }
-              //TODO remove this line when computed properties for backgrounds are functional (issue with raw templates?)
-              this.renderTopicListItem();
-            }
-          });
         },
 
         // Lifecyle logic
@@ -313,21 +267,12 @@ export default {
         },
 
         updateLoadStatus() {
+          console.log("hello middle");
           this.set("thumbnailIsLoaded", true);
           this.updateBackgroundStyle();
         },
 
         _afterRender() {
-          loadScript(
-            "https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"
-          ).then(() => {
-            if (this.element.querySelector("img.thumbnail")) {
-              imagesLoaded(
-                this.element.querySelector("img.thumbnail"),
-                this.updateLoadStatus()
-              );
-            }
-          });
           Ember.run.scheduleOnce("afterRender", this, () => {
             this._setupTitleCSS();
             if (this.get("showActions")) {
@@ -566,6 +511,35 @@ export default {
             },
             500
           );
+        },
+
+        actions: {
+          onChangeColor(colors) {
+            console.log("received a message");
+            let newRgb =
+              "rgb(" +
+              colors[0] +
+              "," +
+              colors[1] +
+              "," +
+              colors[2] +
+              ")";
+
+            let averageIntensity =
+              (colors[0] + colors[1] + colors[2]) / 3;
+
+            let maskBackground = `rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, .1) 40%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, .5) 75%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 1) 100%);`;
+            this.set("averageIntensity", averageIntensity);
+            this.set("background", htmlSafe(`background: ${newRgb};`));
+            this.set("backgroundGradient", htmlSafe(`background: ${maskBackground}`));
+
+            let imageMask =
+                this.element.lastElementChild.firstElementChild.lastElementChild.firstElementChild
+
+            imageMask.style = this.get("backgroundGradient");
+
+            this.element.style = this.get("background");
+          },
         },
       });
     });

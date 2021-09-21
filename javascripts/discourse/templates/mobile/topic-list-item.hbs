@@ -4,16 +4,16 @@
     <div class="tiles-grid-item-content">
       <div class="image">
     {{/if}}
-    {{#if showThumbnail}}
-      {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
+    {{#if hasThumbnail}}
+      {{topic-thumbnail topic=topic thumbnails=thumbnails tilesStyle=tilesStyle category=category opts=thumbnailOpts onChangeColor=(action "onChangeColor")}}
     {{/if}}
   {{else}}
-    {{#if showThumbnail}}
-      {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
-    {{else}}
-      <div class='pull-left'>
-        <a href="{{topic.lastPostUrl}}" data-user-card="{{topic.last_poster_username}}">{{avatar topic.lastPosterUser imageSize="large"}}</a>
-      </div>
+    {{#if hasThumbnail}}
+      {{topic-thumbnail topic=topic thumbnails=thumbnails tilesStyle=tilesStyle category=category opts=thumbnailOpts onChangeColor=(action "onChangeColor")}}
+    {{/if}}
+    <div class='pull-left'>
+      <a href="{{topic.lastPostUrl}}" data-user-card="{{topic.last_poster_username}}">{{avatar topic.lastPosterUser imageSize="large"}}</a>
+    </div>
     {{/if}}
   {{/if}}
 

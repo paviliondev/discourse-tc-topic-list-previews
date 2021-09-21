@@ -6,6 +6,8 @@ import CategoryList from "discourse/models/category-list";
 import TopicList from "discourse/models/topic-list";
 import {findOrResetCachedTopicList} from 'discourse/lib/cached-topic-list';
 
+const PLUGIN_ID = "topic-list-previews-tc";
+
 export default {
   name: 'preview-route-edits',
   initialize(container){
@@ -81,6 +83,7 @@ export default {
 
     withPluginApi('0.8.12', api => {
       api.modifyClass(`route:discovery-categories`, {
+        pluginId: PLUGIN_ID,
 
         setFeaturedTopics(topicList) {
           let featuredTopics = null;
