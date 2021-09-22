@@ -1,7 +1,11 @@
 .mobile-view .topic-list {
   .topic-thumbnail {
-    padding: 0;
+    padding: 0 5px 0 0;
   }
+
+  // .num.views {
+  //   display:none;
+  // }
 
   .topic-details {
     max-height: initial;

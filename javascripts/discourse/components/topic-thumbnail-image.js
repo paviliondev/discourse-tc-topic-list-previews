@@ -43,13 +43,7 @@ export default Component.extend({
     const opts = this.get("opts") || {};
     const category = this.get("category");
 
-    if (
-      !opts.tilesStyle &&
-      !opts.featured &&
-      Discourse.Site.currentProp("mobileView")
-    ) {
-      _this.set("imageStyle", htmlSafe(""));
-    }
+    let mobileView = Discourse.Site.currentProp("mobileView");
 
     const attrWidthSuffix = opts.tilesStyle ? "%" : "px";
     const attrHeightSuffix = opts.tilesStyle ? "" : "px";
@@ -81,15 +75,15 @@ export default Component.extend({
       custom_height ||
       tiles_height ||
       featured_height ||
-      category_height ||
-      settings.topic_list_thumbnail_height;
+      mobileView ? false : category_height ||
+      mobileView ? settings.topic_list_thumbnail_height_mobile : settings.topic_list_thumbnail_height;
 
     const width =
       custom_width ||
       tiles_width ||
       featured_width ||
-      category_width ||
-      settings.topic_list_thumbnail_width;
+      (mobileView ? false : category_width) ||
+      (mobileView ? settings.topic_list_thumbnail_width_mobile : settings.topic_list_thumbnail_width);
 
     const height_style = height ? `height:${height}${attrHeightSuffix};` : ``;
     const style = `${height_style}width:${width}${attrWidthSuffix}`;

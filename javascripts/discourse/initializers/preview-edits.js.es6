@@ -17,6 +17,8 @@ import { inject as service } from "@ember/service";
 import { readOnly } from "@ember/object/computed";
 import { computed } from "@ember/object";
 import { htmlSafe } from "@ember/template";
+import { RUNTIME_OPTIONS } from "discourse-common/lib/raw-handlebars-helpers";
+import { findRawTemplate } from "discourse-common/lib/raw-templates";
 
 const PLUGIN_ID = "topic-list-previews-tc";
 
@@ -28,6 +30,7 @@ export default {
         loadScript(
           "https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"
         ).then(() => {
+          console.log("was here");
           if (document.querySelector(".tiles-style")) {
             imagesLoaded(
               document.querySelector(".tiles-style"),
@@ -102,23 +105,6 @@ export default {
           }
           if (settings.topic_list_fade_in_time) {
             this.element.querySelector("#list-area").fadeOut(0);
-          }
-        },
-
-        @observes("topic.pinned")
-        renderTopicListItem() {
-          debugger;
-          const template = findTemplate("topic-list-item");
-          if (template) {
-            this.set(
-              "topicListItemContents",
-              template(this, RUNTIME_OPTIONS).htmlSafe()
-            );
-            schedule("afterRender", () => {
-              if (this.selected && this.selected.includes(this.topic)) {
-                this.element.querySelector("input.bulk-select").checked = true;
-              }
-            });
           }
         },
 
@@ -515,30 +501,30 @@ export default {
 
         actions: {
           onChangeColor(colors) {
-            console.log("received a message");
-            let newRgb =
-              "rgb(" +
-              colors[0] +
-              "," +
-              colors[1] +
-              "," +
-              colors[2] +
-              ")";
+            if (this.tilesStyle) {
+              let newRgb =
+                "rgb(" +
+                colors[0] +
+                "," +
+                colors[1] +
+                "," +
+                colors[2] +
+                ")";
 
-            let averageIntensity =
-              (colors[0] + colors[1] + colors[2]) / 3;
+              let averageIntensity =
+                (colors[0] + colors[1] + colors[2]) / 3;
 
-            let maskBackground = `rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, .1) 40%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, .5) 75%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 1) 100%);`;
-            this.set("averageIntensity", averageIntensity);
-            this.set("background", htmlSafe(`background: ${newRgb};`));
-            this.set("backgroundGradient", htmlSafe(`background: ${maskBackground}`));
+              let maskBackground = `rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, .1) 40%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, .5) 75%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 1) 100%);`;
+              this.set("averageIntensity", averageIntensity);
+              this.set("background", htmlSafe(`background: ${newRgb};`));
+              this.set("backgroundGradient", htmlSafe(`background: ${maskBackground}`));
 
-            let imageMask =
-                this.element.lastElementChild.firstElementChild.lastElementChild.firstElementChild
+              let imageMask =
+                  this.element.lastElementChild.firstElementChild.lastElementChild.firstElementChild
 
-            imageMask.style = this.get("backgroundGradient");
-
-            this.element.style = this.get("background");
+              imageMask.style = this.get("backgroundGradient");
+              this.element.style = this.get("background");
+            }
           },
         },
       });
