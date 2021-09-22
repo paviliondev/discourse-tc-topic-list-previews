@@ -4,15 +4,12 @@ import discourseComputed, {
   observes,
 } from "discourse-common/utils/decorators";
 
-//console.log('hello!!!!');
-
 export default Component.extend({
   tagName: "",
   thumbnailSrc: "",
 
   init() {
     this._super(...arguments);
-    //debugger;
     this.thumbnailSrc = this.previewUrl(this.get("thumbnails"), this.get("params.opts.featured"));
   },
 
