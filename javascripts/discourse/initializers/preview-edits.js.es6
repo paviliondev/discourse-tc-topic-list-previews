@@ -257,11 +257,6 @@ export default {
           this._afterRender();
         },
 
-        updateLoadStatus() {
-          this.set("thumbnailIsLoaded", true);
-          this.updateBackgroundStyle();
-        },
-
         _afterRender() {
           Ember.run.scheduleOnce("afterRender", this, () => {
             this._setupTitleCSS();
