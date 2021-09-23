@@ -163,7 +163,7 @@ export default {
         background: null,
         backgroundGradient: null,
         attributeBindings: ["style"],
-        style: htmlSafe(""),
+        style: alias("background"),
         likeCount: 0,
         hasLiked: false,
         canUnlike: true,
@@ -175,16 +175,6 @@ export default {
           } else {
             return true;
           }
-        },
-
-        @discourseComputed("background")
-        backgroundStyle(background) {
-          return htmlSafe(background);
-        },
-
-        @discourseComputed("backgroundGradient")
-        backgroundGradientStyle(backgroundGradient) {
-          return htmlSafe(backgroundGradient);
         },
 
         // Lifecyle logic
@@ -505,12 +495,6 @@ export default {
               this.set("averageIntensity", averageIntensity);
               this.set("background", htmlSafe(`background: ${newRgb};`));
               this.set("backgroundGradient", htmlSafe(`background: ${maskBackground}`));
-
-              let imageMask =
-                  this.element.lastElementChild.firstElementChild.lastElementChild.firstElementChild
-
-              imageMask.style = this.get("backgroundGradient");
-              this.element.style = this.get("background");
             }
           },
         },
