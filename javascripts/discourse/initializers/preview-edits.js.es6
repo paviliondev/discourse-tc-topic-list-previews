@@ -483,7 +483,7 @@ export default {
 
               let newText = "";
               let count = this.get('likeCount');
-
+              let newCount = (count || 0) + (change || 0);
               this.set ('hasLiked', !this.get('hasLiked'));
               this.set('topic.topic_post_like_count', newCount);
               this.set ('likeCount', newCount);
