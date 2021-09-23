@@ -30,7 +30,6 @@ export default {
         loadScript(
           "https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"
         ).then(() => {
-          console.log("was here");
           if (document.querySelector(".tiles-style")) {
             imagesLoaded(
               document.querySelector(".tiles-style"),
@@ -259,7 +258,6 @@ export default {
         },
 
         updateLoadStatus() {
-          console.log("hello middle");
           this.set("thumbnailIsLoaded", true);
           this.updateBackgroundStyle();
         },
