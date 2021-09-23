@@ -371,7 +371,6 @@ export default {
 
         @discourseComputed("likeCount")
         topicActions(likeCount) {
-        //  debugger;
           let actions = [];
           if (
             likeCount ||
@@ -456,11 +455,13 @@ export default {
             this,
             () => {
               sendBookmark(
-                this.dataset.topic_id,
-                this.dataset.topic_post_id,
-                !this.classList.contains("bookmarked")
+                this.topic.id,
+                this.topic.topic_post_id,
+                !this.topic.bookmarked
               );
-              this.classList.toggle("bookmarked");
+              this.topic.bookmarked = !this.topic.bookmarked;
+              let bookmarkElement = this.element.querySelector(".topic-bookmark");
+              bookmarkElement.classList.toggle("bookmarked");
             },
             500
           );
