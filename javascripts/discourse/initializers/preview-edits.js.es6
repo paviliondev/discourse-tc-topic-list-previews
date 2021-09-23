@@ -396,10 +396,11 @@ export default {
 
         _likeButton() {
           let classes = "topic-like";
-          let disabled = this.get("hasLiked") && !this.get('canUnlike');
+          let disabled = this.get ('topic.topic_post_is_current_users');
 
           if (this.get("hasLiked")) {
             classes += " has-like";
+            disabled = disabled ? true : !this.get('canUnlike');
           }
           return {
             type: "like",
