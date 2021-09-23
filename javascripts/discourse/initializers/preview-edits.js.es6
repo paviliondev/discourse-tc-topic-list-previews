@@ -165,6 +165,9 @@ export default {
         backgroundGradient: null,
         attributeBindings: ["style"],
         style: htmlSafe(""),
+        likeCount: 0,
+        hasLiked: false,
+        canUnlike: true,
 
         @discourseComputed("averageIntensity")
         whiteText() {
@@ -192,6 +195,9 @@ export default {
           const topic = this.get("topic");
           const thumbnails = topic.get("thumbnails");
           const defaultThumbnail = this.get("defaultThumbnail");
+          this.set('likeCount', topic.like_count);
+          this.set('hasLiked', topic.topic_post_liked);
+          this.set('canUnlike', topic.topic_post_can_unlike);
 
           if (this.get("tilesStyle")) {
             // needs 'div's for masonry
@@ -285,14 +291,20 @@ export default {
           let postId = this.get("topic.topic_post_id"),
             bookmarkElement = this.element.querySelector(".topic-bookmark"),
             likeElement = this.element.querySelector(".topic-like");
+
+          let debouncedToggleBookmark = (() => {
+            this.debouncedToggleBookmark(this);
+          }).bind(this);
+
+          let debouncedToggleLike = (() => {
+            this.debouncedToggleLike(this);
+          }).bind(this);
+
           if (bookmarkElement) {
-            bookmarkElement.addEventListener(
-              "click",
-              this.debouncedToggleBookmark
-            );
+            bookmarkElement.addEventListener("click", debouncedToggleBookmark);
           }
           if (likeElement) {
-            likeElement.addEventListener("click", this.debouncedToggleLike);
+            likeElement.addEventListener("click", debouncedToggleLike);
           }
         },
 
@@ -359,6 +371,7 @@ export default {
 
         @discourseComputed("likeCount")
         topicActions(likeCount) {
+        //  debugger;
           let actions = [];
           if (
             likeCount ||
@@ -382,15 +395,6 @@ export default {
           return actions;
         },
 
-        @discourseComputed("likeDifference")
-        likeCount(likeDifference) {
-          return (
-            (likeDifference == null
-              ? this.get("topic.topic_post_like_count")
-              : likeDifference) || 0
-          );
-        },
-
         @discourseComputed("hasLiked")
         hasLikedDisplay() {
           let hasLiked = this.get("hasLiked");
@@ -408,25 +412,12 @@ export default {
           );
         },
 
-        changeLikeCount(change) {
-          let count = this.get("likeCount"),
-            newCount = count + (change || 0);
-          this.set("hasLiked", Boolean(change > 0));
-          this.set("likeDifference", newCount);
-          this.renderTopicListItem();
-          this._afterRender();
-        },
-
         _likeButton() {
           let classes = "topic-like";
-          let disabled = this.get("topic.topic_post_is_current_users");
+          let disabled = this.get("hasLiked") && !this.get('canUnlike');
 
-          if (this.get("hasLikedDisplay")) {
+          if (this.get("hasLiked")) {
             classes += " has-like";
-            let unlikeDisabled = this.get("topic.topic_post_can_unlike")
-              ? false
-              : this.get("likeDifference") == null;
-            disabled = disabled ? true : unlikeDisabled;
           }
           return {
             type: "like",
@@ -436,7 +427,8 @@ export default {
             disabled: disabled,
             topic_id: this.topic.id,
             topic_post_id: this.topic.topic_post_id,
-            like_count: this.topic.like_count,
+            like_count: this.likeCount,
+            has_liked: this.hasLiked
           };
         },
 
@@ -479,21 +471,22 @@ export default {
             this,
             () => {
               let change = 0;
-              if (this.classList.contains("has-like")) {
-                removeLike(this.dataset.topic_post_id);
-                this.classList.toggle("has-like");
+
+              if (this.get('hasLiked')) {
+                removeLike(this.topic.topic_post_id);
                 change = -1;
               } else {
-                addLike(this.dataset.topic_post_id);
-                this.classList.toggle("has-like");
+                addLike(this.topic.topic_post_id);
                 change = 1;
                 //TODO add back animation?
               }
+
               let newText = "";
-              let count = parseInt(this.querySelector(".like-count").innerHTML);
-              let newCount = (count || 0) + (change || 0);
-              this.querySelector(".like-count").innerHTML =
-                newCount > 0 ? newCount : "";
+              let count = this.get('likeCount');
+
+              this.set ('hasLiked', !this.get('hasLiked'));
+              this.set('topic.topic_post_like_count', newCount);
+              this.set ('likeCount', newCount);
             },
             500
           );
