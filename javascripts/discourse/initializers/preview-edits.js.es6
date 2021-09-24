@@ -187,6 +187,9 @@ export default {
           this.set('likeCount', topic.like_count);
           this.set('hasLiked', topic.topic_post_liked);
           this.set('canUnlike', topic.topic_post_can_unlike);
+          if (this.tilesStyle) {
+            this._setUpColour();
+          }
 
           if (this.get("tilesStyle")) {
             // needs 'div's for masonry
@@ -232,6 +235,23 @@ export default {
           const obj = PostsCountColumn.create({ topic });
           obj.siteSettings = settings;
           this.set("likesHeat", obj.get("likesHeat"));
+        },
+
+        _setUpColour () {
+          let red = this.get("topic.dominant_colour.red") || 255;
+          let green = this.get("topic.dominant_colour.green") || 255;
+          let blue = this.get("topic.dominant_colour.blue") || 255;
+
+          let newRgb = "rgb(" + red + "," + green + "," + blue + ")";
+
+          let averageIntensity =
+            (red + green + blue) / 3;
+
+          let maskBackground = `rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(${red}, ${green}, ${blue}, .1) 40%, rgba(${red}, ${green}, ${blue}, .5) 75%, rgba(${red}, ${green}, ${blue}, 1) 100%);`;
+
+          this.set("averageIntensity", averageIntensity);
+          this.set("background", htmlSafe(`background: ${newRgb};`));
+          this.set("backgroundGradient", htmlSafe(`background: ${maskBackground}`));
         },
 
         @on("didInsertElement")
@@ -479,24 +499,24 @@ export default {
 
         actions: {
           onChangeColor(colors) {
-            if (this.tilesStyle) {
-              let newRgb =
-                "rgb(" +
-                colors[0] +
-                "," +
-                colors[1] +
-                "," +
-                colors[2] +
-                ")";
+            // if (this.tilesStyle) {
+            //   let newRgb =
+            //     "rgb(" +
+            //     colors[0] +
+            //     "," +
+            //     colors[1] +
+            //     "," +
+            //     colors[2] +
+            //     ")";
 
-              let averageIntensity =
-                (colors[0] + colors[1] + colors[2]) / 3;
+            //   let averageIntensity =
+            //     (colors[0] + colors[1] + colors[2]) / 3;
 
-              let maskBackground = `rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, .1) 40%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, .5) 75%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 1) 100%);`;
-              this.set("averageIntensity", averageIntensity);
-              this.set("background", htmlSafe(`background: ${newRgb};`));
-              this.set("backgroundGradient", htmlSafe(`background: ${maskBackground}`));
-            }
+            //   let maskBackground = `rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, .1) 40%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, .5) 75%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 1) 100%);`;
+            //   this.set("averageIntensity", averageIntensity);
+            //   this.set("background", htmlSafe(`background: ${newRgb};`));
+            //   this.set("backgroundGradient", htmlSafe(`background: ${maskBackground}`));
+            // }
           },
         },
       });
