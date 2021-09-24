@@ -1,0 +1,80 @@
+{{#if bulkSelectEnabled}}
+  <td class='star'>
+    <input type="checkbox" class="bulk-select">
+  </td>
+{{/if}}
+
+{{#if tilesStyle}}
+  <div class="tiles-grid-item-content">
+    <div class="image">
+      {{#if hasThumbnail}}
+        {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
+      {{/if}}
+      <a href='{{topic.url}}'>
+        <div class="image-mask" style="{{backgroundGradient}}"></div>
+      </a>
+    </div>
+    <div class="topic-details">
+      <div class="topic-header-grid">
+        {{raw "list/topic-list-title" topic=topic tilesStyle=tilesStyle showTopicPostBadges=showTopicPostBadges}}
+        <div class="topic-category">
+          {{#if showCategoryBadge}}
+            {{category-link topic.category}}
+          {{/if}}
+        </div>
+      </div>
+      {{#if expandPinned}}
+        {{raw "list/topic-excerpt" topic=topic}}
+      {{/if}}
+      {{raw 'list/topic-meta' likesHeat=likesHeat title=view.title topic=topic}}
+      {{#if showActions}}
+        {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions topic=topic}}
+      {{/if}}
+    </div>
+  </div>
+{{else}}
+  {{#if hasThumbnail}}
+    {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
+  {{else}}
+    <div class='pull-left'>
+      <a href="{{topic.lastPostUrl}}" data-user-card="{{topic.last_poster_username}}">{{avatar topic.lastPosterUser imageSize="large"}}</a>
+    </div>
+  {{/if}}
+  <div class='topic-details'>
+    <div class='main-link'>
+      {{raw "list/topic-list-title"
+        topic=topic
+        showTopicPostBadges=showTopicPostBadges
+        homepage=parentView.homepage
+        suggested=parentView.suggestedList
+        mobileView=site.mobileView}}
+    </div>
+    <div class='pull-right'>
+      {{raw "list/post-count-or-badges" topic=topic postBadgesEnabled=showTopicPostBadges}}
+    </div>
+    {{#if expandPinned}}
+      {{raw "list/topic-excerpt" topic=topic}}
+    {{/if}}
+    {{#if showCategoryBadge}}
+      <div class='topic-category'>
+        {{category-link topic.category}}
+      </div>
+    {{/if}}
+
+    {{#if topic.tags}}
+      <div class='discourse-tags'>
+      {{#each topic.visibleListTags as |tag|}}
+        {{discourse-tag tag}}
+      {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if showActions}}
+      {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions}}
+    {{/if}}
+
+    <div class='num activity last'>
+      <span class="age activity" title="{{topic.bumpedAtTitle}}"><a href="{{topic.lastPostUrl}}">{{format-date topic.bumpedAt format="tiny" noTitle="true"}}</a></span>
+    </div>
+  </div>
+{{/if}}

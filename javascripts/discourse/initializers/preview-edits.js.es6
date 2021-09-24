@@ -254,24 +254,28 @@ export default {
           this.set("backgroundGradient", htmlSafe(`background: ${maskBackground}`));
         },
 
-        @on("didInsertElement")
-        _setupDOM() {
-          const topic = this.get("topic");
+        @on ('didInsertElement')
+        _setupDOM () {
+          const topic = this.get ('topic');
           if (
-            topic.get("thumbnails") &&
-            this.get("thumbnailFirstXRows") &&
-            this.element.index() > this.get("thumbnailFirstXRows")
+            topic.get ('thumbnails') &&
+            this.get ('thumbnailFirstXRows') &&
+            this.$ ().index () > this.get ('thumbnailFirstXRows')
           ) {
-            this.set("showThumbnail", false);
+            this.set ('showThumbnail', false);
           }
-          this._afterRender();
+          this._afterRender ();
         },
 
-        _afterRender() {
-          Ember.run.scheduleOnce("afterRender", this, () => {
-            this._setupTitleCSS();
-            if (this.get("showActions")) {
-              this._setupActions();
+        @observes ('thumbnails')
+        _afterRender () {
+          Ember.run.scheduleOnce ('afterRender', this, () => {
+            this._setupTitleCSS ();
+            if (this.get ('showExcerpt') && !this.get ('tilesStyle')) {
+              this._setupExcerptClick ();
+            }
+            if (this.get ('showActions')) {
+              this._setupActions ();
             }
           });
         },
@@ -281,11 +285,25 @@ export default {
           return settings.topic_list_featured_images_tag.split("|");
         },
 
-        _setupTitleCSS() {
-          let $el = this.element.querySelector(".topic-title a.visited");
+        _setupTitleCSS () {
+          let $el = this.$ ('.topic-title a.visited');
           if ($el) {
-            $el.closest(".topic-details").addClass("visited");
+            $el.closest ('.topic-details').addClass ('visited');
           }
+        },
+
+        _setupExcerptClick () {
+          this.$ ('.topic-excerpt').on ('click.topic-excerpt', () => {
+            DiscourseURL.routeTo (this.get ('topic.lastReadUrl'));
+          });
+        },
+
+        _sizeThumbnails () {
+          this.$ ('.topic-thumbnail img').on ('load', function () {
+            $ (this).css ({
+              width: $ (this)[0].naturalWidth,
+            });
+          });
         },
 
         _setupActions() {
