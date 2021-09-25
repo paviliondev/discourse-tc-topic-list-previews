@@ -270,7 +270,6 @@ export default {
         @observes ('thumbnails')
         _afterRender () {
           Ember.run.scheduleOnce ('afterRender', this, () => {
-            this._setupTitleCSS ();
             if (this.get ('showActions')) {
               this._setupActions ();
             }
@@ -280,13 +279,6 @@ export default {
         @discourseComputed
         featuredTags() {
           return settings.topic_list_featured_images_tag.split("|");
-        },
-
-        _setupTitleCSS() {
-          let titleElement = this.element.querySelector(".topic-title a.visited");
-          if (titleElement) {
-            titleElement.closest(".topic-details").addClass("visited");
-          }
         },
 
         _setupActions() {

@@ -23,9 +23,9 @@
           {{/if}}
         </div>
       </div>
-      {{#if expandPinned}}
+      <a href='{{topic.url}}'>
         {{raw "list/topic-excerpt" topic=topic}}
-      {{/if}}
+      </a>
       {{raw 'list/topic-meta' likesHeat=likesHeat title=view.title topic=topic}}
       {{#if showActions}}
         {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions topic=topic}}
