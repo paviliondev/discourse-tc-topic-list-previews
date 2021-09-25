@@ -271,9 +271,6 @@ export default {
         _afterRender () {
           Ember.run.scheduleOnce ('afterRender', this, () => {
             this._setupTitleCSS ();
-            if (this.get ('showExcerpt') && !this.get ('tilesStyle')) {
-              this._setupExcerptClick ();
-            }
             if (this.get ('showActions')) {
               this._setupActions ();
             }
@@ -285,25 +282,11 @@ export default {
           return settings.topic_list_featured_images_tag.split("|");
         },
 
-        _setupTitleCSS () {
-          let $el = this.$ ('.topic-title a.visited');
-          if ($el) {
-            $el.closest ('.topic-details').addClass ('visited');
+        _setupTitleCSS() {
+          let titleElement = this.element.querySelector(".topic-title a.visited");
+          if (titleElement) {
+            titleElement.closest(".topic-details").addClass("visited");
           }
-        },
-
-        _setupExcerptClick () {
-          this.$ ('.topic-excerpt').on ('click.topic-excerpt', () => {
-            DiscourseURL.routeTo (this.get ('topic.lastReadUrl'));
-          });
-        },
-
-        _sizeThumbnails () {
-          this.$ ('.topic-thumbnail img').on ('load', function () {
-            $ (this).css ({
-              width: $ (this)[0].naturalWidth,
-            });
-          });
         },
 
         _setupActions() {
@@ -513,29 +496,6 @@ export default {
             },
             500
           );
-        },
-
-        actions: {
-          onChangeColor(colors) {
-            // if (this.tilesStyle) {
-            //   let newRgb =
-            //     "rgb(" +
-            //     colors[0] +
-            //     "," +
-            //     colors[1] +
-            //     "," +
-            //     colors[2] +
-            //     ")";
-
-            //   let averageIntensity =
-            //     (colors[0] + colors[1] + colors[2]) / 3;
-
-            //   let maskBackground = `rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, .1) 40%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, .5) 75%, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 1) 100%);`;
-            //   this.set("averageIntensity", averageIntensity);
-            //   this.set("background", htmlSafe(`background: ${newRgb};`));
-            //   this.set("backgroundGradient", htmlSafe(`background: ${maskBackground}`));
-            // }
-          },
         },
       });
     });
