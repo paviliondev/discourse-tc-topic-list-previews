@@ -485,6 +485,8 @@ export default {
               this.set ('hasLiked', !this.get('hasLiked'));
               this.set('topic.topic_post_like_count', newCount);
               this.set ('likeCount', newCount);
+              this.renderTopicListItem ();
+              this._afterRender ();
             },
             500
           );
