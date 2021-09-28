@@ -15,8 +15,5 @@
         [800, 800]
       ]
     },
-    "minimum_discourse_version": "2.5.0.beta4",
-    "assets": {
-      "colorThief": "assets/color-thief.js"
-    }
+    "minimum_discourse_version": "2.5.0.beta4"
 }
