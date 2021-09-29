@@ -465,31 +465,35 @@ export default {
         },
 
         debouncedToggleLike() {
-          Ember.run.debounce(
-            this,
-            () => {
-              let change = 0;
+          if (this.get ('currentUser')) {
+            Ember.run.debounce(
+              this,
+              () => {
+                let change = 0;
 
-              if (this.get('hasLiked')) {
-                removeLike(this.topic.topic_post_id);
-                change = -1;
-              } else {
-                addLike(this.topic.topic_post_id);
-                change = 1;
-                //TODO add back animation?
-              }
-
-              let newText = "";
-              let count = this.get('likeCount');
-              let newCount = (count || 0) + (change || 0);
-              this.set ('hasLiked', !this.get('hasLiked'));
-              this.set('topic.topic_post_like_count', newCount);
-              this.set ('likeCount', newCount);
-              this.renderTopicListItem ();
-              this._afterRender ();
-            },
-            500
-          );
+                if (this.get('hasLiked')) {
+                  removeLike(this.topic.topic_post_id);
+                  change = -1;
+                } else {
+                  addLike(this.topic.topic_post_id);
+                  change = 1;
+                  //TODO add back animation?
+                }
+                let newText = "";
+                let count = this.get('likeCount');
+                let newCount = (count || 0) + (change || 0);
+                this.set ('hasLiked', !this.get('hasLiked'));
+                this.set('topic.topic_post_like_count', newCount);
+                this.set ('likeCount', newCount);
+                this.renderTopicListItem ();
+                this._afterRender ();
+              },
+              500
+            )
+          } else {
+            const controller = container.lookup ('controller:application');
+            controller.send ('showLogin');
+          }
         },
       });
     });
