@@ -10,7 +10,7 @@
         {{/if}}
       {{else}}
         {{#if showTopicPostBadges}}
-          {{raw "topic-post-badges" unread=topic.unread newPosts=topic.displayNewPosts unseen=topic.unseen url=topic.lastUnreadUrl}}
+          {{~raw "topic-post-badges" unreadPosts=topic.unread_posts unseen=topic.unseen url=topic.lastUnreadUrl newDotText=newDotText}}
         {{/if}}
       {{/if}}
       {{#if topic.featured_link}}
@@ -26,7 +26,7 @@
         {{/if}}
       {{else}}
         {{#if showTopicPostBadges}}
-          {{raw "topic-post-badges" unread=topic.unread newPosts=topic.displayNewPosts unseen=topic.unseen url=topic.lastUnreadUrl}}
+          {{~raw "topic-post-badges" unreadPosts=topic.unread_posts unseen=topic.unseen url=topic.lastUnreadUrl newDotText=newDotText}}
         {{/if}}
       {{/if}}
     {{/if}}

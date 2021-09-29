@@ -129,32 +129,20 @@ var buttonHTML = function (action) {
     html += 'title="' + I18n.t(action.title) + '"';
   }
   if (action.disabled) {
-    html += " disabled";
+    html += " disabled=true";
   }
-  html += `>${iconHTML(action.icon)}`;
+
+  if (action.type == "like" && action.like_count > 0) {
+    html += `><span class="like-count">${action.like_count}</span>${iconHTML(
+      action.icon
+    )}`;
+  } else if (action.type == "like" && action.like_count == 0) {
+    html += `><span class="like-count"></span>${iconHTML(action.icon)}`;
+  } else {
+    html += `>${iconHTML(action.icon)}`;
+  }
   html += "</button>";
   return html;
-};
-
-var animateHeart = function ($elem, start, end, complete) {
-  if (Ember.testing) {
-    return Ember.run(this, complete);
-  }
-
-  $elem
-    .stop()
-    .css("textIndent", start)
-    .animate(
-      { textIndent: end },
-      {
-        complete,
-        step(now) {
-          $(this).css("transform", "scale(" + now + ")");
-        },
-        duration: 150,
-      },
-      "linear"
-    );
 };
 
 const featuredImagesEnabled = function (category = null, isTopic = false) {
@@ -172,7 +160,6 @@ export {
   renderUnboundPreview,
   testImageUrl,
   buttonHTML,
-  animateHeart,
   featuredImagesEnabled,
   getDefaultThumbnail,
 };
