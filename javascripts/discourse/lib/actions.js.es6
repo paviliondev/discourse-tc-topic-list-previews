@@ -29,7 +29,7 @@ var sendBookmark = function (topic_id, topic_post_id, bookmarked) {
       popupAjaxError(error);
     });
   } else {
-    return ajax(`/t/${topic.id}/remove_bookmarks`, {
+    return ajax(`/t/${topic_id}/remove_bookmarks`, {
       type: "PUT",
     }).catch(function (error) {
         popupAjaxError(error);

@@ -121,17 +121,22 @@ let getDefaultThumbnail = () => {
   return defaultThumbnail ? defaultThumbnail : false;
 };
 
-var buttonHTML = function (action) {
+var buttonHTML = function (action, topic) {
   action = action || {};
 
   var html = "<button class='list-button " + action.class + "'";
   if (action.title) {
     html += 'title="' + I18n.t(action.title) + '"';
   }
+  if (action.topic_id) {
+    html += ` data-topic_id=${action.topic_id}`;
+  }
+  if (action.topic_post_id) {
+    html += ` data-topic_post_id=${action.topic_post_id}`;
+  }
   if (action.disabled) {
     html += " disabled=true";
   }
-
   if (action.type == "like" && action.like_count > 0) {
     html += `><span class="like-count">${action.like_count}</span>${iconHTML(
       action.icon

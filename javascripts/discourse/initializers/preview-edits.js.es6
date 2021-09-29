@@ -157,6 +157,10 @@ export default {
         thumbnailFirstXRows: alias("parentView.thumbnailFirstXRows"),
         category: alias("parentView.category"),
         thumbnails: alias("topic.thumbnails"),
+        hasThumbnail: and("topic.thumbnails", "showThumbnail"),
+        likeCount: 0,
+        hasLiked: false,
+        canUnlike: true,
 
         // Lifecyle logic
 
@@ -165,6 +169,9 @@ export default {
           const topic = this.get("topic");
           const thumbnails = topic.get("thumbnails");
           const defaultThumbnail = this.get("defaultThumbnail");
+          this.set('likeCount', topic.like_count);
+          this.set('hasLiked', topic.topic_post_liked);
+          this.set('canUnlike', topic.topic_post_can_unlike);
 
           if (this.get("tilesStyle")) {
             // needs 'div's for masonry
@@ -228,10 +235,10 @@ export default {
         @observes("thumbnails")
         _afterRender() {
           Ember.run.scheduleOnce("afterRender", this, () => {
-            this._setupTitleCSS();
-            if (this.get("showExcerpt") && !this.get("tilesStyle")) {
-              this._setupExcerptClick();
-            }
+            // this._setupTitleCSS();
+            // if (this.get("showExcerpt") && !this.get("tilesStyle")) {
+            //   this._setupExcerptClick();
+            // }
             if (this.get("showActions")) {
               this._setupActions();
             }
@@ -243,26 +250,26 @@ export default {
           return settings.topic_list_featured_images_tag.split("|");
         },
 
-        _setupTitleCSS() {
-          let $el = this.$(".topic-title a.visited");
-          if ($el) {
-            $el.closest(".topic-details").addClass("visited");
-          }
-        },
+        // _setupTitleCSS() {
+        //   let $el = this.$(".topic-title a.visited");
+        //   if ($el) {
+        //     $el.closest(".topic-details").addClass("visited");
+        //   }
+        // },
 
-        _setupExcerptClick() {
-          this.$(".topic-excerpt").on("click.topic-excerpt", () => {
-            DiscourseURL.routeTo(this.get("topic.lastReadUrl"));
-          });
-        },
+        // _setupExcerptClick() {
+        //   this.$(".topic-excerpt").on("click.topic-excerpt", () => {
+        //     DiscourseURL.routeTo(this.get("topic.lastReadUrl"));
+        //   });
+        // },
 
-        _sizeThumbnails() {
-          this.$(".topic-thumbnail img").on("load", function () {
-            $(this).css({
-              width: $(this)[0].naturalWidth,
-            });
-          });
-        },
+        // _sizeThumbnails() {
+        //   this.$(".topic-thumbnail img").on("load", function () {
+        //     $(this).css({
+        //       width: $(this)[0].naturalWidth,
+        //     });
+        //   });
+        // },
 
         _setupActions() {
           if (this._state === "destroying") return;
@@ -388,15 +395,6 @@ export default {
           return actions;
         },
 
-        @discourseComputed("likeDifference")
-        likeCount(likeDifference) {
-          return (
-            (likeDifference == null
-              ? this.get("topic.topic_post_like_count")
-              : likeDifference) || 0
-          );
-        },
-
         @discourseComputed("hasLiked")
         hasLikedDisplay() {
           let hasLiked = this.get("hasLiked");
@@ -416,21 +414,22 @@ export default {
 
         _likeButton() {
           let classes = "topic-like";
-          let disabled = this.get("topic.topic_post_is_current_users");
+          let disabled = this.get ('topic.topic_post_is_current_users');
 
-          if (this.get("hasLikedDisplay")) {
+          if (this.get("hasLiked")) {
             classes += " has-like";
-            let unlikeDisabled = this.get("topic.topic_post_can_unlike")
-              ? false
-              : this.get("likeDifference") == null;
-            disabled = disabled ? true : unlikeDisabled;
+            disabled = disabled ? true : !this.get('canUnlike');
           }
-
           return {
+            type: "like",
             class: classes,
             title: "post.controls.like",
             icon: "heart",
             disabled: disabled,
+            topic_id: this.topic.id,
+            topic_post_id: this.topic.topic_post_id,
+            like_count: this.likeCount,
+            has_liked: this.hasLiked
           };
         },
 
@@ -471,34 +470,40 @@ export default {
         },
 
         debouncedToggleLike() {
-          Ember.run.debounce(
-            this,
-            () => {
-              let change = 0;
+          if (this.get ('currentUser')) {
+            Ember.run.debounce(
+              this,
+              () => {
+                let change = 0;
 
-              if (this.get('hasLiked')) {
-                removeLike(this.topic.topic_post_id);
-                change = -1;
-              } else {
-                addLike(this.topic.topic_post_id);
-                change = 1;
-                //TODO add back animation?
-              }
-              let newText = "";
-              let count = this.get('likeCount');
-              let newCount = (count || 0) + (change || 0);
-              this.set ('hasLiked', !this.get('hasLiked'));
-              this.set('topic.topic_post_like_count', newCount);
-              this.set ('likeCount', newCount);
-              this.renderTopicListItem ();
-              this._afterRender ();
-            },
-            500
-          );
+                if (this.get('hasLiked')) {
+                  removeLike(this.topic.topic_post_id);
+                  change = -1;
+                } else {
+                  addLike(this.topic.topic_post_id);
+                  change = 1;
+                  //TODO add back animation?
+                }
+                let newText = "";
+                let count = this.get('likeCount');
+                let newCount = (count || 0) + (change || 0);
+                this.set ('hasLiked', !this.get('hasLiked'));
+                this.set('topic.topic_post_like_count', newCount);
+                this.set ('likeCount', newCount);
+                this.renderTopicListItem ();
+                this._afterRender ();
+              },
+              500
+            )
+          } else {
+            const controller = container.lookup ('controller:application');
+            controller.send ('showLogin');
+          }
         },
       });
 
       api.modifyClass("component:topic-timeline", {
+        pluginId: PLUGIN_ID,
         @on("didInsertElement")
         refreshTimelinePosition() {
           this.appEvents.on("topic:refresh-timeline-position", this, () =>
