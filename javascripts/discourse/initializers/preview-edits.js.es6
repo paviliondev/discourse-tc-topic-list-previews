@@ -223,10 +223,12 @@ export default {
         @on("didInsertElement")
         _setupDOM() {
           const topic = this.get("topic");
+          let parent = this.element.parentNode;
+          let index = Array.prototype.indexOf.call(parent.children, this.element);
           if (
             topic.get("thumbnails") &&
             this.get("thumbnailFirstXRows") &&
-            this.$().index() > this.get("thumbnailFirstXRows")
+            index > this.get("thumbnailFirstXRows")
           ) {
             this.set("showThumbnail", false);
           }
@@ -345,11 +347,11 @@ export default {
           if (this.get("canBookmark")) {
             actions.push(this._bookmarkButton());
             Ember.run.scheduleOnce("afterRender", this, () => {
-              let $bookmarkStatus = this.element.querySelector(
+              let bookmarkStatusElement = this.element.querySelector(
                 ".topic-statuses .op-bookmark"
               );
-              if ($bookmarkStatus) {
-                $bookmarkStatus.style.display = "none";
+              if (bookmarkStatusElement) {
+                bookmarkStatusElement.style.display = "none";
               }
             });
           }
