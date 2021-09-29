@@ -195,6 +195,7 @@ export default {
             testImageUrl(thumbnails, (imageLoaded) => {
               if (!imageLoaded) {
                 Ember.run.scheduleOnce("afterRender", this, () => {
+                  debugger;
                   if (defaultThumbnail) {
                     const thumbnailElement =
                       this.element.querySelector("img.thumbnail");
@@ -235,9 +236,6 @@ export default {
         @observes("thumbnails")
         _afterRender() {
           Ember.run.scheduleOnce("afterRender", this, () => {
-            if (this.get("showExcerpt") && !this.get("tilesStyle")) {
-              this._setupExcerptClick();
-            }
             if (this.get("showActions")) {
               this._setupActions();
             }
@@ -247,22 +245,6 @@ export default {
         @discourseComputed
         featuredTags() {
           return settings.topic_list_featured_images_tag.split("|");
-        },
-
-        _setupExcerptClick() {
-          excerptElement = this.element.querySelector(".topic-excerpt");
-
-          let clickExcerpt = (() => {
-            this._goToLastRead(this);
-          }).bind(this);
-
-          if (clickExcerpt) {
-            clickExcerpt.addEventListener("click", clickExcerpt);
-          }
-        },
-
-        _goToLastRead() {
-          DiscourseURL.routeTo(this.get("topic.lastReadUrl"));
         },
 
         _setupActions() {
@@ -286,13 +268,6 @@ export default {
           if (likeElement) {
             likeElement.addEventListener("click", debouncedToggleLike);
           }
-        },
-
-        @on("willDestroyElement")
-        _tearDown() {
-          //   this.$ ('.topic-excerpt').off ('click.topic-excerpt');
-          //   this.$ ('.topic-bookmark').off ('click.topic-bookmark');
-          //   this.$ ('.topic-like').off ('click.topic-like');
         },
 
         // Overrides
