@@ -235,10 +235,9 @@ export default {
         @observes("thumbnails")
         _afterRender() {
           Ember.run.scheduleOnce("afterRender", this, () => {
-            // this._setupTitleCSS();
-            // if (this.get("showExcerpt") && !this.get("tilesStyle")) {
-            //   this._setupExcerptClick();
-            // }
+            if (this.get("showExcerpt") && !this.get("tilesStyle")) {
+              this._setupExcerptClick();
+            }
             if (this.get("showActions")) {
               this._setupActions();
             }
@@ -250,26 +249,21 @@ export default {
           return settings.topic_list_featured_images_tag.split("|");
         },
 
-        // _setupTitleCSS() {
-        //   let $el = this.$(".topic-title a.visited");
-        //   if ($el) {
-        //     $el.closest(".topic-details").addClass("visited");
-        //   }
-        // },
+        _setupExcerptClick() {
+          excerptElement = this.element.querySelector(".topic-excerpt");
 
-        // _setupExcerptClick() {
-        //   this.$(".topic-excerpt").on("click.topic-excerpt", () => {
-        //     DiscourseURL.routeTo(this.get("topic.lastReadUrl"));
-        //   });
-        // },
+          let clickExcerpt = (() => {
+            this._goToLastRead(this);
+          }).bind(this);
 
-        // _sizeThumbnails() {
-        //   this.$(".topic-thumbnail img").on("load", function () {
-        //     $(this).css({
-        //       width: $(this)[0].naturalWidth,
-        //     });
-        //   });
-        // },
+          if (clickExcerpt) {
+            clickExcerpt.addEventListener("click", clickExcerpt);
+          }
+        },
+
+        _goToLastRead() {
+          DiscourseURL.routeTo(this.get("topic.lastReadUrl"));
+        },
 
         _setupActions() {
           if (this._state === "destroying") return;
@@ -286,14 +280,6 @@ export default {
             this.debouncedToggleLike(this);
           }).bind(this);
 
-          // $like.on ('click.topic-like', () => {
-          //   if (this.get ('currentUser')) {
-          //     this.toggleLike ($like, postId);
-          //   } else {
-          //     const controller = container.lookup ('controller:application');
-          //     controller.send ('showLogin');
-          //   }
-          // });
           if (bookmarkElement) {
             bookmarkElement.addEventListener("click", debouncedToggleBookmark);
           }
