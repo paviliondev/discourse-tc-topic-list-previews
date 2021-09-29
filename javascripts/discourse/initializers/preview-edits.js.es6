@@ -214,13 +214,13 @@ export default {
               if (!imageLoaded) {
                 Ember.run.scheduleOnce("afterRender", this, () => {
                   if (defaultThumbnail) {
-                    const $thumbnail =
+                    const thumbnailElement =
                       this.element.querySelector("img.thumbnail");
-                    if ($thumbnail) $thumbnail.attr("src", defaultThumbnail);
+                    if (thumbnailElement) thumbnailElement.attr("src", defaultThumbnail);
                   } else {
-                    const $container =
+                    const containerElement =
                       this.element.querySelector(".topic-thumbnail");
-                    if ($container) $container.style.display = "none";
+                    if (containerElement) containerElement.style.display = "none";
                   }
                 });
               }
@@ -254,17 +254,19 @@ export default {
           this.set("backgroundGradient", htmlSafe(`background: ${maskBackground}`));
         },
 
-        @on ('didInsertElement')
-        _setupDOM () {
-          const topic = this.get ('topic');
+        @on("didInsertElement")
+        _setupDOM() {
+          const topic = this.get("topic");
+          let parent = this.element.parentNode;
+          let index = Array.prototype.indexOf.call(parent.children, this.element);
           if (
-            topic.get ('thumbnails') &&
-            this.get ('thumbnailFirstXRows') &&
-            this.$ ().index () > this.get ('thumbnailFirstXRows')
+            topic.get("thumbnails") &&
+            this.get("thumbnailFirstXRows") &&
+            index > this.get("thumbnailFirstXRows")
           ) {
-            this.set ('showThumbnail', false);
+            this.set("showThumbnail", false);
           }
-          this._afterRender ();
+          this._afterRender();
         },
 
         @observes ('thumbnails')
@@ -379,11 +381,11 @@ export default {
           if (this.get("canBookmark")) {
             actions.push(this._bookmarkButton());
             Ember.run.scheduleOnce("afterRender", this, () => {
-              let $bookmarkStatus = this.element.querySelector(
+              let bookmarkStatusElement = this.element.querySelector(
                 ".topic-statuses .op-bookmark"
               );
-              if ($bookmarkStatus) {
-                $bookmarkStatus.style.display = "none";
+              if (bookmarkStatusElement) {
+                bookmarkStatusElement.style.display = "none";
               }
             });
           }
