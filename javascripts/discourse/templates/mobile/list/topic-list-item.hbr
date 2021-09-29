@@ -8,11 +8,11 @@
         {{/if}}
       </div>
     </div>
-    {{#if showThumbnail}}
+    {{#if hasThumbnail}}
       {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
     {{/if}}
   {{else}}
-    {{#if showThumbnail}}
+    {{#if hasThumbnail}}
       {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
     {{else}}
       <div class='pull-left'>
