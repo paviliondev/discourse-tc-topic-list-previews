@@ -187,7 +187,6 @@ export default {
             testImageUrl(thumbnails, (imageLoaded) => {
               if (!imageLoaded) {
                 Ember.run.scheduleOnce("afterRender", this, () => {
-                  debugger;
                   if (defaultThumbnail) {
                     const thumbnailElement =
                       this.element.querySelector("img.thumbnail");
