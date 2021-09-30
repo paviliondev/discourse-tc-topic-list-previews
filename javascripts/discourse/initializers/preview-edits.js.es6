@@ -102,20 +102,12 @@ export default {
             );
             this.set("category", category);
           }
-          if (settings.topic_list_fade_in_time) {
-            this.element.querySelector("#list-area").fadeOut(0);
-          }
         },
 
         @on("didRender")
         completeRender() {
           if (this.get("hasTiles")) {
             Ember.run.scheduleOnce("afterRender", this, this.applyTiles);
-          }
-          if (settings.topic_list_fade_in_time) {
-            this.element
-              .querySelector("#list-area")
-              .fadeIn(settings.topic_list_fade_in_time);
           }
         },
 
