@@ -190,7 +190,7 @@ export default {
                   if (defaultThumbnail) {
                     const thumbnailElement =
                       this.element.querySelector("img.thumbnail");
-                    if (thumbnailElement) thumbnailElement.attr("src", defaultThumbnail);
+                    if (thumbnailElement) thumbnailElement.src = defaultThumbnail; 
                   } else {
                     const containerElement =
                       this.element.querySelector(".topic-thumbnail");
