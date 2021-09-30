@@ -209,8 +209,3 @@ topic_list_test_image_url_timeout:
   type: integer
   description:
     en: "Timeout for testing image url"
-topic_list_fade_in_time:
-  default: 0
-  type: integer
-  description:
-    en: "Optional fade in of Topic Lists in milliseconds.  0 means OFF"
