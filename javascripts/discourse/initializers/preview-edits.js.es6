@@ -77,6 +77,18 @@ export default {
         },
       });
 
+      api.modifyClass("component:discovery-topics-list", {
+        pluginId: PLUGIN_ID,
+        classNameBindings: [
+          "hasMore:has-more",
+        ],
+
+        @observes("incomingCount")
+        hasMore () {
+          return this.incomingCount > 0;
+        }
+      });
+
       api.modifyClass("component:topic-list", {
         pluginId: PLUGIN_ID,
         topicListPreviewsService: service("topic-list-previews"),
