@@ -82,10 +82,11 @@ export default {
         classNameBindings: [
           "hasMore:has-more",
         ],
+        incomingCount: 0,
 
-        @observes("incomingCount")
-        hasMore () {
-          return this.incomingCount > 0;
+        @discourseComputed("incomingCount")
+        hasMore (incomingCount) {
+          return (incomingCount > 0);
         }
       });
 
