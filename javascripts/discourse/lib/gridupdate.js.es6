@@ -19,7 +19,10 @@ function resizeGridItem (item, grid, rowHeight, rowGap) {
 
 function resizeAllGridItems () {
   const allItems = document.getElementsByClassName ('tiles-grid-item');
-  const grid = document.getElementsByClassName ('tiles-grid')[0];
+  let grid = false;
+
+  grid = document.getElementsByTagName('tbody')[0];
+
   if (!grid) {
     return;
   }

@@ -63,7 +63,7 @@
 //tiles styling  specific styling
 .mobile-view .tiles-style {
 
-  .tiles-grid {
+  tbody {
     display:block;
     .topic-list-item-separator {
       display: none;
@@ -232,10 +232,6 @@
     justify-content: flex-end;
     text-align: right;
     vertical-align: bottom;
-
-    .like-count {
-      margin-right: -4px;
-    }
 
     .list-button {
       font-size: 1em;

@@ -1,8 +1,11 @@
 //tiles styling  specific styling
 .tiles-style {
 
-  .tiles-grid {
-    display:block;
+  th {
+    display:none;
+  }
+
+  tbody  {
     .topic-list-item-separator {
       display: none;
     }
