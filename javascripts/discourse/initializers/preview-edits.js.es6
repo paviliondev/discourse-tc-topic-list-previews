@@ -150,7 +150,7 @@ export default {
           "likeDifference",
           "topic.thumbnails",
         ],
-        classNameBindings: ["whiteText:white-text:black-text", "hasThumbnail"],
+        classNameBindings: ["whiteText:white-text:black-text", "hasThumbnail", "tilesStyle:tiles-grid-item"],
         tilesStyle: readOnly("topicListPreviewsService.displayTiles"),
         notTilesStyle: not("topicListPreviewsService.displayTiles"),
         showThumbnail: readOnly("topicListPreviewsService.displayThumbnails"),
@@ -199,7 +199,7 @@ export default {
           if (this.get("tilesStyle")) {
             // needs 'div's for masonry
             this.set("tagName", "div");
-            this.classNames = ["tiles-grid-item"];
+            // this.classNames = ["tiles-grid-item"];
 
             if (settings.topic_list_tiles_larger_featured_tiles && topic.tags) {
               if (
