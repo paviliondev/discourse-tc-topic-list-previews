@@ -150,7 +150,7 @@ export default {
           "likeDifference",
           "topic.thumbnails",
         ],
-        classNameBindings: ["whiteText:white-text:black-text", "hasThumbnail"],
+        classNameBindings: ["whiteText:white-text:black-text", "hasThumbnail", "tilesStyle:tiles-grid-item"],
         tilesStyle: readOnly("topicListPreviewsService.displayTiles"),
         notTilesStyle: not("topicListPreviewsService.displayTiles"),
         showThumbnail: readOnly("topicListPreviewsService.displayThumbnails"),
@@ -198,8 +198,9 @@ export default {
 
           if (this.get("tilesStyle")) {
             // needs 'div's for masonry
-            this.set("tagName", "div");
-            this.classNames = ["tiles-grid-item"];
+           // this.set("tagName", "div");
+            // this.classNames = ["tiles-grid-item"];
+            this.updateTag();
 
             if (settings.topic_list_tiles_larger_featured_tiles && topic.tags) {
               if (
@@ -281,6 +282,15 @@ export default {
               this._setupActions ();
             }
           });
+        },
+          
+        @observes('tilesStyle')
+        updateTag () {
+          if (this.get("tilesStyle")) {
+           this.set("tagName", "div");
+          } else {
+            this.set("tagName", "tr");
+          }
         },
 
         @discourseComputed
