@@ -182,7 +182,7 @@ export default {
                   (tag) => this.get("featuredTags").indexOf(tag) > -1
                 )[0]
               ) {
-                this.classNames.push("tiles-grid-item-width2");
+                this.set('classNames', this.classNames.concat("tiles-grid-item-width2"));
               }
             }
             const raw = topic.excerpt;
