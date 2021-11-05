@@ -12,10 +12,10 @@ var isThumbnail = function (path) {
 
 var previewUrl = function (thumbnails, currentUser, featured = false) {
   const preferLowRes =
-    currentUser === null
-      ? false
-      : currentUser.custom_fields
-          .tlp_user_prefs_prefer_low_res_thumbnails;
+    (currentUser !== undefined && currentUser !== null) ?
+      currentUser.custom_fields
+        .tlp_user_prefs_prefer_low_res_thumbnails
+      : false;
   if (thumbnails) {
     let resLevel = featured
       ? settings.topic_list_featured_images_resolution_level
