@@ -24,7 +24,7 @@ export default Ember.Component.extend({
               }
             } else {
               if (this._state === 'destroying') return;
-              this.element.hide();
+              this.element.style.display = 'none';
             }
           });
         }
