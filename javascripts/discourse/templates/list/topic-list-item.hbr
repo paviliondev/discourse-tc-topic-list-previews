@@ -18,7 +18,7 @@
     {{/if}}
 
     {{#if showThumbnail}}
-      {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails currentUser=currentUser category=category opts=thumbnailOpts}}
+      {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails currentUser=currentUser site=site category=category opts=thumbnailOpts}}
     {{/if}}
 
     <div class="topic-details">
