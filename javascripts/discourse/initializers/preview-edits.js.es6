@@ -168,13 +168,8 @@ export default {
 
           if (this.get("tilesStyle")) {
             // needs 'div's for masonry
-<<<<<<< HEAD
             this.set("tagName", "div");
             this.classNames = ["tiles-grid-item"];
-=======
-            // I don't believe you can do this: this.set("tagName", "div");
-            this.updateTag();
->>>>>>> 472aeaa... COMPATIBILITY: deprecate Discourse.User
 
             if (settings.topic_list_tiles_larger_featured_tiles && topic.tags) {
               if (
