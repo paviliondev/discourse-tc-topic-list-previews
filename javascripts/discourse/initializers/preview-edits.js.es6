@@ -160,6 +160,7 @@ export default {
         _setupProperties() {
           const topic = this.get("topic");
           const thumbnails = topic.get("thumbnails");
+          const currentUser = this.get("currentUser");
           const defaultThumbnail = this.get("defaultThumbnail");
           this.set('likeCount', topic.like_count);
           this.set('hasLiked', topic.topic_post_liked);
@@ -167,8 +168,13 @@ export default {
 
           if (this.get("tilesStyle")) {
             // needs 'div's for masonry
+<<<<<<< HEAD
             this.set("tagName", "div");
             this.classNames = ["tiles-grid-item"];
+=======
+            // I don't believe you can do this: this.set("tagName", "div");
+            this.updateTag();
+>>>>>>> 472aeaa... COMPATIBILITY: deprecate Discourse.User
 
             if (settings.topic_list_tiles_larger_featured_tiles && topic.tags) {
               if (
@@ -184,7 +190,7 @@ export default {
           }
 
           if (thumbnails) {
-            testImageUrl(thumbnails, (imageLoaded) => {
+            testImageUrl(thumbnails, currentUser, (imageLoaded) => {
               if (!imageLoaded) {
                 Ember.run.scheduleOnce("afterRender", this, () => {
                   if (defaultThumbnail) {

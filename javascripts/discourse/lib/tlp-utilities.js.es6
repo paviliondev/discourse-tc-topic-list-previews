@@ -10,11 +10,11 @@ var isThumbnail = function (path) {
   );
 };
 
-var previewUrl = function (thumbnails, featured = false) {
+var previewUrl = function (thumbnails, currentUser, featured = false) {
   const preferLowRes =
-    Discourse.User._current === null
+    currentUser === null
       ? false
-      : Discourse.User._current.custom_fields
+      : currentUser.custom_fields
           .tlp_user_prefs_prefer_low_res_thumbnails;
   if (thumbnails) {
     let resLevel = featured
@@ -36,7 +36,7 @@ var previewUrl = function (thumbnails, featured = false) {
 };
 
 var renderUnboundPreview = function (thumbnails, params) {
-  const url = previewUrl(thumbnails, params.opts.featured);
+  const url = previewUrl(thumbnails, params.currentUser, params.opts.featured);
 
   if (!url) return "";
 
@@ -97,8 +97,8 @@ var renderUnboundPreview = function (thumbnails, params) {
   return `<img class="${css_classes}" src="${url}" style="${style}" loading="lazy"/>`;
 };
 
-var testImageUrl = function (thumbnails, callback) {
-  const url = previewUrl(thumbnails);
+var testImageUrl = function (thumbnails, currentUser, callback) {
+  const url = previewUrl(thumbnails, currentUser);
   let timeout = settings.topic_list_test_image_url_timeout;
   let timer,
     img = new Image();
