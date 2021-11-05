@@ -169,7 +169,7 @@ export default {
           if (this.get("tilesStyle")) {
             // needs 'div's for masonry
             this.set("tagName", "div");
-            this.classNames = ["tiles-grid-item"];
+            this.set("classNames", this.classNames.concat("tiles-grid-item"));
 
             if (settings.topic_list_tiles_larger_featured_tiles && topic.tags) {
               if (
