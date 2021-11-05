@@ -45,7 +45,7 @@ var renderUnboundPreview = function (thumbnails, params) {
   if (
     !opts.tilesStyle &&
     !opts.featured &&
-    Discourse.Site.currentProp("mobileView")
+    params.site.mobileView
   ) {
     return `<img class="thumbnail" src="${url}" loading="lazy"/>`;
   }

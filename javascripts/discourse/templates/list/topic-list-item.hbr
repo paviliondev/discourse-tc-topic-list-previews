@@ -8,7 +8,7 @@
   <div class="tiles-grid-item-content">
     <div class="image">
       {{#if hasThumbnail}}
-        {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails currentUser=currentUser category=category opts=thumbnailOpts}}
+        {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails currentUser=currentUser site=site category=category opts=thumbnailOpts}}
       {{/if}}
       <a href='{{topic.url}}'>
         <div class="image-mask" style="{{backgroundGradient}}"></div>
