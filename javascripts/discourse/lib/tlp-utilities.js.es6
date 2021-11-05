@@ -10,12 +10,12 @@ var isThumbnail = function (path) {
   );
 };
 
-var previewUrl = function (thumbnails, featured = false) {
+var previewUrl = function (thumbnails, currentUser, featured = false) {
   const preferLowRes =
-    Discourse.User._current === null
-      ? false
-      : Discourse.User._current.custom_fields
-          .tlp_user_prefs_prefer_low_res_thumbnails;
+    (currentUser !== undefined && currentUser !== null) ?
+      currentUser.custom_fields
+        .tlp_user_prefs_prefer_low_res_thumbnails
+      : false;
   if (thumbnails) {
     let resLevel = featured
       ? settings.topic_list_featured_images_resolution_level
@@ -36,7 +36,7 @@ var previewUrl = function (thumbnails, featured = false) {
 };
 
 var renderUnboundPreview = function (thumbnails, params) {
-  const url = previewUrl(thumbnails, params.opts.featured);
+  const url = previewUrl(thumbnails, params.currentUser, params.opts.featured);
 
   if (!url) return "";
 
@@ -45,7 +45,7 @@ var renderUnboundPreview = function (thumbnails, params) {
   if (
     !opts.tilesStyle &&
     !opts.featured &&
-    Discourse.Site.currentProp("mobileView")
+    params.site.mobileView
   ) {
     return `<img class="thumbnail" src="${url}" loading="lazy"/>`;
   }
@@ -97,8 +97,8 @@ var renderUnboundPreview = function (thumbnails, params) {
   return `<img class="${css_classes}" src="${url}" style="${style}" loading="lazy"/>`;
 };
 
-var testImageUrl = function (thumbnails, callback) {
-  const url = previewUrl(thumbnails);
+var testImageUrl = function (thumbnails, currentUser, callback) {
+  const url = previewUrl(thumbnails, currentUser);
   let timeout = settings.topic_list_test_image_url_timeout;
   let timer,
     img = new Image();

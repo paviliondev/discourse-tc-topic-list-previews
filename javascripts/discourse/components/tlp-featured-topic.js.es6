@@ -13,7 +13,7 @@ export default Ember.Component.extend({
     if (topic) {
       const defaultThumbnail = getDefaultThumbnail();
 
-      testImageUrl(topic.thumbnails, (imageLoaded) => {
+      testImageUrl(topic.thumbnails, this.get("currentUser"), (imageLoaded) => {
         if (!imageLoaded) {
           Ember.run.scheduleOnce('afterRender', this, () => {
             if (defaultThumbnail) {
@@ -24,7 +24,7 @@ export default Ember.Component.extend({
               }
             } else {
               if (this._state === 'destroying') return;
-              this.element.hide();
+              this.element.style.display = 'none';
             }
           });
         }

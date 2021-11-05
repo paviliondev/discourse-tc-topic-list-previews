@@ -160,6 +160,7 @@ export default {
         _setupProperties() {
           const topic = this.get("topic");
           const thumbnails = topic.get("thumbnails");
+          const currentUser = this.get("currentUser");
           const defaultThumbnail = this.get("defaultThumbnail");
           this.set('likeCount', topic.like_count);
           this.set('hasLiked', topic.topic_post_liked);
@@ -168,7 +169,7 @@ export default {
           if (this.get("tilesStyle")) {
             // needs 'div's for masonry
             this.set("tagName", "div");
-            this.classNames = ["tiles-grid-item"];
+            this.set("classNames", this.classNames.concat("tiles-grid-item"));
 
             if (settings.topic_list_tiles_larger_featured_tiles && topic.tags) {
               if (
@@ -176,7 +177,7 @@ export default {
                   (tag) => this.get("featuredTags").indexOf(tag) > -1
                 )[0]
               ) {
-                this.classNames.push("tiles-grid-item-width2");
+                this.set('classNames', this.classNames.concat("tiles-grid-item-width2"));
               }
             }
             const raw = topic.excerpt;
@@ -184,7 +185,7 @@ export default {
           }
 
           if (thumbnails) {
-            testImageUrl(thumbnails, (imageLoaded) => {
+            testImageUrl(thumbnails, currentUser, (imageLoaded) => {
               if (!imageLoaded) {
                 Ember.run.scheduleOnce("afterRender", this, () => {
                   if (defaultThumbnail) {
