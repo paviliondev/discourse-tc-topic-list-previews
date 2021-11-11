@@ -1,5 +1,5 @@
 # discourse-topic-list-previews-theme
-A currently EXPERIMENTAL Theme component which ports much of the functionality of the much-loved Topic List Previews plugin to a Theme Component.
+Theme component which ports much of the functionality of the much-loved Topic List Previews plugin to a Theme Component.
 
 As a result of various technical limitations you need to be aware of the following:
 
