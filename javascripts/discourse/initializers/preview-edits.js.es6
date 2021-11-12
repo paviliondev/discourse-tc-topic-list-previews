@@ -437,6 +437,8 @@ export default {
                 } else {
                   addLike(this.topic.topic_post_id);
                   change = 1;
+                  this.set('canUnlike', true);
+                  //TODO improve this so it doesn't update UI upon failure to like
                   //TODO add back animation?
                 }
                 let newText = "";
