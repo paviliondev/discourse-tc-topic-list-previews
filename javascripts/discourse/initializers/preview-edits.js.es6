@@ -515,6 +515,44 @@ export default {
           }
         },
       });
+
+      api.modifyClass("component:search-result-entries", {
+        pluginId: PLUGIN_ID,
+        tagName: "div",
+        classNameBindings: ["thumbnailGrid:thumbnail-grid"], 
+
+        @discourseComputed
+        thumbnailGrid() {
+          if (this.siteSettings.topic_list_search_previews_enabled !== undefined && this.siteSettings.topic_list_search_previews_enabled) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+
+      });
+
+      api.modifyClass("component:search-result-entry", {
+        pluginId: PLUGIN_ID,
+
+        @discourseComputed
+        thumbnailGrid() {
+          if (this.siteSettings.topic_list_search_previews_enabled !== undefined && this.siteSettings.topic_list_search_previews_enabled) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+
+        @discourseComputed
+        thumbnailOpts() {
+          let opts = { tilesStyle: true };
+
+          opts["thumbnailWidth"] = "100";
+
+          return opts;
+        },
+      });
     });
   },
 };
