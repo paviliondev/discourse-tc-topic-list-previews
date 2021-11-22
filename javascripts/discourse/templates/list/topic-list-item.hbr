@@ -4,7 +4,7 @@
   </td>
 {{/if}}
 
-<td class='main-link clearfix' colspan="{{titleColSpan}}">
+<td class='main-link clearfix topic-list-data' colspan="{{titleColSpan}}">
   {{#if tilesStyle}}
     <div class="tiles-grid-item-content">
       <div class="topic-header-grid">
@@ -20,8 +20,9 @@
     {{#if showThumbnail}}
       {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails currentUser=currentUser site=site category=category opts=thumbnailOpts}}
     {{/if}}
-
-    <div class="topic-details">
+    {{#if tilesStyle}}
+      <div class="topic-details">
+    {{/if}}
     {{#if notTilesStyle}}
       {{raw "list/topic-list-title"
         topic=topic

@@ -88,6 +88,10 @@
     }
   }
 
+  .topic-list-item.visited a.title {
+    color: var(--primary-medium);
+  }
+
   .topic-users {
     grid-area: posters;
     padding: 0 0 5px 5px;

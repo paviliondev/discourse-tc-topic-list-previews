@@ -1,7 +1,9 @@
-<div class="topic-title">
+{{#if tilesStyle}}
+  <div class="topic-title">
+{{/if}}
   <span class='link-top-line'>
-    {{raw-plugin-outlet name="topic-list-before-status"}}
-    {{raw "topic-status" topic=topic}}
+    {{~raw-plugin-outlet name="topic-list-before-status"}}
+    {{~raw "topic-status" topic=topic}}
     {{~topic-link topic class="raw-link raw-topic-link"}}
     {{#if tilesStyle}}
       {{#if mobileView}}
@@ -9,6 +11,9 @@
           <span class="badge-notification new-topic"></span>
         {{/if}}
       {{else}}
+        {{~raw "list/unread-indicator" includeUnreadIndicator=includeUnreadIndicator
+                                topicId=topic.id
+                                unreadClass=unreadClass~}}
         {{#if showTopicPostBadges}}
           {{~raw "topic-post-badges" unreadPosts=topic.unread_posts unseen=topic.unseen url=topic.lastUnreadUrl newDotText=newDotText}}
         {{/if}}
@@ -25,6 +30,9 @@
           <span class="badge-notification new-topic"></span>
         {{/if}}
       {{else}}
+        {{~raw "list/unread-indicator" includeUnreadIndicator=includeUnreadIndicator
+                                  topicId=topic.id
+                                  unreadClass=unreadClass~}}
         {{#if showTopicPostBadges}}
           {{~raw "topic-post-badges" unreadPosts=topic.unread_posts unseen=topic.unseen url=topic.lastUnreadUrl newDotText=newDotText}}
         {{/if}}
@@ -33,7 +41,7 @@
 
     {{raw-plugin-outlet name="topic-list-after-title"}}
   </span>
-</div>
 {{#if tilesStyle}}
+  </div>
   {{raw "list/topic-users" tilesStyle=tilesStyle topic=topic posterNames=posterNames}}
 {{/if}}
