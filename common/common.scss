@@ -30,11 +30,14 @@
     grid-column-end: span 2;
   }
 
+  .tiles-grid-item {
+    grid-row-end: span 24;
+  }
+
   .tiles-grid-item-content {
     box-sizing: border-box;
     cursor: pointer;
     border-radius: 3px;
-    grid-row-end: span 24;
 
     > a, >span.number, .btn-link {
       display: none;
