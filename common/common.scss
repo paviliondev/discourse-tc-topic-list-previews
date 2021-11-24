@@ -39,8 +39,17 @@
     cursor: pointer;
     border-radius: 3px;
 
-    > a, >span.number, .btn-link, .link-bottom-line>.discourse-tags {
+    > a, >span.number, .btn-link, {
       display: none;
+    }
+
+    .link-bottom-line {
+      display: block;
+      font-size: 1.143em;
+
+      >.discourse-tags {
+        display: block
+      }
     }
 
     //.latest, button.btn-link,
