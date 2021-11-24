@@ -15,6 +15,9 @@
   </div>
   <span class="middot inline sub"></span>
   <div class="{{class}} {{cold-age-class topic.createdAt startDate=topic.bumpedAt class=""}} activity inline sub" title="{{{topic.bumpedAtTitle}}}">
-    <a href="{{topic.lastPostUrl}}">{{format-date topic.bumpedAt format="medium-with-ago" noTitle="true"}}</a>
+    <a href="{{topic.lastPostUrl}}">
+      {{~raw-plugin-outlet name="topic-list-before-relative-date"~}}
+      {{format-date topic.bumpedAt format="medium-with-ago" noTitle="true"}}
+    </a>
   </div>
 </div>

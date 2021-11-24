@@ -79,15 +79,13 @@ export default {
 
       api.modifyClass("component:discovery-topics-list", {
         pluginId: PLUGIN_ID,
-        classNameBindings: [
-          "hasMore:has-more",
-        ],
+        classNameBindings: ["hasMore:has-more"],
         incomingCount: 0,
 
         @discourseComputed("incomingCount")
-        hasMore (incomingCount) {
-          return (incomingCount > 0);
-        }
+        hasMore(incomingCount) {
+          return incomingCount > 0;
+        },
       });
 
       api.modifyClass("component:topic-list", {
@@ -150,7 +148,11 @@ export default {
           "likeDifference",
           "topic.thumbnails",
         ],
-        classNameBindings: ["whiteText:white-text:black-text", "hasThumbnail", "tilesStyle:tiles-grid-item"],
+        classNameBindings: [
+          "whiteText:white-text:black-text",
+          "hasThumbnail",
+          "tilesStyle:tiles-grid-item",
+        ],
         tilesStyle: readOnly("topicListPreviewsService.displayTiles"),
         notTilesStyle: not("topicListPreviewsService.displayTiles"),
         showThumbnail: readOnly("topicListPreviewsService.displayThumbnails"),
@@ -190,9 +192,9 @@ export default {
           const thumbnails = topic.get("thumbnails");
           const currentUser = this.get("currentUser");
           const defaultThumbnail = this.get("defaultThumbnail");
-          this.set('likeCount', topic.like_count);
-          this.set('hasLiked', topic.topic_post_liked);
-          this.set('canUnlike', topic.topic_post_can_unlike);
+          this.set("likeCount", topic.like_count);
+          this.set("hasLiked", topic.topic_post_liked);
+          this.set("canUnlike", topic.topic_post_can_unlike);
           if (this.tilesStyle) {
             this._setUpColour();
           }
@@ -208,7 +210,10 @@ export default {
                   (tag) => this.get("featuredTags").indexOf(tag) > -1
                 )[0]
               ) {
-                this.set('classNames', this.classNames.concat("tiles-grid-item-width2"));
+                this.set(
+                  "classNames",
+                  this.classNames.concat("tiles-grid-item-width2")
+                );
               }
             }
             const raw = topic.excerpt;
@@ -222,11 +227,13 @@ export default {
                   if (defaultThumbnail) {
                     const thumbnailElement =
                       this.element.querySelector("img.thumbnail");
-                    if (thumbnailElement) thumbnailElement.src = defaultThumbnail;
+                    if (thumbnailElement)
+                      thumbnailElement.src = defaultThumbnail;
                   } else {
                     const containerElement =
                       this.element.querySelector(".topic-thumbnail");
-                    if (containerElement) containerElement.style.display = "none";
+                    if (containerElement)
+                      containerElement.style.display = "none";
                   }
                 });
               }
@@ -243,28 +250,36 @@ export default {
           this.set("likesHeat", obj.get("likesHeat"));
         },
 
-        _setUpColour () {
+        _setUpColour() {
           let red = this.get("topic.dominant_colour.red") || 255;
           let green = this.get("topic.dominant_colour.green") || 255;
           let blue = this.get("topic.dominant_colour.blue") || 255;
 
           let newRgb = "rgb(" + red + "," + green + "," + blue + ")";
 
-          let averageIntensity =
-            (red + green + blue) / 3;
+          let averageIntensity = (red + green + blue) / 3;
 
           let maskBackground = `rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(${red}, ${green}, ${blue}, .1) 40%, rgba(${red}, ${green}, ${blue}, .5) 75%, rgba(${red}, ${green}, ${blue}, 1) 100%);`;
 
           this.set("averageIntensity", averageIntensity);
           this.set("background", htmlSafe(`background: ${newRgb};`));
-          this.set("backgroundGradient", htmlSafe(`background: ${maskBackground}`));
+          this.set(
+            "backgroundGradient",
+            htmlSafe(`background: ${maskBackground}`)
+          );
         },
 
         @on("didInsertElement")
         _setupDOM() {
+          if (this.get("tilesStyle")) {
+            this.element.innerHTML = `<div class="tiles-grid-item-content">${this.element.innerHTML}</div>`;
+          }
           const topic = this.get("topic");
           let parent = this.element.parentNode;
-          let index = Array.prototype.indexOf.call(parent.children, this.element);
+          let index = Array.prototype.indexOf.call(
+            parent.children,
+            this.element
+          );
           if (
             topic.get("thumbnails") &&
             this.get("thumbnailFirstXRows") &&
@@ -275,19 +290,19 @@ export default {
           this._afterRender();
         },
 
-        @observes ('thumbnails')
-        _afterRender () {
-          Ember.run.scheduleOnce ('afterRender', this, () => {
-            if (this.get ('showActions')) {
-              this._setupActions ();
+        @observes("thumbnails")
+        _afterRender() {
+          Ember.run.scheduleOnce("afterRender", this, () => {
+            if (this.get("showActions")) {
+              this._setupActions();
             }
           });
         },
-          
-        @observes('tilesStyle')
-        updateTag () {
+
+        @observes("tilesStyle")
+        updateTag() {
           if (this.get("tilesStyle")) {
-           this.set("tagName", "div");
+            this.set("tagName", "div");
           } else {
             this.set("tagName", "tr");
           }
@@ -426,11 +441,11 @@ export default {
 
         _likeButton() {
           let classes = "topic-like";
-          let disabled = this.get ('topic.topic_post_is_current_users');
+          let disabled = this.get("topic.topic_post_is_current_users");
 
           if (this.get("hasLiked")) {
             classes += " has-like";
-            disabled = disabled ? true : !this.get('canUnlike');
+            disabled = disabled ? true : !this.get("canUnlike");
           }
           return {
             type: "like",
@@ -441,7 +456,7 @@ export default {
             topic_id: this.topic.id,
             topic_post_id: this.topic.topic_post_id,
             like_count: this.likeCount,
-            has_liked: this.hasLiked
+            has_liked: this.hasLiked,
           };
         },
 
@@ -474,7 +489,8 @@ export default {
                 !this.topic.bookmarked
               );
               this.topic.bookmarked = !this.topic.bookmarked;
-              let bookmarkElement = this.element.querySelector(".topic-bookmark");
+              let bookmarkElement =
+                this.element.querySelector(".topic-bookmark");
               bookmarkElement.classList.toggle("bookmarked");
             },
             500
@@ -482,36 +498,36 @@ export default {
         },
 
         debouncedToggleLike() {
-          if (this.get ('currentUser')) {
+          if (this.get("currentUser")) {
             Ember.run.debounce(
               this,
               () => {
                 let change = 0;
 
-                if (this.get('hasLiked')) {
+                if (this.get("hasLiked")) {
                   removeLike(this.topic.topic_post_id);
                   change = -1;
                 } else {
                   addLike(this.topic.topic_post_id);
                   change = 1;
-                  this.set('canUnlike', true);
+                  this.set("canUnlike", true);
                   //TODO improve this so it doesn't update UI upon failure to like
                   //TODO add back animation?
                 }
                 let newText = "";
-                let count = this.get('likeCount');
+                let count = this.get("likeCount");
                 let newCount = (count || 0) + (change || 0);
-                this.set ('hasLiked', !this.get('hasLiked'));
-                this.set('topic.topic_post_like_count', newCount);
-                this.set ('likeCount', newCount);
-                this.renderTopicListItem ();
-                this._afterRender ();
+                this.set("hasLiked", !this.get("hasLiked"));
+                this.set("topic.topic_post_like_count", newCount);
+                this.set("likeCount", newCount);
+                this.renderTopicListItem();
+                this._afterRender();
               },
               500
-            )
+            );
           } else {
-            const controller = container.lookup ('controller:application');
-            controller.send ('showLogin');
+            const controller = container.lookup("controller:application");
+            controller.send("showLogin");
           }
         },
       });
@@ -519,17 +535,20 @@ export default {
       api.modifyClass("component:search-result-entries", {
         pluginId: PLUGIN_ID,
         tagName: "div",
-        classNameBindings: ["thumbnailGrid:thumbnail-grid"], 
+        classNameBindings: ["thumbnailGrid:thumbnail-grid"],
 
         @discourseComputed
         thumbnailGrid() {
-          if (this.siteSettings.topic_list_search_previews_enabled !== undefined && this.siteSettings.topic_list_search_previews_enabled) {
+          if (
+            this.siteSettings.topic_list_search_previews_enabled !==
+              undefined &&
+            this.siteSettings.topic_list_search_previews_enabled
+          ) {
             return true;
           } else {
             return false;
           }
         },
-
       });
 
       api.modifyClass("component:search-result-entry", {
@@ -537,7 +556,11 @@ export default {
 
         @discourseComputed
         thumbnailGrid() {
-          if (this.siteSettings.topic_list_search_previews_enabled !== undefined && this.siteSettings.topic_list_search_previews_enabled) {
+          if (
+            this.siteSettings.topic_list_search_previews_enabled !==
+              undefined &&
+            this.siteSettings.topic_list_search_previews_enabled
+          ) {
             return true;
           } else {
             return false;

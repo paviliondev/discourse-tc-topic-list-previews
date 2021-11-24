@@ -1,0 +1,5 @@
+{{#unless context.tilesStyle}}
+  {{#if context.hasThumbnail}}
+    {{~raw "list/topic-thumbnail" topic=context.topic thumbnails=context.thumbnails category=context.category opts=context.thumbnailOpts}}
+  {{/if}}
+{{/unless}}

@@ -1,0 +1,18 @@
+{{#if context.tilesStyle}}
+  {{#if context.hasThumbnail}}
+  <div class="image">
+    {{~raw "list/topic-thumbnail" topic=context.topic thumbnails=context.thumbnails currentUser=context.currentUser site=site category=category opts=context.thumbnailOpts}}
+    <a href='{{context.topic.url}}'>
+      <div class="image-mask" style="{{context.backgroundGradient}}"></div>
+    </a>
+    </div>
+  {{/if}}
+  <div class="left-padding"></div>
+  {{~raw "list/topic-users" tilesStyle=context.tilesStyle topic=context.topic posterNames=context.posterNames}}
+  {{~raw 'list/topic-meta' likesHeat=context.likesHeat title=context.title topic=context.topic}}
+  {{#if context.showActions}}
+    {{~raw "list/topic-actions" likeCount=context.likeCount topicActions=context.topicActions topic=context.topic}}
+  {{/if}}
+  <div class="right-padding"></div>
+  <div class="bottom-padding"></div>
+{{/if}}

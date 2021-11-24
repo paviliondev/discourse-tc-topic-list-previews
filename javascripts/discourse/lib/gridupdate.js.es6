@@ -18,7 +18,8 @@ function resizeGridItem (item, grid, rowHeight, rowGap) {
 }
 
 function resizeAllGridItems () {
-  const allItems = document.getElementsByClassName ('tiles-grid-item');
+
+  const allItems = document.getElementsByClassName('topic-list-item');
   let grid = false;
 
   grid = document.getElementsByTagName('tbody')[0];

@@ -1,3 +1,7 @@
+.topic-thumbnail {
+  padding-right: 15px;
+}
+
 //tiles styling  specific styling
 
 .contents.has-more > .topic-list.tiles-style tbody {
@@ -26,11 +30,29 @@
     grid-column-end: span 2;
   }
 
-  .tiles-grid-item {
+  .tiles-grid-item-content {
     box-sizing: border-box;
     cursor: pointer;
     border-radius: 3px;
     grid-row-end: span 24;
+
+    > a, >span.number, .btn-link {
+      display: none;
+    }
+
+    //.latest, button.btn-link,
+
+    display: grid;
+    grid-template-columns: 10px auto auto auto auto auto 10px;
+    grid-template-rows: auto auto auto auto auto auto auto;
+    grid-template-areas:
+      "photo photo photo photo photo photo photo"
+      "left-padding title title title posters posters right-padding"
+      "left-padding category category category posters posters right-padding"
+      "left-padding excerpt excerpt excerpt excerpt excerpt right-padding"
+      "left-padding tags tags tags tags tags right-padding"
+      "left-padding meta meta meta meta actions right-padding"
+      "bottom-padding bottom-padding bottom-padding bottom-padding bottom-padding bottom-padding bottom-padding";
 
     &.white-text.has-thumbnail {
       .topic-details,
@@ -66,13 +88,24 @@
   .tiles-grid-item:active {
   }
 
-  .tiles-grid-item-content {
-    display: grid;
-    grid-template-columns: 1;
-    grid-template-rows: auto auto;
-    grid-template-areas:
-      "photo"
-      "details";
+  .left-padding {
+    grid-area: left-padding;
+  }
+
+  .right-padding {
+    grid-area: right-padding;
+  }
+
+  .bottom-padding {
+    grid-area: bottom-padding;
+  }
+
+  .left-padding, .right-padding {
+    width: 10px
+  }
+
+  .bottom-padding {
+    height: 10px
   }
 
   .image {
@@ -94,63 +127,15 @@
     z-index: 1;
   }
 
-  .thumbnail {
-    .no-thumbnail {
-      display: none;
-    }
-  }
-
-  .topic-details {
-    grid-area: details;
-    display: grid;
-    padding: 10px 10px 10px 10px;
-    z-index: 10;
-    grid-template-columns: 1 1 1 1 auto;
-    grid-template-rows: auto auto auto auto;
-    grid-template-areas:
-      "theader theader theader theader theader"
-      "excerpt excerpt excerpt excerpt excerpt"
-      "tags tags tags tags tags"
-      "meta meta meta meta actions";
-  }
-
-  .topic-header-grid {
-    grid-area: theader;
-    z-index: 99;
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto;
-    grid-template-areas:
-      "title posters"
-      "category posters";
-  }
-
   .show-more.has-topics {
     position: relative;
   }
 
-  .topic-title {
+  .link-top-line {
     font-size: 1.143em;
     grid-area: title;
-    padding: 0 0 0 0;
-
-    .link-top-line {
-      flex: 1 1 auto;
-    }
-
-    a.title {
-      color: var(--primary);
-    }
-
-    a.topic-featured-link {
+    .topic-featured-link {
       display: block;
-      padding-left: 0;
-      padding-top: 3px;
-    }
-
-    .badge-notification.new-topic {
-      vertical-align: top;
-      display: inline-block;
     }
   }
 
@@ -172,7 +157,7 @@
     }
   }
 
-  .topic-category {
+  .link-bottom-line {
     grid-area: category;
     padding: 0 0 4px 0;
     .badge-wrapper.box span {
@@ -266,7 +251,6 @@
 
 .topic-thumbnail {
   float: left;
-  padding-right: 15px;
 
   .no-thumbnail {
     display: none;
@@ -395,6 +379,22 @@ button.list-button {
   .input-small {
     width: 60px;
   }
+}
+
+.topic-list-item a.title {
+  color: var(--secondary);
+}
+
+.topic-list-item.white-text a.title {
+  color: var(--primary);
+}
+
+.topic-list-item.visited a.title {
+  color: var(--secondary-medium);
+}
+
+.topic-list-item.visited.white-text a.title {
+  color: var(--primary-medium);
 }
 
 .tlp-featured-topics.has-topics {
@@ -631,4 +631,3 @@ img.select-thumbnail-preview {
       padding-right: 10px;
     }
   }
-// }
