@@ -149,7 +149,7 @@ export default {
           "topic.pinned",
           "likeDifference",
           "topic.thumbnails",
-          "topic.category_id"
+          "topicListPreviewsService.displayTiles"
         ],
         classNameBindings: ["whiteText:white-text:black-text", "hasThumbnail", "tilesStyle:tiles-grid-item"],
         tilesStyle: readOnly("topicListPreviewsService.displayTiles"),
