@@ -149,7 +149,7 @@ export default {
           "topic.pinned",
           "likeDifference",
           "topic.thumbnails",
-          "topicListPreviewsService.displayTiles"
+          "tilesStyle"
         ],
         classNameBindings: ["whiteText:white-text:black-text", "hasThumbnail", "tilesStyle:tiles-grid-item"],
         tilesStyle: readOnly("topicListPreviewsService.displayTiles"),
@@ -299,6 +299,12 @@ export default {
             debugger;
             this.set("tagName", "tr");
           }
+        },
+
+
+        @on("didRender")
+        _checkit() {
+          debugger;
         },
 
         @discourseComputed
