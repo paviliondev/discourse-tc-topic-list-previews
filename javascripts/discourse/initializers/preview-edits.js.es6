@@ -284,7 +284,12 @@ export default {
             }
           });
         },
-          
+
+        @observes('tilesStyle')
+        _fundamentalLayoutChanged () {
+          this.rerender();
+        },
+
         @observes('tilesStyle')
         updateTag () {
           if (this.get("tilesStyle")) {
