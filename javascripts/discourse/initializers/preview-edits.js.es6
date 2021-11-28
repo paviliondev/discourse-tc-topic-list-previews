@@ -285,17 +285,18 @@ export default {
           });
         },
 
-        @observes('tilesStyle')
-        _fundamentalLayoutChanged () {
-          debugger;
-          this.rerender();
-        },
+        // @observes('tilesStyle')
+        // _fundamentalLayoutChanged () {
+        //   debugger;
+        //   this.rerender();
+        // },
 
         @observes('tilesStyle')
         updateTag () {
           if (this.get("tilesStyle")) {
            this.set("tagName", "div");
           } else {
+            debugger;
             this.set("tagName", "tr");
           }
         },
