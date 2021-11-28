@@ -287,6 +287,7 @@ export default {
 
         @observes('tilesStyle')
         _fundamentalLayoutChanged () {
+          debugger;
           this.rerender();
         },
 
