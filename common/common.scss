@@ -9,9 +9,9 @@
       display: none;
     }
     display: grid;
-    grid-gap: 6px;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    grid-auto-rows: 10px;
+    gap: 6px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-auto-rows: 4px;
   }
 
   .tiles-grid-item-width2 {
@@ -25,7 +25,7 @@
     box-sizing: border-box;
     cursor: pointer;
     border-radius: 3px;
-    grid-row-end: span 24;
+    grid-row-end: span 44;
   }
 
   .tiles-grid-item-content {
