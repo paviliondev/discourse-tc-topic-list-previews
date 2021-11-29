@@ -1,17 +1,16 @@
 //tiles styling  specific styling
 .tiles-style {
-
   th {
-    display:none;
+    display: none;
   }
 
-  tbody  {
+  tbody {
     .topic-list-item-separator {
       display: none;
     }
     display: grid;
     grid-gap: 6px;
-    grid-template-columns: repeat(auto-fill, minmax(320px,1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     grid-auto-rows: 10px;
   }
 
@@ -90,12 +89,12 @@
     grid-template-columns: auto auto;
     grid-template-rows: auto auto;
     grid-template-areas:
-    "title posters"
-    "category posters"
+      "title posters"
+      "category posters";
   }
 
   .show-more.has-topics {
-     position: relative;
+    position: relative;
   }
 
   .topic-title {
@@ -103,9 +102,9 @@
     grid-area: title;
     padding: 0 0 0 0;
 
-     .link-top-line {
-       flex: 1 1 auto;
-     }
+    .link-top-line {
+      flex: 1 1 auto;
+    }
 
     a.title {
       color: var(--primary);
@@ -149,12 +148,12 @@
     float: right;
   }
 
-  .topic-category{
+  .topic-category {
     grid-area: category;
     padding: 0 0 4px 0;
   }
 
-  .topic-thumbnail{
+  .topic-thumbnail {
     grid-area: photo;
     padding: 0 0 4px 0;
   }
@@ -192,11 +191,11 @@
     grid-area: tags;
 
     .discourse-tags {
-        display: inline-block;
+      display: inline-block;
     }
   }
 
-  .topic-meta{
+  .topic-meta {
     grid-area: meta;
 
     .topic-views {
@@ -212,12 +211,13 @@
     font-size: 0.9em;
   }
 
-  div.sub, span.sub {
+  div.sub,
+  span.sub {
     padding: 0;
     font-size: 12px;
   }
 
-  .topic-list{
+  .topic-list {
     padding-top: 10px;
   }
 
@@ -271,11 +271,11 @@ img.thumbnail {
 }
 
 .middot:after {
-  content: '\00B7';
+  content: "\00B7";
 }
 
 .topic-list span.badge-category .category-name {
-    max-width: 250px;
+  max-width: 250px;
 }
 
 .main-link .topic-category {
@@ -290,7 +290,8 @@ html:not(.tile-style) .topic-actions {
   align-items: center;
 }
 
-.like-count, .list-vote-count {
+.like-count,
+.list-vote-count {
   color: var(--primary-medium);
   font-size: 13px;
   display: inline-block;
@@ -330,7 +331,8 @@ button.list-button {
     vertical-align: bottom;
   }
 
-  &.has-like, &.topic-like:not([disabled]):hover {
+  &.has-like,
+  &.topic-like:not([disabled]):hover {
     color: var(--love);
   }
 
@@ -342,20 +344,24 @@ button.list-button {
     box-shadow: none;
   }
 
-  &.bookmarked, &.topic-bookmark:hover {
-    i.fa-bookmark, .d-icon-bookmark {
+  &.bookmarked,
+  &.topic-bookmark:hover {
+    i.fa-bookmark,
+    .d-icon-bookmark {
       color: var(--tertiary);
     }
   }
 }
 
 .user-main .list-button {
-  .fa-heart, .d-icon-heart {
+  .fa-heart,
+  .d-icon-heart {
     color: inherit !important;
   }
 
   &.has-like {
-    .fa-heart, .d-icon-heart {
+    .fa-heart,
+    .d-icon-heart {
       color: var(--love) !important;
     }
   }
@@ -363,7 +369,7 @@ button.list-button {
 
 .category-custom-settings-outlet {
   .select2-container {
-    width: 100%
+    width: 100%;
   }
 
   .input-small {
@@ -381,76 +387,74 @@ button.list-button {
     overflow-y: hidden;
 
     .tlp-featured-topic {
-
-      display:block;
+      display: block;
       padding-right: 5px;
       cursor: pointer;
 
-     .featured-details {
-       position: relative;
+      .featured-details {
+        position: relative;
 
-       img.thumbnail {
-         z-index:0;
-       }
-
-      .content, .content a {
-        z-index:-2;
-        color: transparent;
-        background-color: transparent;
-        transition: background-color 200ms linear;
-        transition: color 200ms linear;
-        padding-bottom: 15px;
-        padding: 15px;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-
-        .title {
-          font-weight: 700;
-          margin-bottom: 7px;
+        img.thumbnail {
+          z-index: 0;
         }
 
-        .user {
+        .content,
+        .content a {
+          z-index: -2;
+          color: transparent;
+          background-color: transparent;
+          transition: background-color 200ms linear;
+          transition: color 200ms linear;
+          padding-bottom: 15px;
+          padding: 15px;
           position: absolute;
-          bottom: 10px;
-          right: 10px;
-        }
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
 
-        img {
-          margin-left: 5px;
-          max-height:100%;
-          max-width:100%;
+          .title {
+            font-weight: 700;
+            margin-bottom: 7px;
+          }
+
+          .user {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+          }
+
+          img {
+            margin-left: 5px;
+            max-height: 100%;
+            max-width: 100%;
+          }
         }
       }
-    }
 
-    &.show-details .featured-details {
-
-      img {
-        -webkit-filter: brightness(50%);
-        transition: background-color 200ms linear;
-      }
-
-      .content, .content a {
-
-        z-index: 2;
-        color: var(--secondary);
-
-        a.mention {
-          background-color: var(--primary-high);
+      &.show-details .featured-details {
+        img {
+          -webkit-filter: brightness(50%);
+          transition: background-color 200ms linear;
         }
 
-        img {
-          -webkit-filter: brightness(150%);
-          visibility: visible;
+        .content,
+        .content a {
+          z-index: 2;
+          color: var(--secondary);
+
+          a.mention {
+            background-color: var(--primary-high);
+          }
+
+          img {
+            -webkit-filter: brightness(150%);
+            visibility: visible;
+          }
         }
       }
     }
   }
-}
-
 
   .featured-tags {
     margin-top: 10px;
@@ -494,8 +498,8 @@ img.select-thumbnail-preview {
   max-height: 148px;
 }
 
-.portfolio-button-inner{
-  width:100px;
+.portfolio-button-inner {
+  width: 100px;
   padding: 6px;
   overflow: hidden;
   font-size: 1em;
@@ -526,7 +530,7 @@ img.select-thumbnail-preview {
 }
 
 .tiles-grid-item {
-  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 0 0 0 rgba(0,0,0,0.12);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 0 0 0 rgba(0, 0, 0, 0.12);
 }
 
 .tiles-grid-item:hover {
@@ -534,11 +538,11 @@ img.select-thumbnail-preview {
 }
 
 .tiles-grid-item:active {
--webkit-transform: translateY(+2px);
--ms-transform: translateY(+2px);
-transform: translateY(+2px);
--webkit-transform: translateX(+2px);
--ms-transform: translateX(+2px);
-transform: translateX(+2px);
-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.16),0 0 0 0 rgba(0,0,0,0.12);
+  -webkit-transform: translateY(+2px);
+  -ms-transform: translateY(+2px);
+  transform: translateY(+2px);
+  -webkit-transform: translateX(+2px);
+  -ms-transform: translateX(+2px);
+  transform: translateX(+2px);
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.16), 0 0 0 0 rgba(0, 0, 0, 0.12);
 }

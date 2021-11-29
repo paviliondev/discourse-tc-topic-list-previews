@@ -1,5 +1,4 @@
 .mobile-view .topic-list {
-
   .pull-right {
     .keep-in-line {
       display: inline-block;
@@ -45,8 +44,8 @@
   }
 
   img.thumbnail:not(.tiles-thumbnail) {
-    max-width:80px;
-    max-height:80px;
+    max-width: 80px;
+    max-height: 80px;
   }
 
   .discourse-tags {
@@ -59,7 +58,6 @@
 
 //tiles styling  specific styling
 .mobile-view .tiles-style {
-
   tbody {
     .topic-list-item-separator {
       display: none;
@@ -73,20 +71,16 @@
   }
 
   .tiles-gutter-sizer {
-     width: 6px;
-   }
+    width: 6px;
+  }
 
   .topic-title {
     font-size: 1.143em;
     grid-area: title;
     padding: 0 0 0 0;
 
-     .link-top-line {
-       flex: 1 1 auto;
-     }
-
-    a.title {
-      color: var(--primary);
+    .link-top-line {
+      flex: 1 1 auto;
     }
 
     a.topic-featured-link {
@@ -123,12 +117,12 @@
     float: right;
   }
 
-  .topic-category{
+  .topic-category {
     grid-area: category;
     padding: 0 0 4px 0;
   }
 
-  .topic-thumbnail{
+  .topic-thumbnail {
     grid-area: photo;
     padding: 0 0 4px 0;
   }
@@ -143,7 +137,7 @@
     grid-area: tags;
   }
 
-  .topic-meta{
+  .topic-meta {
     grid-area: meta;
   }
 
@@ -151,12 +145,13 @@
     font-size: 0.9em;
   }
 
-  div.sub, span.sub {
+  div.sub,
+  span.sub {
     padding: 0;
     font-size: 12px;
   }
 
-  .topic-list{
+  .topic-list {
     padding-top: 10px;
   }
 
@@ -182,7 +177,8 @@
       padding: 0 0 0 10px;
       color: var(--primary-medium);
 
-      &.has-like, &.topic-like:not([disabled]):hover {
+      &.has-like,
+      &.topic-like:not([disabled]):hover {
         color: var(--love);
       }
     }
