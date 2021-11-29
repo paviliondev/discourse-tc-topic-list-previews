@@ -4,64 +4,61 @@
   </td>
 {{/if}}
 
-<td class='main-link clearfix topic-list-data' colspan="{{titleColSpan}}">
-  {{#if tilesStyle}}
-    <div class="tiles-grid-item-content">
-      <div class="topic-header-grid">
-          {{raw "list/topic-list-title" topic=topic tilesStyle=tilesStyle showTopicPostBadges=showTopicPostBadges}}
-          <div class="topic-category">
-            {{#if showCategoryBadge}}
-              {{category-link topic.category}}
-            {{/if}}
-          </div>
-        </div>
-    {{/if}}
-
-    {{#if showThumbnail}}
-      {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails currentUser=currentUser site=site category=category opts=thumbnailOpts}}
-    {{/if}}
-    {{#if tilesStyle}}
-      <div class="topic-details">
-    {{/if}}
-    {{#if notTilesStyle}}
-      {{raw "list/topic-list-title"
-        topic=topic
-        tilesStyle=tilesStyle
-        showTopicPostBadges=showTopicPostBadges
-        homepage=parentView.homepage
-        suggested=parentView.suggestedList}}
-      {{#if showCategoryBadge}}
-        <div class='topic-category'>
-          {{category-link topic.category}}
-        </div>
+{{#if tilesStyle}}
+  <div class="tiles-grid-item-content">
+    <div class="image">
+      {{#if hasThumbnail}}
+        {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails currentUser=currentUser site=site category=category opts=thumbnailOpts}}
       {{/if}}
-      {{discourse-tags topic mode="list" tagsForUser=tagsForUser}}
+      <a href='{{topic.url}}'>
+        <div class="image-mask" style="{{backgroundGradient}}"></div>
+      </a>
+    </div>
+    <div class="topic-details">
+      <div class="topic-header-grid">
+        {{raw "list/topic-list-title" topic=topic tilesStyle=tilesStyle showTopicPostBadges=showTopicPostBadges}}
+        <div class="topic-category">
+          {{#if showCategoryBadge}}
+            {{category-link topic.category}}
+          {{/if}}
+        </div>
+      </div>
+      <a href='{{topic.url}}'>
+        {{raw "list/topic-excerpt" topic=topic}}
+      </a>
+      {{raw 'list/topic-meta' likesHeat=likesHeat title=view.title topic=topic}}
+      {{#if showActions}}
+        {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions topic=topic}}
+      {{/if}}
+    </div>
+  </div>
+{{else}}
+  <td class='main-link clearfix' colspan="{{titleColSpan}}">
+    {{#if hasThumbnail}}
+      {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
     {{/if}}
-
+    {{raw "list/topic-list-title"
+      topic=topic
+      tilesStyle=tilesStyle
+      showTopicPostBadges=showTopicPostBadges
+      homepage=parentView.homepage
+      suggested=parentView.suggestedList}}
+    {{#if showCategoryBadge}}
+      <div class='topic-category'>
+        {{category-link topic.category}}
+      </div>
+    {{/if}}
+    {{discourse-tags topic mode="list" tagsForUser=tagsForUser}}
     {{#if expandPinned}}
       {{raw "list/topic-excerpt" topic=topic}}
     {{/if}}
-
-    {{#if notTilesStyle}}
-      <div class="actions-and-meta-data">
-        {{#if showActions}}
-          {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions}}
-        {{/if}}
-        {{raw "list/action-list" topic=topic postNumbers=topic.liked_post_numbers className="likes" icon="heart"}}
-      </div>
-    {{/if}}
-
-    {{#if tilesStyle}}
-      </div>
-      {{raw 'list/topic-meta' likesHeat=likesHeat title=view.title topic=topic}}
+    <div class="actions-and-meta-data">
       {{#if showActions}}
         {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions}}
       {{/if}}
-    {{/if}}
-</td>
-
-{{#if notTilesStyle}}
-
+      {{raw "list/action-list" topic=topic postNumbers=topic.liked_post_numbers className="likes" icon="heart"}}
+    </div>
+  </td>
   {{#if showPosters}}
     {{raw "list/posters-column" posters=topic.posters}}
   {{/if}}
@@ -84,11 +81,11 @@
 
   {{#if showOpLikes}}
     <td class="num likes">
-      {{#if hasOpLikes}}
-        <a href='{{topic.summaryUrl}}'>
-          {{number topic.op_like_count}} {{d-icon 'heart'}}
-        </a>
-      {{/if}}
+    {{#if hasOpLikes}}
+      <a href='{{topic.summaryUrl}}'>
+        {{number topic.op_like_count}} {{d-icon 'heart'}}
+      </a>
+    {{/if}}
     </td>
   {{/if}}
 

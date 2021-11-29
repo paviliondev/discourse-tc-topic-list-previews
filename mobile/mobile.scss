@@ -1,7 +1,9 @@
 .mobile-view .topic-list {
 
-  .topic-thumbnail {
-    padding: 0;
+  .pull-right {
+    .keep-in-line {
+      display: inline-block;
+    }
   }
 
   .topic-details {
@@ -24,7 +26,6 @@
 
   .topic-actions {
     margin-top: 5px;
-    float: none;
   }
 
   .list-button {
@@ -41,10 +42,6 @@
 
   .list-button i {
     vertical-align: top;
-  }
-
-  .num.activity {
-    float: right;
   }
 
   img.thumbnail:not(.tiles-thumbnail) {
@@ -64,7 +61,6 @@
 .mobile-view .tiles-style {
 
   tbody {
-    display:block;
     .topic-list-item-separator {
       display: none;
     }
@@ -79,41 +75,6 @@
   .tiles-gutter-sizer {
      width: 6px;
    }
-
-  .tiles-grid-item {
-    box-sizing: border-box;
-    cursor: pointer;
-    float:top;
-    margin-bottom: 6px;
-    border-radius: 3px;
-    padding:10px;
-    display: grid;
-    grid-template-columns: 1 1 1 1 auto;
-    grid-template-rows: auto auto auto auto auto;
-    grid-template-areas:
-     "theader theader theader theader theader"
-     "photo photo photo photo photo"
-     "details details details details details"
-     "tags tags tags tags tags"
-     "meta meta meta meta actions"
-  }
-
-  .tiles-grid-item:hover {
-    background-color: var(--blend-primary-secondary-5);
-  }
-
-  .tiles-grid-item:active {
-  }
-
-  .topic-header-grid {
-    grid-area: theader;
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto;
-    grid-template-areas:
-    "title posters"
-    "category posters"
-  }
 
   .topic-title {
     font-size: 1.143em;
@@ -175,23 +136,6 @@
   .thumbnail {
     .no-thumbnail {
       display: none;
-    }
-  }
-
-  img.thumbnail {
-    }
-
-  .topic-details {
-    grid-area: details;
-    padding: 0 0 4px 0;
-    min-height: 0px;
-
-    .topic-excerpt {
-      line-height: 1.3;
-      max-height: 200px;
-      max-width: 100%;
-      float: left;
-      clear: both;
     }
   }
 
