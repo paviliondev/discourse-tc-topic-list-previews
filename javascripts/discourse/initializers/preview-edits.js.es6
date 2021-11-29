@@ -162,9 +162,9 @@ export default {
           const thumbnails = topic.get("thumbnails");
           const currentUser = this.get("currentUser");
           const defaultThumbnail = this.get("defaultThumbnail");
-          this.set('likeCount', topic.like_count);
-          this.set('hasLiked', topic.topic_post_liked);
-          this.set('canUnlike', topic.topic_post_can_unlike);
+          this.set("likeCount", topic.like_count);
+          this.set("hasLiked", topic.topic_post_liked);
+          this.set("canUnlike", topic.topic_post_can_unlike);
 
           if (this.get("tilesStyle")) {
             // needs 'div's for masonry
@@ -177,7 +177,10 @@ export default {
                   (tag) => this.get("featuredTags").indexOf(tag) > -1
                 )[0]
               ) {
-                this.set('classNames', this.classNames.concat("tiles-grid-item-width2"));
+                this.set(
+                  "classNames",
+                  this.classNames.concat("tiles-grid-item-width2")
+                );
               }
             }
             const raw = topic.excerpt;
@@ -191,11 +194,13 @@ export default {
                   if (defaultThumbnail) {
                     const thumbnailElement =
                       this.element.querySelector("img.thumbnail");
-                    if (thumbnailElement) thumbnailElement.src = defaultThumbnail; 
+                    if (thumbnailElement)
+                      thumbnailElement.src = defaultThumbnail;
                   } else {
                     const containerElement =
                       this.element.querySelector(".topic-thumbnail");
-                    if (containerElement) containerElement.style.display = "none";
+                    if (containerElement)
+                      containerElement.style.display = "none";
                   }
                 });
               }
@@ -216,7 +221,10 @@ export default {
         _setupDOM() {
           const topic = this.get("topic");
           let parent = this.element.parentNode;
-          let index = Array.prototype.indexOf.call(parent.children, this.element);
+          let index = Array.prototype.indexOf.call(
+            parent.children,
+            this.element
+          );
           if (
             topic.get("thumbnails") &&
             this.get("thumbnailFirstXRows") &&
@@ -369,11 +377,11 @@ export default {
 
         _likeButton() {
           let classes = "topic-like";
-          let disabled = this.get ('topic.topic_post_is_current_users');
+          let disabled = this.get("topic.topic_post_is_current_users");
 
           if (this.get("hasLiked")) {
             classes += " has-like";
-            disabled = disabled ? true : !this.get('canUnlike');
+            disabled = disabled ? true : !this.get("canUnlike");
           }
           return {
             type: "like",
@@ -384,7 +392,7 @@ export default {
             topic_id: this.topic.id,
             topic_post_id: this.topic.topic_post_id,
             like_count: this.likeCount,
-            has_liked: this.hasLiked
+            has_liked: this.hasLiked,
           };
         },
 
@@ -417,7 +425,8 @@ export default {
                 !this.topic.bookmarked
               );
               this.topic.bookmarked = !this.topic.bookmarked;
-              let bookmarkElement = this.element.querySelector(".topic-bookmark");
+              let bookmarkElement =
+                this.element.querySelector(".topic-bookmark");
               bookmarkElement.classList.toggle("bookmarked");
             },
             500
@@ -425,36 +434,36 @@ export default {
         },
 
         debouncedToggleLike() {
-          if (this.get ('currentUser')) {
+          if (this.get("currentUser")) {
             Ember.run.debounce(
               this,
               () => {
                 let change = 0;
 
-                if (this.get('hasLiked')) {
+                if (this.get("hasLiked")) {
                   removeLike(this.topic.topic_post_id);
                   change = -1;
                 } else {
                   addLike(this.topic.topic_post_id);
                   change = 1;
-                  this.set('canUnlike', true);
+                  this.set("canUnlike", true);
                   //TODO improve this so it doesn't update UI upon failure to like
                   //TODO add back animation?
                 }
                 let newText = "";
-                let count = this.get('likeCount');
+                let count = this.get("likeCount");
                 let newCount = (count || 0) + (change || 0);
-                this.set ('hasLiked', !this.get('hasLiked'));
-                this.set('topic.topic_post_like_count', newCount);
-                this.set ('likeCount', newCount);
-                this.renderTopicListItem ();
-                this._afterRender ();
+                this.set("hasLiked", !this.get("hasLiked"));
+                this.set("topic.topic_post_like_count", newCount);
+                this.set("likeCount", newCount);
+                this.renderTopicListItem();
+                this._afterRender();
               },
               500
-            )
+            );
           } else {
-            const controller = container.lookup ('controller:application');
-            controller.send ('showLogin');
+            const controller = container.lookup("controller:application");
+            controller.send("showLogin");
           }
         },
       });
