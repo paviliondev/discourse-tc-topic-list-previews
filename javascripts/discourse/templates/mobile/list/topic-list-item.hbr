@@ -23,9 +23,11 @@
           {{/if}}
         </div>
       </div>
-      <a href='{{topic.url}}'>
-        {{raw "list/topic-excerpt" topic=topic}}
-      </a>
+      {{#if showExcerpt}}
+        <a href='{{topic.url}}'>
+          {{raw "list/topic-excerpt" topic=topic}}
+        </a>
+      {{/if}}
       {{raw 'list/topic-meta' likesHeat=likesHeat title=view.title topic=topic}}
       {{#if showActions}}
         {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions topic=topic}}
@@ -62,7 +64,7 @@
         {{~#if topic.unseen~}}
           <span class="topic-post-badges">&nbsp;<span class="badge-notification new-topic"></span></span>
         {{~/if~}}
-        {{~#if expandPinned~}}
+        {{~#if showExcerpt~}}
         {{~raw "list/topic-excerpt" topic=topic~}}
         {{~/if~}}
       </div>
