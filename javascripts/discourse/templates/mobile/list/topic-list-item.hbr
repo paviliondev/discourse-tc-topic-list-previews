@@ -1,74 +1,98 @@
-<td>
-  {{#if tilesStyle}}
-    <div class="topic-header-grid">
-      {{raw "list/topic-list-title" topic=topic tilesStyle=tilesStyle mobileView=site.mobileView}}
-      <div class="topic-category">
-        {{#if showCategoryBadge}}
-          {{category-link topic.category}}
-        {{/if}}
-      </div>
-    </div>
-    {{#if hasThumbnail}}
-      {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
-    {{/if}}
-  {{else}}
-    {{#if hasThumbnail}}
-      {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
-    {{else}}
-      <div class='pull-left'>
-        <a href="{{topic.lastPostUrl}}" data-user-card="{{topic.last_poster_username}}">{{avatar topic.lastPosterUser imageSize="large"}}</a>
-      </div>
-    {{/if}}
-  {{/if}}
+{{#if bulkSelectEnabled}}
+  <td class='star'>
+    <input type="checkbox" class="bulk-select">
+  </td>
+{{/if}}
 
-  <div class='topic-details'>
-    {{#if notTilesStyle}}
+{{#if tilesStyle}}
+  <div class="tiles-grid-item-content">
+    <div class="image">
+      {{#if hasThumbnail}}
+        {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
+      {{/if}}
+      <a href='{{topic.url}}'>
+        <div class="image-mask" style="{{backgroundGradient}}"></div>
+      </a>
+    </div>
+    <div class="topic-details">
+      <div class="topic-header-grid">
+        {{raw "list/topic-list-title" topic=topic tilesStyle=tilesStyle showTopicPostBadges=showTopicPostBadges}}
+        <div class="topic-category">
+          {{#if showCategoryBadge}}
+            {{category-link topic.category}}
+          {{/if}}
+        </div>
+      </div>
+      {{#if showExcerpt}}
+        <a href='{{topic.url}}'>
+          {{raw "list/topic-excerpt" topic=topic}}
+        </a>
+      {{/if}}
+      {{raw 'list/topic-meta' likesHeat=likesHeat title=view.title topic=topic}}
+      {{#if showActions}}
+        {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions topic=topic}}
+      {{/if}}
+    </div>
+  </div>
+{{else}}
+  <td class="topic-list-data">
+    {{~raw-plugin-outlet name="topic-list-before-columns"}}
+    <div class='pull-left'>
+      {{#if hasThumbnail}}
+        {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
+      {{else}}
+        <a href="{{topic.lastPostUrl}}" data-user-card="{{topic.last_poster_username}}">{{avatar topic.lastPosterUser imageSize="large"}}</a>
+      {{/if}}
+    </div>
+    <div class='right'>
+      {{!--
+        The `~` syntax strip spaces between the elements, making it produce
+        `<a class=topic-post-badges>Some text</a><span class=topic-post-badges>`,
+        with no space between them.
+        This causes the topic-post-badge to be considered the same word as "text"
+        at the end of the link, preventing it from line wrapping onto its own line.
+      --}}
+      {{~raw-plugin-outlet name="topic-list-before-link"}}
       <div class='main-link'>
-        {{raw "list/topic-list-title"
-          topic=topic
-          showTopicPostBadges=showTopicPostBadges
-          homepage=parentView.homepage
-          suggested=parentView.suggestedList
-          mobileView=site.mobileView}}
+        {{~raw-plugin-outlet name="topic-list-before-status"}}
+        {{~raw "topic-status" topic=topic~}}
+        {{~topic-link topic class="raw-link raw-topic-link"}}
+        {{~#if topic.featured_link~}}
+        {{~topic-featured-link topic~}}
+        {{~/if~}}
+        {{~raw-plugin-outlet name="topic-list-after-title"}}
+        {{~#if topic.unseen~}}
+          <span class="topic-post-badges">&nbsp;<span class="badge-notification new-topic"></span></span>
+        {{~/if~}}
+        {{~#if showExcerpt~}}
+        {{~raw "list/topic-excerpt" topic=topic~}}
+        {{~/if~}}
       </div>
       <div class='pull-right'>
         {{raw "list/post-count-or-badges" topic=topic postBadgesEnabled=showTopicPostBadges}}
       </div>
-    {{/if}}
-
-    {{#if expandPinned}}
-      {{raw "list/topic-excerpt" topic=topic}}
-    {{/if}}
-
-    {{#if notTilesStyle}}
-      {{#if showCategoryBadge}}
-        <div class='topic-category'>
-          {{category-link topic.category}}
+      <div class="topic-item-stats clearfix">
+        {{#unless hideCategory}}
+          {{~raw-plugin-outlet name="topic-list-before-category"}}
+          <div class='category'>
+            {{category-link topic.category}}
+          </div>
+        {{/unless}}
+        {{discourse-tags topic mode="list"}}
+        <div class="pull-right">
+          <div class="keep-in-line">
+            {{#if showActions}}
+              {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions}}
+            {{/if}}
+            <div class='num activity last'>
+              <span class="age activity" title="{{topic.bumpedAtTitle}}"><a
+                  href="{{topic.lastPostUrl}}">{{format-date topic.bumpedAt format="tiny" noTitle="true"}}</a>
+              </span>
+            </div>
+          </div>
         </div>
-      {{/if}}
-
-      {{#if topic.tags}}
-        <div class='discourse-tags'>
-        {{#each topic.visibleListTags as |tag|}}
-          {{discourse-tag tag}}
-        {{/each}}
-        </div>
-      {{/if}}
-
-      {{#if showActions}}
-        {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions}}
-      {{/if}}
-
-      <div class='num activity last'>
-        <span class="age activity" title="{{topic.bumpedAtTitle}}"><a href="{{topic.lastPostUrl}}">{{format-date topic.bumpedAt format="tiny" noTitle="true"}}</a></span>
+        <div class="clearfix"></div>
       </div>
-    {{/if}}
-  </div>
-
-  {{#if tilesStyle}}
-    {{raw 'list/topic-meta' likesHeat=likesHeat title=view.title topic=topic}}
-    {{#if showActions}}
-      {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions}}
-    {{/if}}
-  {{/if}}
-</td>
+    </div>
+  </td>
+{{/if}}

@@ -1,18 +1,17 @@
 //tiles styling  specific styling
 .tiles-style {
-
   th {
-    display:none;
+    display: none;
   }
 
-  tbody  {
+  tbody {
     .topic-list-item-separator {
       display: none;
     }
     display: grid;
-    grid-gap: 6px;
-    grid-template-columns: repeat(auto-fill, minmax(320px,1fr));
-    grid-auto-rows: 10px;
+    gap: 6px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-auto-rows: 4px;
   }
 
   .tiles-grid-item-width2 {
@@ -26,20 +25,57 @@
     box-sizing: border-box;
     cursor: pointer;
     border-radius: 3px;
-    grid-row-end: span 24;
+    grid-row-end: span 44;
   }
 
   .tiles-grid-item-content {
-    padding: 10px;
     display: grid;
-    grid-template-columns: 1 1 1 1 auto;
-    grid-template-rows: auto auto auto auto auto;
+    grid-template-columns: 1;
+    grid-template-rows: auto auto;
     grid-template-areas:
-     "theader theader theader theader theader"
-     "photo photo photo photo photo"
-     "details details details details details"
-     "tags tags tags tags tags"
-     "meta meta meta meta actions"
+      "photo"
+      "details";
+  }
+
+  .image {
+    grid-area: photo;
+    display: block;
+  }
+
+  .topic-thumbnail {
+    padding: 0px;
+    z-index: -1;
+    width: 100%;
+    display: block;
+  }
+
+  //TODO add this back when mask functionality is added
+  // .image-mask {
+  //   position: relative;
+  //   margin-bottom: -200px;
+  //   height: 100%;
+  //   width: 100%;
+  //   z-index: 1;
+  // }
+
+  .thumbnail {
+    .no-thumbnail {
+      display: none;
+    }
+  }
+
+  .topic-details {
+    grid-area: details;
+    display: grid;
+    padding: 10px 10px 10px 10px;
+    z-index: 10;
+    grid-template-columns: 1 1 1 1 auto;
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+      "theader theader theader theader theader"
+      "excerpt excerpt excerpt excerpt excerpt"
+      "tags tags tags tags tags"
+      "meta meta meta meta actions";
   }
 
   .tiles-grid-item:hover {
@@ -55,12 +91,12 @@
     grid-template-columns: auto auto;
     grid-template-rows: auto auto;
     grid-template-areas:
-    "title posters"
-    "category posters"
+      "title posters"
+      "category posters";
   }
 
   .show-more.has-topics {
-     position: relative;
+    position: relative;
   }
 
   .topic-title {
@@ -68,9 +104,9 @@
     grid-area: title;
     padding: 0 0 0 0;
 
-     .link-top-line {
-       flex: 1 1 auto;
-     }
+    .link-top-line {
+      flex: 1 1 auto;
+    }
 
     a.title {
       color: var(--primary);
@@ -114,13 +150,8 @@
     float: right;
   }
 
-  .topic-category{
+  .topic-category {
     grid-area: category;
-    padding: 0 0 4px 0;
-  }
-
-  .topic-thumbnail{
-    grid-area: photo;
     padding: 0 0 4px 0;
   }
 
@@ -130,41 +161,38 @@
     }
   }
 
-  .topic-details {
-    grid-area: details;
-    padding: 0 0 4px 0;
+  .topic-excerpt {
+    grid-area: excerpt;
 
-    .topic-excerpt {
-      line-height: 1.3;
-      max-height: 300px;
-      max-width: 100%;
-      float: left;
-      clear: both;
-      padding-right: 0px;
+    line-height: 1.3;
+    max-height: 300px;
+    max-width: 100%;
+    float: left;
+    clear: both;
+    padding-right: 0px;
 
-      overflow-wrap: break-word;
-      word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 
-      -ms-word-break: break-all;
-      word-break: break-all;
-      word-break: break-word;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
 
-      -ms-hyphens: auto;
-      -moz-hyphens: auto;
-      -webkit-hyphens: auto;
-      hyphens: auto;
-    }
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
   }
 
   .topic-tags {
     grid-area: tags;
 
     .discourse-tags {
-        display: inline-block;
+      display: inline-block;
     }
   }
 
-  .topic-meta{
+  .topic-meta {
     grid-area: meta;
 
     .topic-views {
@@ -180,12 +208,13 @@
     font-size: 0.9em;
   }
 
-  div.sub, span.sub {
+  div.sub,
+  span.sub {
     padding: 0;
     font-size: 12px;
   }
 
-  .topic-list{
+  .topic-list {
     padding-top: 10px;
   }
 
@@ -210,40 +239,43 @@
     text-align: right;
     vertical-align: bottom;
   }
-}
 
-.topic-thumbnail {
-  float: left;
-  padding-right: 15px;
-
-  .no-thumbnail {
-    display: none;
+  .middot:after {
+    content: "\00B7";
   }
 }
 
-.topic-list .main-link a.title {
-  padding: 0;
-}
+//styling excluding tiles
+html:not(.tile-style) {
+  .topic-list .link-bottom-line {
+    display: block;
+  }
 
-.topic-details .topic-excerpt {
-  display: block;
-}
+  .topic-thumbnail {
+    float: left;
+    padding-right: 15px;
 
-.actions-and-meta-data {
-  float: left;
-  margin-top: 5px;
+    .no-thumbnail {
+      display: none;
+    }
+  }
+
+  .topic-excerpt {
+    display: block;
+  }
+
+  .topic-actions {
+    display: block;
+    margin-top: 5px;
+  }
 }
 
 img.thumbnail {
   object-fit: cover;
 }
 
-.middot:after {
-  content: '\00B7';
-}
-
-.topic-list span.badge-category .category-name {
-    max-width: 250px;
+.topic-details .topic-excerpt {
+  display: block;
 }
 
 .main-link .topic-category {
@@ -251,14 +283,8 @@ img.thumbnail {
   clear: left;
 }
 
-html:not(.tile-style) .topic-actions {
-  float: left;
-  clear: both;
-  display: flex;
-  align-items: center;
-}
-
-.like-count, .list-vote-count {
+.like-count,
+.list-vote-count {
   color: var(--primary-medium);
   font-size: 13px;
   display: inline-block;
@@ -272,16 +298,16 @@ html:not(.tile-style) .topic-actions {
   }
 }
 
-.list-vote-count {
-  float: left;
-  padding-right: 3px;
-  margin-top: 5px;
-}
+// .list-vote-count {
+//   float: left;
+//   padding-right: 3px;
+//   margin-top: 5px;
+// }
 
-.topic-actions .list-vote-count {
-  float: none;
-  margin-top: 0;
-}
+// .topic-actions .list-vote-count {
+//   float: none;
+//   margin-top: 0;
+// }
 
 button.list-button {
   font-size: 0.9em;
@@ -298,7 +324,8 @@ button.list-button {
     vertical-align: bottom;
   }
 
-  &.has-like, &.topic-like:not([disabled]):hover {
+  &.has-like,
+  &.topic-like:not([disabled]):hover {
     color: var(--love);
   }
 
@@ -310,20 +337,24 @@ button.list-button {
     box-shadow: none;
   }
 
-  &.bookmarked, &.topic-bookmark:hover {
-    i.fa-bookmark, .d-icon-bookmark {
+  &.bookmarked,
+  &.topic-bookmark:hover {
+    i.fa-bookmark,
+    .d-icon-bookmark {
       color: var(--tertiary);
     }
   }
 }
 
 .user-main .list-button {
-  .fa-heart, .d-icon-heart {
+  .fa-heart,
+  .d-icon-heart {
     color: inherit !important;
   }
 
   &.has-like {
-    .fa-heart, .d-icon-heart {
+    .fa-heart,
+    .d-icon-heart {
       color: var(--love) !important;
     }
   }
@@ -331,7 +362,7 @@ button.list-button {
 
 .category-custom-settings-outlet {
   .select2-container {
-    width: 100%
+    width: 100%;
   }
 
   .input-small {
@@ -349,76 +380,74 @@ button.list-button {
     overflow-y: hidden;
 
     .tlp-featured-topic {
-
-      display:block;
+      display: block;
       padding-right: 5px;
       cursor: pointer;
 
-     .featured-details {
-       position: relative;
+      .featured-details {
+        position: relative;
 
-       img.thumbnail {
-         z-index:0;
-       }
-
-      .content, .content a {
-        z-index:-2;
-        color: transparent;
-        background-color: transparent;
-        transition: background-color 200ms linear;
-        transition: color 200ms linear;
-        padding-bottom: 15px;
-        padding: 15px;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-
-        .title {
-          font-weight: 700;
-          margin-bottom: 7px;
+        img.thumbnail {
+          z-index: 0;
         }
 
-        .user {
+        .content,
+        .content a {
+          z-index: -2;
+          color: transparent;
+          background-color: transparent;
+          transition: background-color 200ms linear;
+          transition: color 200ms linear;
+          padding-bottom: 15px;
+          padding: 15px;
           position: absolute;
-          bottom: 10px;
-          right: 10px;
-        }
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
 
-        img {
-          margin-left: 5px;
-          max-height:100%;
-          max-width:100%;
+          .title {
+            font-weight: 700;
+            margin-bottom: 7px;
+          }
+
+          .user {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+          }
+
+          img {
+            margin-left: 5px;
+            max-height: 100%;
+            max-width: 100%;
+          }
         }
       }
-    }
 
-    &.show-details .featured-details {
-
-      img {
-        -webkit-filter: brightness(50%);
-        transition: background-color 200ms linear;
-      }
-
-      .content, .content a {
-
-        z-index: 2;
-        color: var(--secondary);
-
-        a.mention {
-          background-color: var(--primary-high);
+      &.show-details .featured-details {
+        img {
+          -webkit-filter: brightness(50%);
+          transition: background-color 200ms linear;
         }
 
-        img {
-          -webkit-filter: brightness(150%);
-          visibility: visible;
+        .content,
+        .content a {
+          z-index: 2;
+          color: var(--secondary);
+
+          a.mention {
+            background-color: var(--primary-high);
+          }
+
+          img {
+            -webkit-filter: brightness(150%);
+            visibility: visible;
+          }
         }
       }
     }
   }
-}
-
 
   .featured-tags {
     margin-top: 10px;
@@ -462,8 +491,8 @@ img.select-thumbnail-preview {
   max-height: 148px;
 }
 
-.portfolio-button-inner{
-  width:100px;
+.portfolio-button-inner {
+  width: 100px;
   padding: 6px;
   overflow: hidden;
   font-size: 1em;
@@ -494,7 +523,7 @@ img.select-thumbnail-preview {
 }
 
 .tiles-grid-item {
-  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 0 0 0 rgba(0,0,0,0.12);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 0 0 0 rgba(0, 0, 0, 0.12);
 }
 
 .tiles-grid-item:hover {
@@ -502,11 +531,11 @@ img.select-thumbnail-preview {
 }
 
 .tiles-grid-item:active {
--webkit-transform: translateY(+2px);
--ms-transform: translateY(+2px);
-transform: translateY(+2px);
--webkit-transform: translateX(+2px);
--ms-transform: translateX(+2px);
-transform: translateX(+2px);
-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.16),0 0 0 0 rgba(0,0,0,0.12);
+  -webkit-transform: translateY(+2px);
+  -ms-transform: translateY(+2px);
+  transform: translateY(+2px);
+  -webkit-transform: translateX(+2px);
+  -ms-transform: translateX(+2px);
+  transform: translateX(+2px);
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.16), 0 0 0 0 rgba(0, 0, 0, 0.12);
 }

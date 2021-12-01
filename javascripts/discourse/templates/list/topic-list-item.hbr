@@ -4,79 +4,94 @@
   </td>
 {{/if}}
 
-<td class='main-link clearfix topic-list-data' colspan="{{titleColSpan}}">
-  {{#if tilesStyle}}
-    <div class="tiles-grid-item-content">
-      <div class="topic-header-grid">
-          {{raw "list/topic-list-title" topic=topic tilesStyle=tilesStyle showTopicPostBadges=showTopicPostBadges}}
-          <div class="topic-category">
-            {{#if showCategoryBadge}}
-              {{category-link topic.category}}
-            {{/if}}
-          </div>
-        </div>
-    {{/if}}
-
-    {{#if showThumbnail}}
-      {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails currentUser=currentUser site=site category=category opts=thumbnailOpts}}
-    {{/if}}
-    {{#if tilesStyle}}
-      <div class="topic-details">
-    {{/if}}
-    {{#if notTilesStyle}}
-      {{raw "list/topic-list-title"
-        topic=topic
-        tilesStyle=tilesStyle
-        showTopicPostBadges=showTopicPostBadges
-        homepage=parentView.homepage
-        suggested=parentView.suggestedList}}
-      {{#if showCategoryBadge}}
-        <div class='topic-category'>
-          {{category-link topic.category}}
-        </div>
+{{#if tilesStyle}}
+  <div class="tiles-grid-item-content">
+    <div class="image">
+      {{#if hasThumbnail}}
+        {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails currentUser=currentUser site=site category=category opts=thumbnailOpts}}
       {{/if}}
-      {{discourse-tags topic mode="list" tagsForUser=tagsForUser}}
-    {{/if}}
-
-    {{#if expandPinned}}
-      {{raw "list/topic-excerpt" topic=topic}}
-    {{/if}}
-
-    {{#if notTilesStyle}}
-      <div class="actions-and-meta-data">
-        {{#if showActions}}
-          {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions}}
-        {{/if}}
-        {{raw "list/action-list" topic=topic postNumbers=topic.liked_post_numbers className="likes" icon="heart"}}
+      <a href='{{topic.url}}'>
+        <div class="image-mask" style="{{backgroundGradient}}"></div>
+      </a>
+    </div>
+    <div class="topic-details">
+      <div class="topic-header-grid">
+        {{raw "list/topic-list-title" topic=topic tilesStyle=tilesStyle showTopicPostBadges=showTopicPostBadges}}
+        <div class="topic-category">
+          {{#if showCategoryBadge}}
+            {{category-link topic.category}}
+          {{/if}}
+        </div>
       </div>
-    {{/if}}
-
-    {{#if tilesStyle}}
-      </div>
+      {{#if showExcerpt}}
+        <a href='{{topic.url}}'>
+          {{raw "list/topic-excerpt" topic=topic}}
+        </a>
+      {{/if}}
       {{raw 'list/topic-meta' likesHeat=likesHeat title=view.title topic=topic}}
+      {{#if showActions}}
+        {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions topic=topic}}
+      {{/if}}
+    </div>
+  </div>
+{{else}}
+  {{~raw-plugin-outlet name="topic-list-before-columns"}}
+  {{!--
+    The `~` syntax strip spaces between the elements, making it produce
+    `<a class=topic-post-badges>Some text</a><span class=topic-post-badges>`,
+    with no space between them.
+    This causes the topic-post-badge to be considered the same word as "text"
+    at the end of the link, preventing it from line wrapping onto its own line.
+  --}}
+  <td class='main-link clearfix topic-list-data' colspan="1">
+    {{#if hasThumbnail}}
+      {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
+    {{/if}}
+    {{~raw-plugin-outlet name="topic-list-before-link"}}
+    <span class='link-top-line'>
+      {{~raw-plugin-outlet name="topic-list-before-status"}}
+      {{~raw "topic-status" topic=topic}}
+      {{~topic-link topic class="raw-link raw-topic-link"}}
+      {{~#if topic.featured_link}}
+        {{~topic-featured-link topic}}
+      {{~/if}}
+      {{~raw-plugin-outlet name="topic-list-after-title"}}
+      {{~raw "list/unread-indicator" includeUnreadIndicator=includeUnreadIndicator
+                                    topicId=topic.id
+                                    unreadClass=unreadClass~}}
+      {{~#if showTopicPostBadges}}
+        {{~raw "topic-post-badges" unreadPosts=topic.unread_posts unseen=topic.unseen url=topic.lastUnreadUrl newDotText=newDotText}}
+      {{~/if}}
+    </span>
+    <div class="link-bottom-line">
+      {{#unless hideCategory}}
+        {{#unless topic.isPinnedUncategorized}}
+          {{~raw-plugin-outlet name="topic-list-before-category"}}
+          {{category-link topic.category}}
+        {{/unless}}
+      {{/unless}}
+      {{discourse-tags topic mode="list" tagsForUser=tagsForUser}}
+      {{#if expandPinned}}
+        {{raw "list/topic-excerpt" topic=topic}}
+      {{/if}}
       {{#if showActions}}
         {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions}}
       {{/if}}
-    {{/if}}
-</td>
-
-{{#if notTilesStyle}}
+      {{raw "list/action-list" topic=topic postNumbers=topic.liked_post_numbers className="likes" icon="heart"}}
+    </div>
+  </td>
 
   {{#if showPosters}}
-    {{raw "list/posters-column" posters=topic.posters}}
+    {{raw "list/posters-column" posters=topic.featuredUsers}}
   {{/if}}
 
   {{raw "list/posts-count-column" topic=topic}}
 
-  {{#if showParticipants}}
-    {{raw "list/posters-column" posters=topic.participants}}
-  {{/if}}
-
   {{#if showLikes}}
-    <td class="num likes">
+    <td class="num likes topic-list-data">
       {{#if hasLikes}}
         <a href='{{topic.summaryUrl}}'>
-          {{number topic.like_count}} {{d-icon 'heart'}}
+          {{number topic.like_count}} {{d-icon "heart"}}
         </a>
       {{/if}}
     </td>
@@ -86,12 +101,16 @@
     <td class="num likes">
       {{#if hasOpLikes}}
         <a href='{{topic.summaryUrl}}'>
-          {{number topic.op_like_count}} {{d-icon 'heart'}}
+          {{number topic.op_like_count}} {{d-icon "heart"}}
         </a>
       {{/if}}
     </td>
   {{/if}}
 
-  <td class="num views {{topic.viewsHeat}}">{{number topic.views numberKey="views_long"}}</td>
-  {{raw "list/activity-column" topic=topic class="num" tagName="td"}}
+  <td class="num views {{topic.viewsHeat}} topic-list-data">
+    {{raw-plugin-outlet name="topic-list-before-view-count"}}
+    {{number topic.views numberKey="views_long"}}
+  </td>
+
+  {{raw "list/activity-column" topic=topic class="num topic-list-data" tagName="td"}}
 {{/if}}

@@ -1,7 +1,14 @@
-.mobile-view .topic-list {
+ .mobile-view .topic-list {
 
-  .topic-thumbnail {
-    padding: 0;
+  //TODO make this dependent on a mobile thumbnail width setting?
+  .right {
+    margin-left: 95px;
+  }
+
+  .pull-right {
+    .keep-in-line {
+      display: inline-block;
+    }
   }
 
   .topic-details {
@@ -24,7 +31,10 @@
 
   .topic-actions {
     margin-top: 5px;
-    float: none;
+    float: left;
+    clear: both;
+    display: flex;
+    align-items: center;
   }
 
   .list-button {
@@ -43,13 +53,9 @@
     vertical-align: top;
   }
 
-  .num.activity {
-    float: right;
-  }
-
   img.thumbnail:not(.tiles-thumbnail) {
-    max-width:80px;
-    max-height:80px;
+    max-width: 80px;
+    max-height: 80px;
   }
 
   .discourse-tags {
@@ -62,9 +68,7 @@
 
 //tiles styling  specific styling
 .mobile-view .tiles-style {
-
   tbody {
-    display:block;
     .topic-list-item-separator {
       display: none;
     }
@@ -76,43 +80,12 @@
     width: 100%;
   }
 
+  .tiles-grid-item-width2 {
+    grid-column-end: span 1;
+  }
+
   .tiles-gutter-sizer {
-     width: 6px;
-   }
-
-  .tiles-grid-item {
-    box-sizing: border-box;
-    cursor: pointer;
-    float:top;
-    margin-bottom: 6px;
-    border-radius: 3px;
-    padding:10px;
-    display: grid;
-    grid-template-columns: 1 1 1 1 auto;
-    grid-template-rows: auto auto auto auto auto;
-    grid-template-areas:
-     "theader theader theader theader theader"
-     "photo photo photo photo photo"
-     "details details details details details"
-     "tags tags tags tags tags"
-     "meta meta meta meta actions"
-  }
-
-  .tiles-grid-item:hover {
-    background-color: var(--blend-primary-secondary-5);
-  }
-
-  .tiles-grid-item:active {
-  }
-
-  .topic-header-grid {
-    grid-area: theader;
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto;
-    grid-template-areas:
-    "title posters"
-    "category posters"
+    width: 6px;
   }
 
   .topic-title {
@@ -120,12 +93,8 @@
     grid-area: title;
     padding: 0 0 0 0;
 
-     .link-top-line {
-       flex: 1 1 auto;
-     }
-
-    a.title {
-      color: var(--primary);
+    .link-top-line {
+      flex: 1 1 auto;
     }
 
     a.topic-featured-link {
@@ -162,12 +131,12 @@
     float: right;
   }
 
-  .topic-category{
+  .topic-category {
     grid-area: category;
     padding: 0 0 4px 0;
   }
 
-  .topic-thumbnail{
+  .topic-thumbnail {
     grid-area: photo;
     padding: 0 0 4px 0;
   }
@@ -178,28 +147,11 @@
     }
   }
 
-  img.thumbnail {
-    }
-
-  .topic-details {
-    grid-area: details;
-    padding: 0 0 4px 0;
-    min-height: 0px;
-
-    .topic-excerpt {
-      line-height: 1.3;
-      max-height: 200px;
-      max-width: 100%;
-      float: left;
-      clear: both;
-    }
-  }
-
   .topic-tags {
     grid-area: tags;
   }
 
-  .topic-meta{
+  .topic-meta {
     grid-area: meta;
   }
 
@@ -207,12 +159,13 @@
     font-size: 0.9em;
   }
 
-  div.sub, span.sub {
+  div.sub,
+  span.sub {
     padding: 0;
     font-size: 12px;
   }
 
-  .topic-list{
+  .topic-list {
     padding-top: 10px;
   }
 
@@ -238,7 +191,8 @@
       padding: 0 0 0 10px;
       color: var(--primary-medium);
 
-      &.has-like, &.topic-like:not([disabled]):hover {
+      &.has-like,
+      &.topic-like:not([disabled]):hover {
         color: var(--love);
       }
     }
