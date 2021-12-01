@@ -39,6 +39,7 @@
 
   .image {
     grid-area: photo;
+    display: block;
   }
 
   .topic-thumbnail {
@@ -48,13 +49,14 @@
     display: block;
   }
 
-  .image-mask {
-    position: relative;
-    margin-bottom: -200px;
-    height: 100%;
-    width: 100%;
-    z-index: 1;
-  }
+  //TODO add this back when mask functionality is added
+  // .image-mask {
+  //   position: relative;
+  //   margin-bottom: -200px;
+  //   height: 100%;
+  //   width: 100%;
+  //   z-index: 1;
+  // }
 
   .thumbnail {
     .no-thumbnail {
@@ -153,11 +155,6 @@
     padding: 0 0 4px 0;
   }
 
-  .topic-thumbnail {
-    grid-area: photo;
-    padding: 0 0 4px 0;
-  }
-
   .thumbnail {
     .no-thumbnail {
       display: none;
@@ -242,52 +239,48 @@
     text-align: right;
     vertical-align: bottom;
   }
-}
 
-.topic-thumbnail {
-  float: left;
-  padding-right: 15px;
-
-  .no-thumbnail {
-    display: none;
+  .middot:after {
+    content: "\00B7";
   }
 }
 
-.topic-list .main-link a.title {
-  padding: 0;
-}
+//styling excluding tiles
+html:not(.tile-style) {
+  .topic-list .link-bottom-line {
+    display: block;
+  }
 
-.topic-details .topic-excerpt {
-  display: block;
-}
+  .topic-thumbnail {
+    float: left;
+    padding-right: 15px;
 
-.actions-and-meta-data {
-  float: left;
-  margin-top: 5px;
+    .no-thumbnail {
+      display: none;
+    }
+  }
+
+  .topic-excerpt {
+    display: block;
+  }
+
+  .topic-actions {
+    display: block;
+    margin-top: 5px;
+  }
 }
 
 img.thumbnail {
   object-fit: cover;
 }
 
-.middot:after {
-  content: "\00B7";
-}
-
-.topic-list span.badge-category .category-name {
-  max-width: 250px;
+.topic-details .topic-excerpt {
+  display: block;
 }
 
 .main-link .topic-category {
   display: inline-block;
   clear: left;
-}
-
-html:not(.tile-style) .topic-actions {
-  float: left;
-  clear: both;
-  display: flex;
-  align-items: center;
 }
 
 .like-count,
@@ -305,16 +298,16 @@ html:not(.tile-style) .topic-actions {
   }
 }
 
-.list-vote-count {
-  float: left;
-  padding-right: 3px;
-  margin-top: 5px;
-}
+// .list-vote-count {
+//   float: left;
+//   padding-right: 3px;
+//   margin-top: 5px;
+// }
 
-.topic-actions .list-vote-count {
-  float: none;
-  margin-top: 0;
-}
+// .topic-actions .list-vote-count {
+//   float: none;
+//   margin-top: 0;
+// }
 
 button.list-button {
   font-size: 0.9em;

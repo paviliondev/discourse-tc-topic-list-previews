@@ -1,5 +1,6 @@
-.mobile-view .topic-list {
+ .mobile-view .topic-list {
 
+  //TODO make this dependent on a mobile thumbnail width setting?
   .right {
     margin-left: 95px;
   }
@@ -30,6 +31,10 @@
 
   .topic-actions {
     margin-top: 5px;
+    float: left;
+    clear: both;
+    display: flex;
+    align-items: center;
   }
 
   .list-button {
@@ -73,6 +78,10 @@
   .tiles-grid-item {
     // 1 column on all phones
     width: 100%;
+  }
+
+  .tiles-grid-item-width2 {
+    grid-column-end: span 1;
   }
 
   .tiles-gutter-sizer {
