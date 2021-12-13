@@ -80,9 +80,10 @@
 
   .tiles-grid-item:hover {
     background-color: var(--blend-primary-secondary-5);
-  }
 
-  .tiles-grid-item:active {
+    .topic-thumbnail img {
+      opacity:0.7;
+    }
   }
 
   .topic-header-grid {
