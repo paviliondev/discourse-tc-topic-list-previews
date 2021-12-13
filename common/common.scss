@@ -1,4 +1,9 @@
 //tiles styling  specific styling
+
+.contents.has-more > .topic-list.tiles-style tbody {
+  margin-top: 60px;
+}
+
 .tiles-style {
   th {
     display: none;
