@@ -66,6 +66,16 @@ export default Service.extend({
         itemShortRouteName = item.substring(0,item.indexOf("-mobile"))
       }
 
+      if (settings.topic_list_set_category_defaults) {
+        if (currentTopicListRoute.indexOf("Category") > -1) {
+          currentTopicListRoute = item.substring(0,item.indexOf("Category"))
+        } else {
+          if (currentTopicListRoute == 'discovery.category') {
+            currentTopicListRoute = 'discovery.latest'
+          }
+        }
+      }
+
       if (currentTopicListRoute.indexOf(itemShortRouteName) > -1 && ((onMobile && mobileSetting) || (!onMobile && !mobileSetting))) {
         return true;
       }
