@@ -66,6 +66,11 @@ topic_list_actions_tags:
   default: ""
   description:
     en: "The tags that will include actions."
+topic_list_set_category_defaults:
+  default: false
+  type: bool
+  description:
+    en:  "Set site topic list display settings as defaults for category topic lists."
 topic_list_show_like_on_current_users_posts:
   type: bool
   default: true
@@ -99,11 +104,6 @@ topic_list_portfolio_filter_parameter:
   type: string
   description:
     en:  "Enter the tag or category slug (depending of value of filter type setting)"
-topic_list_set_category_defaults:
-  default: false
-  type: bool
-  description:
-    en:  "Set site topic list display settings as defaults for category topic lists."
 topic_list_default_thumbnail:
   default: ''
   type: string
