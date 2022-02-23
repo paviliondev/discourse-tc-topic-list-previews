@@ -162,7 +162,7 @@ export default {
         thumbnailFirstXRows: alias("parentView.thumbnailFirstXRows"),
         category: alias("parentView.category"),
         thumbnails: alias("topic.thumbnails"),
-        hasThumbnail: and("topic.thumbnails", "showThumbnail"),
+        hasThumbnail: false,
         likeCount: 0,
         hasLiked: false,
         canUnlike: true,
@@ -178,7 +178,7 @@ export default {
           this.set("likeCount", topic.like_count);
           this.set("hasLiked", topic.topic_post_liked);
           this.set("canUnlike", topic.topic_post_can_unlike);
-
+          this.set("hasThumbnail", this.get("thumbnails") && this.get("showThumbnail"));
           if (this.get("tilesStyle")) {
             // needs 'div's for masonry
             this.set("tagName", "div");
@@ -232,18 +232,18 @@ export default {
 
         @on("didInsertElement")
         _setupDOM() {
-          const topic = this.get("topic");
-          let parent = this.element.parentNode;
-          let index = Array.prototype.indexOf.call(
-            parent.children,
-            this.element
-          );
-          if (
-            topic.get("thumbnails") &&
-            this.get("thumbnailFirstXRows") &&
-            index > this.get("thumbnailFirstXRows")
-          ) {
-            this.set("showThumbnail", false);
+          const thumbnails = this.get("topic").get("thumbnails");
+          const thumbnailFirstXRows = this.get("thumbnailFirstXRows");
+          if (thumbnails && thumbnailFirstXRows) {
+            let parent = this.element.parentNode;
+            let index = Array.prototype.indexOf.call(
+              parent.children,
+              this.element
+            );
+            if (index > thumbnailFirstXRows) {
+              this.set("hasThumbnail", false);
+              this.renderTopicListItem();
+            }
           }
           this._afterRender();
         },
