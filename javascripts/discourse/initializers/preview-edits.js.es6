@@ -144,13 +144,6 @@ export default {
         pluginId: PLUGIN_ID,
         topicListPreviewsService: service("topic-list-previews"),
         canBookmark: Ember.computed.bool("currentUser"),
-        rerenderTriggers: [
-          "bulkSelectEnabled",
-          "topic.pinned",
-          "likeDifference",
-          "topic.thumbnails",
-          "tilesStyle"
-        ],
         classNameBindings: ["whiteText:white-text:black-text", "hasThumbnail", "tilesStyle:tiles-grid-item"],
         tilesStyle: readOnly("topicListPreviewsService.displayTiles"),
         notTilesStyle: not("topicListPreviewsService.displayTiles"),
@@ -163,7 +156,7 @@ export default {
         thumbnailFirstXRows: alias("parentView.thumbnailFirstXRows"),
         category: alias("parentView.category"),
         thumbnails: alias("topic.thumbnails"),
-        hasThumbnail: and("topic.thumbnails", "showThumbnail"),
+        hasThumbnail: false,
         averageIntensity: null,
         thumbnailIsLoaded: false,
         background: null,
@@ -194,6 +187,7 @@ export default {
           this.set('likeCount', topic.like_count);
           this.set('hasLiked', topic.topic_post_liked);
           this.set('canUnlike', topic.topic_post_can_unlike);
+          this.set("hasThumbnail", this.get("thumbnails") && this.get("showThumbnail"));
           if (this.tilesStyle) {
             this._setUpColour();
           }
@@ -263,48 +257,52 @@ export default {
 
         @on("didInsertElement")
         _setupDOM() {
-          const topic = this.get("topic");
-          let parent = this.element.parentNode;
-          let index = Array.prototype.indexOf.call(parent.children, this.element);
-          if (
-            topic.get("thumbnails") &&
-            this.get("thumbnailFirstXRows") &&
-            index > this.get("thumbnailFirstXRows")
-          ) {
-            this.set("showThumbnail", false);
+          const thumbnails = this.get("topic").get("thumbnails");
+          const thumbnailFirstXRows = this.get("thumbnailFirstXRows");
+          if (thumbnails && thumbnailFirstXRows) {
+            let parent = this.element.parentNode;
+            let index = Array.prototype.indexOf.call(
+              parent.children,
+              this.element
+            );
+            if (index > thumbnailFirstXRows) {
+              this.set("hasThumbnail", false);
+              this.renderTopicListItem();
+            }
           }
           this._afterRender();
         },
 
-        @observes ('thumbnails')
-        _afterRender () {
-          Ember.run.scheduleOnce ('afterRender', this, () => {
-            if (this.get ('showActions')) {
-              this._setupActions ();
+        @observes("thumbnails",
+          "bulkSelectEnabled",
+          "topic.pinned",
+          "likeDifference",
+          "showThumbnail",
+          "tilesStyle",
+          "showExcerpt",
+          "showActions"
+        )
+        _reRender() {
+          this.set("hasThumbnail", this.get("thumbnails") && this.get("showThumbnail"));
+          this.renderTopicListItem();
+          this._afterRender();
+        },
+
+        _afterRender() {
+          Ember.run.scheduleOnce("afterRender", this, () => {
+            if (this.get("showActions")) {
+              this._setupActions();
             }
           });
         },
-
-        // @observes('tilesStyle')
-        // _fundamentalLayoutChanged () {
-        //   debugger;
-        //   this.rerender();
-        // },
 
         @observes('tilesStyle')
         updateTag () {
           if (this.get("tilesStyle")) {
            this.set("tagName", "div");
           } else {
-            debugger;
             this.set("tagName", "tr");
           }
-        },
-
-
-        @on("didRender")
-        _checkit() {
-          debugger;
         },
 
         @discourseComputed
