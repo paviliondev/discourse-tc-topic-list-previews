@@ -188,11 +188,9 @@ export default {
           this.set('hasLiked', topic.topic_post_liked);
           this.set('canUnlike', topic.topic_post_can_unlike);
           this.set("hasThumbnail", this.get("thumbnails") && this.get("showThumbnail"));
+
           if (this.tilesStyle) {
             this._setUpColour();
-          }
-
-          if (this.get("tilesStyle")) {
             if (settings.topic_list_tiles_larger_featured_tiles && topic.tags) {
               if (
                 topic.tags.filter(
@@ -280,6 +278,9 @@ export default {
         )
         _reRender() {
           this.set("hasThumbnail", this.get("thumbnails") && this.get("showThumbnail"));
+          if (!this.hasThumbnail) {
+            this.element.style = "";
+          }
           this.renderTopicListItem();
           this._afterRender();
         },
