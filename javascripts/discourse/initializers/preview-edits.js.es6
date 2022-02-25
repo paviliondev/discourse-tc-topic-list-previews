@@ -193,10 +193,6 @@ export default {
           }
 
           if (this.get("tilesStyle")) {
-            // needs 'div's for masonry
-            // I don't believe you can do this: this.set("tagName", "div");
-            this.updateTag();
-
             if (settings.topic_list_tiles_larger_featured_tiles && topic.tags) {
               if (
                 topic.tags.filter(
@@ -294,15 +290,6 @@ export default {
               this._setupActions();
             }
           });
-        },
-
-        @observes('tilesStyle')
-        updateTag () {
-          if (this.get("tilesStyle")) {
-           this.set("tagName", "div");
-          } else {
-            this.set("tagName", "tr");
-          }
         },
 
         @discourseComputed
