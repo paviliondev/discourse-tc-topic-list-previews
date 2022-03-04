@@ -144,13 +144,6 @@ export default {
         pluginId: PLUGIN_ID,
         topicListPreviewsService: service("topic-list-previews"),
         canBookmark: Ember.computed.bool("currentUser"),
-        rerenderTriggers: [
-          "bulkSelectEnabled",
-          "topic.pinned",
-          "likeDifference",
-          "topic.thumbnails",
-        ],
-
         tilesStyle: readOnly("topicListPreviewsService.displayTiles"),
         notTilesStyle: not("topicListPreviewsService.displayTiles"),
         showThumbnail: readOnly("topicListPreviewsService.displayThumbnails"),
@@ -248,7 +241,21 @@ export default {
           this._afterRender();
         },
 
-        @observes("thumbnails")
+        @observes("thumbnails",
+          "bulkSelectEnabled",
+          "topic.pinned",
+          "likeDifference",
+          "showThumbnail",
+          "tilesStyle",
+          "showExcerpt",
+          "showActions"
+        )
+        _reRender() {
+          this.set("hasThumbnail", this.get("thumbnails") && this.get("showThumbnail"));
+          this.renderTopicListItem();
+          this._afterRender();
+        },
+
         _afterRender() {
           Ember.run.scheduleOnce("afterRender", this, () => {
             if (this.get("showActions")) {
