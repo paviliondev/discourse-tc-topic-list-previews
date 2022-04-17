@@ -36,7 +36,7 @@ var previewUrl = function (thumbnails, currentUser, featured = false) {
 };
 
 var renderUnboundPreview = function (thumbnails, params) {
-  const url = previewUrl(thumbnails, params.currentUser, params.opts.featured);
+  const url = previewUrl(thumbnails, params.currentUser, params.opts.featured) || getDefaultThumbnail();
 
   if (!url) return "";
 
