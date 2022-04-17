@@ -498,16 +498,14 @@ img.select-thumbnail-preview {
 }
 
 .portfolio-button-inner {
-  width: 100px;
-  padding: 6px;
+  min-width: 150px;
+  padding: .5em .65em;
   overflow: hidden;
-  font-size: 1em;
-  height: 18px;
-  min-width: 100px;
+  height: 20px;
   vertical-align: middle;
   justify-content: center;
   white-space: nowrap;
-  margin-left: 2px;
+  margin-bottom: 5px;
   display: inline-flex;
   cursor: pointer;
 
