@@ -171,7 +171,7 @@ export default {
           this.set("likeCount", topic.like_count);
           this.set("hasLiked", topic.topic_post_liked);
           this.set("canUnlike", topic.topic_post_can_unlike);
-          this.set("hasThumbnail", this.get("thumbnails") && this.get("showThumbnail"));
+          this.set("hasThumbnail", (this.get("thumbnails") || settings.topic_list_default_thumbnail) && this.get("showThumbnail"));
           if (this.get("tilesStyle")) {
             // needs 'div's for masonry
             this.set("tagName", "div");
@@ -191,31 +191,6 @@ export default {
             }
             const raw = topic.excerpt;
             cookAsync(raw).then((cooked) => this.set("excerpt", cooked));
-          }
-
-          if (thumbnails) {
-            testImageUrl(thumbnails, currentUser, (imageLoaded) => {
-              if (!imageLoaded) {
-                Ember.run.scheduleOnce("afterRender", this, () => {
-                  if (defaultThumbnail) {
-                    const thumbnailElement =
-                      this.element.querySelector("img.thumbnail");
-                    if (thumbnailElement)
-                      thumbnailElement.src = defaultThumbnail;
-                  } else {
-                    const containerElement =
-                      this.element.querySelector(".topic-thumbnail");
-                    if (containerElement)
-                      containerElement.style.display = "none";
-                  }
-                });
-              }
-            });
-          } else if (
-            defaultThumbnail &&
-            settings.topic_list_default_thumbnail_fallback
-          ) {
-            this.set("thumbnails", [{ url: defaultThumbnail }]);
           }
 
           const obj = PostsCountColumn.create({ topic });
