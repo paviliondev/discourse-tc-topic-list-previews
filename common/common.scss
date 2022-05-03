@@ -273,6 +273,9 @@ html:not(.tile-style) {
   .topic-actions {
     display: block;
     margin-top: 5px;
+    .like-count:empty {
+      margin-right: 0;
+    }
   }
 }
 
