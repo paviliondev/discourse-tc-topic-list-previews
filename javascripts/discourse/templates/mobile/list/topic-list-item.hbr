@@ -5,7 +5,7 @@
 {{/if}}
 
 {{#if tilesStyle}}
-  <div class="tiles-grid-item-content">
+  <div class="tiles-grid-item-content main-link">
     <div class="image">
       {{#if hasThumbnail}}
         {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
