@@ -102,11 +102,14 @@ export default Service.extend({
 
   @discourseComputed(
     "router.currentRouteName",
-    "router.currentRoute.attributes.id"
+    "router.currentRoute.attributes.id", // For discourse instances earlier than https://github.com/discourse/discourse/commit/f7b5ff39cf
+    "router.currentRoute.attributes.tag.id"
   )
-  viewingTagId(currentRouteName, tagId) {
-    if (!currentRouteName.match(/^tags?\.show/)) return;
-    return tagId;
+  viewingTagId(currentRouteName, legacyTagId, tagId) {
+    if (!currentRouteName.match(/^tags?\.show/)) {
+      return;
+    }
+    return tagId || legacyTagId;
   },
 
   @discourseComputed(
@@ -124,6 +127,7 @@ export default Service.extend({
     let displayMode = [];
 
     if (customThumbnailMode) displayMode.push(customThumbnailMode);
+
     if (thumbnailCategories.includes(viewingCategoryId) || thumbnailTags.includes(viewingTagId) || this.enabledForCurrentTopicListRouteType(currentTopicListRoute, "thumbnails")) {
       displayMode.push("thumbnails");
     }
