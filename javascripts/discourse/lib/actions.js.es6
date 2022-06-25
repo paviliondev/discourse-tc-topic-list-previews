@@ -20,7 +20,8 @@ var sendBookmark = function (topic_id, topic_post_id, bookmarked) {
       reminder_type: null,
       reminder_at: null,
       name: null,
-      post_id: topic_post_id,
+      bookmarkable_id: topic_post_id,
+      bookmarkable_type: 'Post',
     };
     return ajax("/bookmarks", {
       type: "POST",
