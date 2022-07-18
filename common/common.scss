@@ -89,8 +89,6 @@
 
     .topic-thumbnail img {
       transform: scale(1.05);
-      transition: transform .25s ease;
-      will-change: transform;
     }
   }
 
@@ -262,7 +260,10 @@ html:not(.tile-style) {
 
   .topic-thumbnail {
     float: left;
-
+ img{
+   transition: transform .25s ease-out;
+   will-change: transform;
+ }
 
     .no-thumbnail {
       display: none;
