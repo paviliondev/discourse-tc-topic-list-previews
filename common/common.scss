@@ -29,7 +29,7 @@
   .tiles-grid-item {
     box-sizing: border-box;
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: 18px;
     grid-row-end: span 44;
   }
 
@@ -87,6 +87,7 @@
     background-color: var(--blend-primary-secondary-5);
 
     .topic-thumbnail img {
+      transform: scale(1.1);
       transition: transform .25s ease-out;
       will-change: transform;
     }
@@ -532,7 +533,6 @@ img.select-thumbnail-preview {
 }
 
 .tiles-grid-item {
-  border-radius: 18px;
   overflow:hidden;
   background-color: rgba(251, 250, 248, 0.95);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 0 0 0 rgba(0, 0, 0, 0.12);
@@ -540,9 +540,6 @@ img.select-thumbnail-preview {
 
 .tiles-grid-item:hover {
 
-  .image {
-    transform: scale(1.1);
-  }
   background-color: var(--blend-primary-secondary-5);
 }
 
