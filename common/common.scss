@@ -87,7 +87,8 @@
     background-color: var(--blend-primary-secondary-5);
 
     .topic-thumbnail img {
-      opacity:0.7;
+      transition: transform .25s ease-out;
+      will-change: transform;
     }
   }
 
@@ -259,7 +260,7 @@ html:not(.tile-style) {
 
   .topic-thumbnail {
     float: left;
-    padding-right: 15px;
+
 
     .no-thumbnail {
       display: none;
@@ -531,10 +532,17 @@ img.select-thumbnail-preview {
 }
 
 .tiles-grid-item {
+  border-radius: 18px;
+  overflow:hidden;
+  background-color: rgba(251, 250, 248, 0.95);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 0 0 0 rgba(0, 0, 0, 0.12);
 }
 
 .tiles-grid-item:hover {
+
+  .image {
+    transform: scale(1.1);
+  }
   background-color: var(--blend-primary-secondary-5);
 }
 
