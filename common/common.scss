@@ -43,6 +43,7 @@
   }
 
   .image {
+    overflow: hidden;
     grid-area: photo;
     display: block;
   }
@@ -87,8 +88,8 @@
     background-color: var(--blend-primary-secondary-5);
 
     .topic-thumbnail img {
-      transform: scale(1.1);
-      transition: transform .25s ease-out;
+      transform: scale(1.05);
+      transition: transform .25s ease;
       will-change: transform;
     }
   }
