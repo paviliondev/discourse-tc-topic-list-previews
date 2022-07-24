@@ -5,7 +5,7 @@ import discourseComputed, {
 import { alias, and, equal, not } from "@ember/object/computed";
 import DiscourseURL from "discourse/lib/url";
 import { testImageUrl, getDefaultThumbnail } from "../lib/tlp-utilities";
-import { addLike, sendBookmark, removeLike } from "../lib/actions";
+import { shareTopic, addLike, sendBookmark, removeLike } from "../lib/actions";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import PostsCountColumn from "discourse/raw-views/list/posts-count-column";
 import { resizeAllGridItems } from "../lib/gridupdate";
@@ -249,7 +249,8 @@ export default {
 
           let postId = this.get("topic.topic_post_id"),
             bookmarkElement = this.element.querySelector(".topic-bookmark"),
-            likeElement = this.element.querySelector(".topic-like");
+            likeElement = this.element.querySelector(".topic-like"),
+            shareElement = this.element.querySelector(".topic-share");
 
           let debouncedToggleBookmark = (() => {
             this.debouncedToggleBookmark(this);
@@ -259,11 +260,18 @@ export default {
             this.debouncedToggleLike(this);
           }).bind(this);
 
+          let debouncedShare = (() => {
+            this.debouncedShare(this);
+          }).bind(this);
+
           if (bookmarkElement) {
             bookmarkElement.addEventListener("click", debouncedToggleBookmark);
           }
           if (likeElement) {
             likeElement.addEventListener("click", debouncedToggleLike);
+          }
+          if (shareElement) {
+            shareElement.addEventListener("click", debouncedShare);
           }
         },
 
@@ -331,6 +339,7 @@ export default {
         @discourseComputed("likeCount")
         topicActions(likeCount) {
           let actions = [];
+          actions.push(this._shareButton());
           if (
             likeCount ||
             this.get("topic.topic_post_can_like") ||
@@ -368,6 +377,17 @@ export default {
             (isTopic || !category || category.has_children) &&
             !isPinnedUncategorized
           );
+        },
+
+        _shareButton() {
+          let classes = "topic-share";
+          return {
+            type: "share",
+            class: classes,
+            title: "js.topic.share.help",
+            icon: "link",
+            topic: this.topic,
+          };
         },
 
         _likeButton() {
@@ -409,6 +429,18 @@ export default {
         },
 
         // Action toggles and server methods
+
+        debouncedShare() {
+          Ember.run.debounce(
+            this,
+            () => {
+              shareTopic(
+                this.topic,
+              );
+            },
+            500
+          );
+        },
 
         debouncedToggleBookmark() {
           Ember.run.debounce(
