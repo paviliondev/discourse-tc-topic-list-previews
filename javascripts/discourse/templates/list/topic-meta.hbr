@@ -1,8 +1,3 @@
-{{#if topic.tags}}
-  <div class="topic-tags">
-    {{discourse-tags topic mode="list"}}
-  </div>
-{{/if}}
 <div class="topic-meta">
   {{raw-plugin-outlet name="topic-list-tiles-meta"}}
   <div class="topic-views {{topic.viewsHeat}} inline sub">

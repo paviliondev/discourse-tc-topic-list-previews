@@ -339,7 +339,6 @@ export default {
         @discourseComputed("likeCount")
         topicActions(likeCount) {
           let actions = [];
-          actions.push(this._shareButton());
           if (
             likeCount ||
             this.get("topic.topic_post_can_like") ||
@@ -348,6 +347,7 @@ export default {
           ) {
             actions.push(this._likeButton());
           }
+          actions.push(this._shareButton());
           if (this.get("canBookmark")) {
             actions.push(this._bookmarkButton());
             Ember.run.scheduleOnce("afterRender", this, () => {

@@ -21,6 +21,9 @@
           {{#if showCategoryBadge}}
             {{category-link topic.category}}
           {{/if}}
+          {{#if topic.tags}}
+            {{discourse-tags topic mode="list"}}
+          {{/if}}
         </div>
       </div>
       {{#if showExcerpt}}
@@ -28,10 +31,13 @@
           {{raw "list/topic-excerpt" topic=topic}}
         </a>
       {{/if}}
-      {{raw 'list/topic-meta' likesHeat=likesHeat title=view.title topic=topic}}
-      {{#if showActions}}
-        {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions topic=topic}}
-      {{/if}}
+      <div class="topic-footer">
+        {{raw 'list/topic-meta' likesHeat=likesHeat title=view.title topic=topic}}
+        {{raw "list/topic-users" tilesStyle=tilesStyle topic=topic posterNames=posterNames}}
+        {{#if showActions}}
+          {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions topic=topic}}
+        {{/if}}
+      </div>
     </div>
   </div>
 {{else}}

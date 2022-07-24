@@ -74,13 +74,24 @@
     display: grid;
     padding: 10px 10px 10px 10px;
     z-index: 10;
-    grid-template-columns: 1 1 1 1 auto;
-    grid-template-rows: auto auto auto auto;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto;
     grid-template-areas:
-      "theader theader theader theader theader"
-      "excerpt excerpt excerpt excerpt excerpt"
-      "tags tags tags tags tags"
-      "meta meta meta meta actions";
+      "theader theader theader"
+      "excerpt excerpt excerpt"
+      "tfooter tfooter tfooter";
+  }
+
+  .topic-footer {
+    grid-area: tfooter;
+    vertical-align: middle;
+    display: grid;
+    padding-top: 10px;
+    z-index: 10;
+    grid-template-columns: 6fr 5fr 5fr;
+    grid-template-rows: 1;
+    grid-template-areas:
+      "meta posters actions";
   }
 
   .tiles-grid-item:hover {
@@ -94,11 +105,11 @@
   .topic-header-grid {
     grid-area: theader;
     display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
     grid-template-areas:
-      "title posters"
-      "category posters";
+      "title"
+      "category";
   }
 
   .show-more.has-topics {
@@ -159,6 +170,7 @@
   .topic-category {
     grid-area: category;
     padding: 0 0 4px 0;
+    display: inline-block;
   }
 
   .thumbnail {
@@ -273,7 +285,6 @@ html:not(.tile-style) {
 
   .topic-actions {
     display: block;
-    margin-top: 5px;
     .like-count:empty {
       margin-right: 0;
     }
@@ -298,7 +309,6 @@ img.thumbnail {
   color: var(--primary-medium);
   font-size: 13px;
   display: inline-block;
-  vertical-align: bottom;
   margin-right: 7px;
 
   .vote-count {
