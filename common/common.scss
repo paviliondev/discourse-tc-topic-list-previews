@@ -88,7 +88,7 @@
     display: grid;
     padding-top: 10px;
     z-index: 10;
-    grid-template-columns: 6fr 5fr 5fr;
+    grid-template-columns: 6fr 4fr 5fr;
     grid-template-rows: 1;
     grid-template-areas:
       "meta posters actions";
@@ -153,6 +153,7 @@
       float: right;
       line-height: 24px;
       text-align: right;
+      color: var(--primary-med-or-secondary-med);
 
       .avatar {
         padding: 0 0 0 0px;
