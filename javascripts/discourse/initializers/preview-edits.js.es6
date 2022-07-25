@@ -244,6 +244,29 @@ export default {
           return settings.topic_list_featured_images_tag.split("|");
         },
 
+        @discourseComputed
+        abbreviatePosters() {
+          return (this.topic.posters.length > 3);
+        },
+
+        @discourseComputed
+        abbreviatedPosters() {
+          let abbreviatedPosters = [];
+          if (this.topic.posters.length < 5) {
+            abbreviatedPosters = this.topic.posters
+          } else {
+            this.topic.posters[0].count = false;
+            abbreviatedPosters.push(this.topic.posters[0]);
+            this.topic.posters[1].count = false;
+            abbreviatedPosters.push(this.topic.posters[1]);
+            let count = {count: this.topic.posters.length - 3}
+            abbreviatedPosters.push(count);
+            this.topic.posters[this.topic.posters.length - 1].count = false;
+            abbreviatedPosters.push(this.topic.posters[this.topic.posters.length - 1]);
+          }
+          return abbreviatedPosters;
+        },
+
         _setupActions() {
           if (this._state === "destroying") return;
 
