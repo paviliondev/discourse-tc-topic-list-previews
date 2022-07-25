@@ -33,7 +33,7 @@
       {{/if}}
       <div class="topic-footer">
         {{raw 'list/topic-meta' likesHeat=likesHeat title=view.title topic=topic}}
-        {{raw "list/topic-users" tilesStyle=tilesStyle topic=topic posterNames=posterNames}}
+        {{raw "list/topic-users" tilesStyle=tilesStyle abbreviatePosters=abbreviatePosters posters=abbreviatedPosters posterNames=posterNames}}
         {{#if showActions}}
           {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions topic=topic}}
         {{/if}}
