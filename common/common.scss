@@ -151,7 +151,6 @@
     padding: 0 0 0 5px;
 
     .inline {
-      vertical-align: middle;
       align-self: center;
       text-align: right;
       color: var(--primary-med-or-secondary-med);
@@ -258,10 +257,13 @@
 
   .topic-actions {
     grid-area: actions;
-    float: right;
+    display: flex;
     justify-content: flex-end;
-    text-align: right;
-    vertical-align: bottom;
+
+    .inline {
+      align-self: center;
+      text-align: right;
+    }
   }
 
   .middot:after {
