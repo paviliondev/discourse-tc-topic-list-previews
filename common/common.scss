@@ -88,7 +88,7 @@
     display: grid;
     padding-top: 10px;
     z-index: 10;
-    grid-template-columns: 6fr 4fr 6fr;
+    grid-template-columns: 6fr 4fr 5fr;
     grid-template-rows: 1;
     grid-template-areas:
       "meta posters actions";
@@ -272,7 +272,7 @@
 }
 
 //styling excluding tiles
-html:not(.tile-style) {
+html:not(>tile-style) {
   .topic-list .link-bottom-line {
     display: block;
   }

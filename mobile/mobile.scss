@@ -42,8 +42,6 @@
   }
 
   .like-count {
-    font-size: 1em;
-    line-height: 1em;
     float: left;
     margin-right: 8px;
   }
@@ -150,6 +148,12 @@
     display: block;
     padding-left: 0;
     padding-top: 3px;
+  }
+
+  .topic-actions {
+    .like-count {
+      float: unset;
+    }
   }
 }
 
