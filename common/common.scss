@@ -88,7 +88,7 @@
     display: grid;
     padding-top: 10px;
     z-index: 10;
-    grid-template-columns: 6fr 4fr 5fr;
+    grid-template-columns: 6fr 4fr 6fr;
     grid-template-rows: 1;
     grid-template-areas:
       "meta posters actions";
@@ -146,11 +146,13 @@
 
   .topic-users {
     grid-area: posters;
-    padding: 0 0 5px 5px;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 0 0 5px;
 
     .inline {
-      float: right;
-      line-height: 24px;
+      vertical-align: middle;
+      align-self: center;
       text-align: right;
       color: var(--primary-med-or-secondary-med);
 
@@ -212,6 +214,10 @@
 
   .topic-meta {
     grid-area: meta;
+
+    .inline {
+      align-self: center;
+    }
 
     .topic-views {
       color: var(--primary-medium);
@@ -335,6 +341,7 @@ button.list-button {
   border: none;
   padding: 2px 4px;
   overflow: hidden;
+  color: var(--primary-medium);
 
   &:first-of-type {
     padding-left: 0;
