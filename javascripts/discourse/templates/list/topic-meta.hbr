@@ -6,7 +6,10 @@
   </div>
   <span class="middot inline sub"></span>
   <div class='topic-replies posts-map {{likesHeat}} inline sub' title='{{title}}'>
-    <a href class='posts-map badge-posts {{likesHeat}}'>{{d-icon "far-comment"}}{{number topic.replyCount}}</a>
+    <a href class='posts-map badge-posts {{likesHeat}} aria-label="{{title}}"'>
+      {{d-icon "far-comment"}}
+      {{number topic.replyCount noTitle="true" ariaLabel=title}}
+    </a>
   </div>
   <span class="middot inline sub"></span>
   <div class="{{class}} {{cold-age-class topic.createdAt startDate=topic.bumpedAt class=""}} activity inline sub" title="{{{topic.bumpedAtTitle}}}">
