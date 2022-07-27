@@ -317,7 +317,7 @@ img.thumbnail {
   color: var(--primary-medium);
   font-size: 13px;
   display: inline-block;
-  margin-right: 7px;
+  padding-right: 5px;
 
   .vote-count {
     height: initial;
@@ -330,11 +330,6 @@ img.thumbnail {
 //   float: left;
 //   padding-right: 3px;
 //   margin-top: 5px;
-// }
-
-// .topic-actions .list-vote-count {
-//   float: none;
-//   margin-top: 0;
 // }
 
 button.list-button {
