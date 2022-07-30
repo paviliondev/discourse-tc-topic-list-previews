@@ -82,18 +82,6 @@
       "tfooter tfooter tfooter";
   }
 
-  .topic-footer {
-    grid-area: tfooter;
-    vertical-align: middle;
-    display: grid;
-    padding-top: 10px;
-    z-index: 10;
-    grid-template-columns: 7fr 4fr 5fr;
-    grid-template-rows: 1;
-    grid-template-areas:
-      "meta posters actions";
-  }
-
   .tiles-grid-item:hover {
     background-color: var(--blend-primary-secondary-5);
 
@@ -144,26 +132,6 @@
     color: var(--primary-medium);
   }
 
-  .topic-users {
-    grid-area: posters;
-    display: flex;
-    justify-content: flex-end;
-    padding: 0 0 0 5px;
-
-    .inline {
-      align-self: center;
-      text-align: right;
-      color: var(--primary-med-or-secondary-med);
-
-      .avatar {
-        padding: 0 0 0 0px;
-        margin-right: -2px;
-        width: 22px;
-        height: 22px;
-      }
-    }
-  }
-
   .topic-statuses {
     float: right;
   }
@@ -211,8 +179,19 @@
     }
   }
 
+  .topic-footer {
+    grid-area: tfooter;
+    vertical-align: middle;
+    display: grid;
+    padding-top: 10px;
+    z-index: 10;
+    grid-template-columns: 150px 1fr 110px;
+    grid-template-rows: 1;
+    grid-template-areas:
+      "meta posters actions";
+  }
+
   .topic-meta {
-    grid-area: meta;
     display: flex;
 
     .inline {
@@ -230,6 +209,41 @@
 
   .topic-poster-names a {
     font-size: 0.9em;
+  }
+
+  .topic-users {
+    grid-area: posters;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 0 0 5px;
+
+    .inline {
+      align-self: center;
+      text-align: right;
+      color: var(--primary-med-or-secondary-med);
+
+      .avatar {
+        padding: 0 0 0 0px;
+        margin-right: -2px;
+        width: 22px;
+        height: 22px;
+      }
+    }
+  }
+
+  .topic-actions {
+    grid-area: actions;
+    display: flex;
+    justify-content: flex-end;
+
+    .inline {
+      align-self: center;
+      text-align: right;
+    }
+  }
+
+  .middot:after {
+    content: "\00B7";
   }
 
   div.sub,
@@ -252,24 +266,7 @@
     padding-top: 3px;
   }
 
-  .topic-meta {
-    float: left;
-  }
 
-  .topic-actions {
-    grid-area: actions;
-    display: flex;
-    justify-content: flex-end;
-
-    .inline {
-      align-self: center;
-      text-align: right;
-    }
-  }
-
-  .middot:after {
-    content: "\00B7";
-  }
 }
 
 //styling excluding tiles
