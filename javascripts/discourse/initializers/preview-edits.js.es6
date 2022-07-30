@@ -484,7 +484,7 @@ export default {
               if (this.topic.bookmarked) {
                 title = "bookmarks.remove";
               }
-              this.element.title = title;
+              bookmarkElement.title = title;
             },
             500
           );
