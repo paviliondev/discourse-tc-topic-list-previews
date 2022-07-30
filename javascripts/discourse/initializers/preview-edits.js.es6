@@ -480,6 +480,11 @@ export default {
               let bookmarkElement =
                 this.element.querySelector(".topic-bookmark");
               bookmarkElement.classList.toggle("bookmarked");
+              let title = "bookmarks.not_bookmarked";
+              if (this.topic.bookmarked) {
+                title = "bookmarks.created";
+              }
+              this.element.title = title;
             },
             500
           );
