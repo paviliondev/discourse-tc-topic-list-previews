@@ -213,6 +213,7 @@
 
   .topic-meta {
     grid-area: meta;
+    display: flex;
 
     .inline {
       align-self: center;
