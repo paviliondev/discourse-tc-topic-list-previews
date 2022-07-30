@@ -252,17 +252,13 @@ export default {
         @discourseComputed
         abbreviatedPosters() {
           let abbreviatedPosters = [];
-          if (this.topic.posters.length < 6) {
+          if (this.topic.posters.length < 4) {
             abbreviatedPosters = this.topic.posters
           } else {
             this.topic.posters[0].count = false;
             abbreviatedPosters.push(this.topic.posters[0]);
-            this.topic.posters[1].count = false;
-            abbreviatedPosters.push(this.topic.posters[1]);
-            let count = {count: this.topic.posters.length - 4}
+            let count = {count: this.topic.posters.length - 2}
             abbreviatedPosters.push(count);
-            this.topic.posters[this.topic.posters.length - 2].count = false;
-            abbreviatedPosters.push(this.topic.posters[this.topic.posters.length - 2]);
             this.topic.posters[this.topic.posters.length - 1].count = false;
             abbreviatedPosters.push(this.topic.posters[this.topic.posters.length - 1]);
           }
