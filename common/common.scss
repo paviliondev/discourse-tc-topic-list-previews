@@ -363,6 +363,12 @@ button.list-button {
     box-shadow: none;
   }
 
+  &.topic-share:hover {
+    .d-icon-link {
+      color: var(--tertiary);
+    }
+  }
+
   &.bookmarked,
   &.topic-bookmark:hover {
     i.fa-bookmark,
