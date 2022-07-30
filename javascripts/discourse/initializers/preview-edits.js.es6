@@ -441,7 +441,9 @@ export default {
             title = "bookmarks.not_bookmarked";
           if (this.get("topic.topic_post_bookmarked")) {
             classes += " bookmarked";
-            title = "bookmarks.created";
+            title = I18n.t("bookmarks.created_generic", {
+              name: "",
+            })
           }
           return {
             type: "bookmark",
@@ -482,7 +484,9 @@ export default {
               bookmarkElement.classList.toggle("bookmarked");
               let title = "bookmarks.not_bookmarked";
               if (this.topic.bookmarked) {
-                title = "bookmarks.created";
+                title = I18n.t("bookmarks.created_generic", {
+                  name: "",
+                })
               }
               this.element.title = title;
             },
