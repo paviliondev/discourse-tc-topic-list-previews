@@ -197,6 +197,9 @@
 
     .container {
       align-self: center;
+      a {
+        display: inline-block;
+      }
 
       .top-line {
         display: inline;
