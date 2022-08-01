@@ -88,7 +88,7 @@
     display: grid;
     padding-top: 10px;
     z-index: 10;
-    grid-template-columns: 7fr 4fr 5fr;
+    grid-template-columns: 4fr 6fr 5fr;
     grid-template-rows: 1;
     grid-template-areas:
       "meta posters actions";
@@ -217,6 +217,7 @@
 
     .inline {
       align-self: center;
+      line-height: 12px;
     }
 
     .topic-views {
