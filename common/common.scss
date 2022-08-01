@@ -185,7 +185,8 @@
     display: grid;
     padding-top: 10px;
     z-index: 10;
-    grid-template-columns: 150px 1fr 105px;
+    grid-template-columns: 4fr 6fr 5fr;
+
     grid-template-rows: 1;
     grid-template-areas:
       "meta posters actions";
@@ -194,16 +195,26 @@
   .topic-meta {
     display: flex;
 
-    .inline {
+    .container {
       align-self: center;
-    }
 
-    .topic-views {
-      color: var(--primary-medium);
-    }
+      .top-line {
+        display: inline;
 
-    .topic-replies span {
-      padding-left: 3px;
+        .topic-views {
+          color: var(--primary-medium);
+        }
+        .topic-replies {
+          padding-left: 3px;
+        }
+      }
+      .bottom-line {
+        align-self: start;
+
+        .topic-timing {
+          vertical-align: top;
+        }
+      }
     }
   }
 
