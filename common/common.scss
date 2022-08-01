@@ -88,7 +88,7 @@
     display: grid;
     padding-top: 10px;
     z-index: 10;
-    grid-template-columns: 4fr 6fr 5fr;
+    grid-template-columns: 8fr 10fr 8fr;
     grid-template-rows: 1;
     grid-template-areas:
       "meta posters actions";
@@ -226,6 +226,10 @@
 
     .topic-replies span {
       padding-left: 3px;
+    }
+
+    a {
+      display: inline-block;
     }
   }
 
