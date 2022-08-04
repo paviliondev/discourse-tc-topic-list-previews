@@ -142,9 +142,11 @@
     display: inline-block;
   }
 
-  .thumbnail {
-    .no-thumbnail {
-      display: none;
+  .topic-tags {
+    grid-area: tags;
+
+    .discourse-tags {
+      display: inline-block;
     }
   }
 
@@ -169,14 +171,6 @@
     -moz-hyphens: auto;
     -webkit-hyphens: auto;
     hyphens: auto;
-  }
-
-  .topic-tags {
-    grid-area: tags;
-
-    .discourse-tags {
-      display: inline-block;
-    }
   }
 
   .topic-footer {
