@@ -20,6 +20,10 @@
     border-top: none;
   }
 
+  .topic-list-item, tr {
+    border: none;
+  }
+
   .tiles-grid-item-width2 {
     box-sizing: border-box;
     cursor: pointer;
