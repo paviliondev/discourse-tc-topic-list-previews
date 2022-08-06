@@ -283,6 +283,7 @@ export default {
             abbreviatedPosters.push(this.topic.posters[this.topic.posters.length - 1]);
           }
           return abbreviatedPosters;
+        },
 
         _setUpColour () {
           let red = this.get("topic.dominant_colour.red") || 255;
