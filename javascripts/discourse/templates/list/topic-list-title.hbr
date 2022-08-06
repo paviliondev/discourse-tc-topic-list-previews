@@ -43,5 +43,4 @@
   </span>
 {{#if tilesStyle}}
   </div>
-  {{raw "list/topic-users" tilesStyle=tilesStyle topic=topic posterNames=posterNames}}
 {{/if}}

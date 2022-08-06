@@ -5,7 +5,7 @@ import discourseComputed, {
 import { alias, and, equal, not } from "@ember/object/computed";
 import DiscourseURL from "discourse/lib/url";
 import { testImageUrl, getDefaultThumbnail } from "../lib/tlp-utilities";
-import { addLike, sendBookmark, removeLike } from "../lib/actions";
+import { shareTopic, addLike, sendBookmark, removeLike } from "../lib/actions";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import PostsCountColumn from "discourse/raw-views/list/posts-count-column";
 import { resizeAllGridItems } from "../lib/gridupdate";
@@ -244,12 +244,38 @@ export default {
           return settings.topic_list_featured_images_tag.split("|");
         },
 
+        @discourseComputed
+        abbreviatePosters() {
+          return (this.topic.posters.length > 3);
+        },
+
+        @discourseComputed
+        abbreviatedPosters() {
+          let abbreviatedPosters = [];
+          if (this.topic.posters.length < 6) {
+            abbreviatedPosters = this.topic.posters
+          } else {
+            this.topic.posters[0].count = false;
+            abbreviatedPosters.push(this.topic.posters[0]);
+            this.topic.posters[1].count = false;
+            abbreviatedPosters.push(this.topic.posters[1]);
+            let count = {count: this.topic.posters.length - 4}
+            abbreviatedPosters.push(count);
+            this.topic.posters[this.topic.posters.length - 2].count = false;
+            abbreviatedPosters.push(this.topic.posters[this.topic.posters.length - 2]);
+            this.topic.posters[this.topic.posters.length - 1].count = false;
+            abbreviatedPosters.push(this.topic.posters[this.topic.posters.length - 1]);
+          }
+          return abbreviatedPosters;
+        },
+
         _setupActions() {
           if (this._state === "destroying") return;
 
           let postId = this.get("topic.topic_post_id"),
             bookmarkElement = this.element.querySelector(".topic-bookmark"),
-            likeElement = this.element.querySelector(".topic-like");
+            likeElement = this.element.querySelector(".topic-like"),
+            shareElement = this.element.querySelector(".topic-share");
 
           let debouncedToggleBookmark = (() => {
             this.debouncedToggleBookmark(this);
@@ -259,11 +285,18 @@ export default {
             this.debouncedToggleLike(this);
           }).bind(this);
 
+          let debouncedShare = (() => {
+            this.debouncedShare(this);
+          }).bind(this);
+
           if (bookmarkElement) {
             bookmarkElement.addEventListener("click", debouncedToggleBookmark);
           }
           if (likeElement) {
             likeElement.addEventListener("click", debouncedToggleLike);
+          }
+          if (shareElement) {
+            shareElement.addEventListener("click", debouncedShare);
           }
         },
 
@@ -339,6 +372,7 @@ export default {
           ) {
             actions.push(this._likeButton());
           }
+          actions.push(this._shareButton());
           if (this.get("canBookmark")) {
             actions.push(this._bookmarkButton());
             Ember.run.scheduleOnce("afterRender", this, () => {
@@ -370,6 +404,17 @@ export default {
           );
         },
 
+        _shareButton() {
+          let classes = "topic-share";
+          return {
+            type: "share",
+            class: classes,
+            title: "js.topic.share.help",
+            icon: "link",
+            topic: this.topic,
+          };
+        },
+
         _likeButton() {
           let classes = "topic-like";
           let disabled = this.get("topic.topic_post_is_current_users");
@@ -396,7 +441,7 @@ export default {
             title = "bookmarks.not_bookmarked";
           if (this.get("topic.topic_post_bookmarked")) {
             classes += " bookmarked";
-            title = "bookmarks.created";
+            title = "bookmarks.remove";
           }
           return {
             type: "bookmark",
@@ -409,6 +454,18 @@ export default {
         },
 
         // Action toggles and server methods
+
+        debouncedShare() {
+          Ember.run.debounce(
+            this,
+            () => {
+              shareTopic(
+                this.topic,
+              );
+            },
+            500
+          );
+        },
 
         debouncedToggleBookmark() {
           Ember.run.debounce(
@@ -423,6 +480,11 @@ export default {
               let bookmarkElement =
                 this.element.querySelector(".topic-bookmark");
               bookmarkElement.classList.toggle("bookmarked");
+              let title = I18n.t("bookmarks.not_bookmarked");
+              if (this.topic.bookmarked) {
+                title = I18n.t("bookmarks.remove");
+              }
+              bookmarkElement.title = title;
             },
             500
           );

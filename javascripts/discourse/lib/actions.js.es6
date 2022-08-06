@@ -1,5 +1,15 @@
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
+import showModal from "discourse/lib/show-modal";
+
+var shareTopic = function (topic) {
+  const controller = showModal("share-topic", {
+    model: topic.category,
+  });
+  controller.setProperties({
+    topic: topic,
+  });
+};
 
 var addLike = function (postId) {
   ajax("/post_actions", {
@@ -49,4 +59,4 @@ var removeLike = function (postId) {
   });
 };
 
-export { addLike, sendBookmark, removeLike };
+export { shareTopic, addLike, sendBookmark, removeLike };

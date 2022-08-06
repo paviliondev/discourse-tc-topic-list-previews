@@ -1,5 +1,7 @@
 <div class="topic-actions">
-  {{#each topicActions as |action|}}
-    {{list-button action}}
-  {{/each}}
+  <div class="inline">
+    {{#each topicActions as |action|}}
+      {{list-button action}}
+    {{/each}}
+  </div>
 </div>
