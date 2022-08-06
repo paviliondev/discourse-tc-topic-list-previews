@@ -38,6 +38,15 @@
           {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions topic=topic}}
         {{/if}}
       </div>
+      {{#if showExcerpt}}
+        <a href='{{topic.url}}'>
+          {{raw "list/topic-excerpt" topic=topic}}
+        </a>
+      {{/if}}
+      {{raw 'list/topic-meta' likesHeat=likesHeat title=view.title topic=topic}}
+      {{#if showActions}}
+        {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions topic=topic}}
+      {{/if}}
     </div>
   </div>
 {{else}}

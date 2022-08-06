@@ -144,6 +144,7 @@ export default {
         pluginId: PLUGIN_ID,
         topicListPreviewsService: service("topic-list-previews"),
         canBookmark: Ember.computed.bool("currentUser"),
+        classNameBindings: ["whiteText:white-text:black-text", "hasThumbnail", "tilesStyle:tiles-grid-item"],
         tilesStyle: readOnly("topicListPreviewsService.displayTiles"),
         notTilesStyle: not("topicListPreviewsService.displayTiles"),
         showThumbnail: readOnly("topicListPreviewsService.displayThumbnails"),
@@ -156,9 +157,24 @@ export default {
         category: alias("parentView.category"),
         thumbnails: alias("topic.thumbnails"),
         hasThumbnail: false,
+        averageIntensity: null,
+        thumbnailIsLoaded: false,
+        background: null,
+        backgroundGradient: null,
+        attributeBindings: ["style"],
+        style: alias("background"),
         likeCount: 0,
         hasLiked: false,
         canUnlike: true,
+
+        @discourseComputed("averageIntensity")
+        whiteText() {
+          if (this.averageIntensity > 127) {
+            return false;
+          } else {
+            return true;
+          }
+        },
 
         // Lifecyle logic
 
@@ -176,7 +192,7 @@ export default {
             // needs 'div's for masonry
             this.set("tagName", "div");
             this.set("classNames", this.classNames.concat("tiles-grid-item"));
-
+            this._setUpColour();
             if (settings.topic_list_tiles_larger_featured_tiles && topic.tags) {
               if (
                 topic.tags.filter(
@@ -267,6 +283,22 @@ export default {
             abbreviatedPosters.push(this.topic.posters[this.topic.posters.length - 1]);
           }
           return abbreviatedPosters;
+
+        _setUpColour () {
+          let red = this.get("topic.dominant_colour.red") || 255;
+          let green = this.get("topic.dominant_colour.green") || 255;
+          let blue = this.get("topic.dominant_colour.blue") || 255;
+
+          let newRgb = "rgb(" + red + "," + green + "," + blue + ")";
+
+          let averageIntensity =
+            (red + green + blue) / 3;
+
+          let maskBackground = `rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(${red}, ${green}, ${blue}, .1) 40%, rgba(${red}, ${green}, ${blue}, .5) 75%, rgba(${red}, ${green}, ${blue}, 1) 100%);`;
+
+          this.set("averageIntensity", averageIntensity);
+          this.set("background", htmlSafe(`background: ${newRgb};`));
+          this.set("backgroundGradient", htmlSafe(`background: ${maskBackground}`));
         },
 
         _setupActions() {
@@ -489,6 +521,12 @@ export default {
             500
           );
         },
+      });
+
+      api.modifyClass("component:search-result-entries", {
+        pluginId: PLUGIN_ID,
+        tagName: "div",
+        classNameBindings: ["thumbnailGrid:thumbnail-grid"], 
 
         debouncedToggleLike() {
           if (this.get("currentUser")) {

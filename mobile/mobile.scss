@@ -11,6 +11,10 @@
     }
   }
 
+  // .num.views {
+  //   display:none;
+  // }
+
   .topic-details {
     max-height: initial;
     position: relative;
@@ -68,6 +72,9 @@
     .topic-list-item-separator {
       display: none;
     }
+    display: grid;
+    grid-gap: 6px;
+    grid-auto-rows: 10px;
   }
 
   .tiles-grid-sizer,
@@ -112,11 +119,28 @@
   .topic-category {
     grid-area: category;
     padding: 0 0 4px 0;
+    .badge-wrapper.box span {
+      border-radius: 3px;
+    }
   }
 
   .topic-thumbnail {
     grid-area: photo;
-    padding: 0 0 4px 0;
+  }
+
+  .topic-thumbnail {
+    padding: 0px;
+    z-index: -1;
+    width: 100%;
+    display: block;
+  }
+
+  .image-mask {
+    position: relative;
+    margin-bottom: -200px;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
   }
 
   .thumbnail {
@@ -127,6 +151,16 @@
 
   .topic-tags {
     grid-area: tags;
+
+    .discourse-tags {
+      display: inline-block;
+    }
+
+    .discourse-tag.box {
+      border-radius: 3px;
+      background-color: var(--primary-medium);
+      color: var(--secondary);
+    }
   }
 
   .topic-poster-names a {

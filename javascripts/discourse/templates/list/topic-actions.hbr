@@ -1,7 +1,13 @@
 <div class="topic-actions">
+<<<<<<< HEAD
   <div class="inline">
     {{#each topicActions as |action|}}
       {{list-button action}}
     {{/each}}
   </div>
+=======
+  {{#each topicActions as |action|}}
+    {{list-button action}}
+  {{/each}}
+>>>>>>> ce20e715cd29419fc1592825df15e94facbd740f
 </div>
