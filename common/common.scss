@@ -64,6 +64,11 @@
     }
 
     &.black-text.has-thumbnail {
+
+      .discourse-tag.box {
+        background-color: #ccc;
+      }
+
       .topic-details,
       .topic-title a.title,
       .topic-featured-link,
