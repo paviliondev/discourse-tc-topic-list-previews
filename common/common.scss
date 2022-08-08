@@ -37,7 +37,7 @@
     border-radius: 3px;
     grid-row-end: span 44;
 
-    &.white-text.has-thumbnail:not(.visited) {
+    &.white-text.has-thumbnail {
       .topic-details,
       .topic-title a.title,
       .topic-featured-link,
@@ -46,11 +46,24 @@
       .topic-views,
       .badge-posts,
       .like-count {
-        color: white;
+        color: #ddd;
+      }
+
+      &.visited {
+        .topic-details,
+        .topic-title a.title,
+        .topic-featured-link,
+        .topic-excerpt,
+        .discourse-tag,
+        .topic-views,
+        .badge-posts,
+        .like-count {
+          color:#ccc;
+        }
       }
     }
 
-    &.black-text.has-thumbnail:not(.visited) {
+    &.black-text.has-thumbnail {
       .topic-details,
       .topic-title a.title,
       .topic-featured-link,
@@ -59,7 +72,20 @@
       .topic-views,
       .badge-posts,
       .like-count {
-        color: black;
+        color: #333;
+      }
+
+      &.visited {
+        .topic-details,
+        .topic-title a.title,
+        .topic-featured-link,
+        .topic-excerpt,
+        .discourse-tag,
+        .topic-views,
+        .badge-posts,
+        .like-count {
+          color:#444;
+        }
       }
     }
   }
