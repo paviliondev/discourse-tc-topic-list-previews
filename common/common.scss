@@ -96,7 +96,7 @@
   }
 
   .tiles-grid-item:hover {
-    background-color: var(--blend-primary-secondary-5);
+    filter: invert(10%);
   }
 
   .tiles-grid-item:active {
