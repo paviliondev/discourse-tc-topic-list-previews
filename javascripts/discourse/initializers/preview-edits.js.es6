@@ -144,7 +144,7 @@ export default {
         pluginId: PLUGIN_ID,
         topicListPreviewsService: service("topic-list-previews"),
         canBookmark: Ember.computed.bool("currentUser"),
-        classNameBindings: ["whiteText:white-text:black-text", "hasThumbnail", "tilesStyle:tiles-grid-item"],
+        classNameBindings: ["whiteText:white-text", "blackText:black-text", "hasThumbnail", "tilesStyle:tiles-grid-item"],
         tilesStyle: readOnly("topicListPreviewsService.displayTiles"),
         notTilesStyle: not("topicListPreviewsService.displayTiles"),
         showThumbnail: readOnly("topicListPreviewsService.displayThumbnails"),
@@ -172,8 +172,13 @@ export default {
           if (this.averageIntensity > 127) {
             return false;
           } else {
-            return true;
+            return this.averageIntensity;
           }
+        },
+
+        @discourseComputed("whiteText")
+        blackText() {
+          return !this.whiteText && this.averageIntensity;
         },
 
         // Lifecyle logic
@@ -292,14 +297,14 @@ export default {
 
           let newRgb = "rgb(" + red + "," + green + "," + blue + ")";
 
-          let averageIntensity =
-            (red + green + blue) / 3;
+          let averageIntensity =  this.get("topic.dominant_colour") ? (red + green + blue) / 3 : null;
 
           let maskBackground = `rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(${red}, ${green}, ${blue}, .1) 40%, rgba(${red}, ${green}, ${blue}, .5) 75%, rgba(${red}, ${green}, ${blue}, 1) 100%);`;
-
-          this.set("averageIntensity", averageIntensity);
-          this.set("background", htmlSafe(`background: ${newRgb};`));
-          this.set("backgroundGradient", htmlSafe(`background: ${maskBackground}`));
+          if (averageIntensity) {
+            this.set("averageIntensity", averageIntensity);
+            this.set("background", htmlSafe(`background: ${newRgb};`));
+            this.set("backgroundGradient", htmlSafe(`background: ${maskBackground}`));
+          }
         },
 
         _setupActions() {
