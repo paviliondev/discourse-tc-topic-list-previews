@@ -3,17 +3,26 @@
   //TODO make this dependent on a mobile thumbnail width setting?
   .right {
     margin-left: 95px;
+
+    .topic-item-stats {
+      display:unset;
+    }
+
+    .main-link {
+      margin-bottom: 8px;
+    }
   }
 
   .pull-right {
     .keep-in-line {
       display: inline-block;
+
+      .num {
+        text-align: right;
+        float: right;
+      }
     }
   }
-
-  // .num.views {
-  //   display:none;
-  // }
 
   .topic-details {
     max-height: initial;
