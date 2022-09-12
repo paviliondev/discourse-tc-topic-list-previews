@@ -532,7 +532,14 @@ export default {
       api.modifyClass("component:search-result-entries", {
         pluginId: PLUGIN_ID,
         tagName: "div",
-        classNameBindings: ["thumbnailGrid:thumbnail-grid"], 
+        classNameBindings: ["thumbnailGrid:thumbnail-grid"],
+
+        @discourseComputed
+        thumbnailGrid() {
+          const siteSettings = container.lookup("site-settings:main");
+
+          return siteSettings.topic_list_search_previews_enabled
+        },
 
         debouncedToggleLike() {
           if (this.get("currentUser")) {
@@ -566,6 +573,25 @@ export default {
             const controller = container.lookup("controller:application");
             controller.send("showLogin");
           }
+        },
+      });
+
+      api.modifyClass("component:search-result-entry", {
+
+        @discourseComputed
+        thumbnailGrid() {
+          const siteSettings = container.lookup("site-settings:main");
+
+          return siteSettings.topic_list_search_previews_enabled
+        },
+
+        @discourseComputed
+        thumbnailOpts() {
+          let opts = { tilesStyle: true };
+
+          opts["thumbnailWidth"] = "100";
+
+          return opts;
         },
       });
 
