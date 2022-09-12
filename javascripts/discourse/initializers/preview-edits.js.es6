@@ -144,6 +144,7 @@ export default {
         pluginId: PLUGIN_ID,
         topicListPreviewsService: service("topic-list-previews"),
         canBookmark: Ember.computed.bool("currentUser"),
+        classNameBindings: ["whiteText:white-text", "blackText:black-text", "hasThumbnail", "tilesStyle:tiles-grid-item"],
         tilesStyle: readOnly("topicListPreviewsService.displayTiles"),
         notTilesStyle: not("topicListPreviewsService.displayTiles"),
         showThumbnail: readOnly("topicListPreviewsService.displayThumbnails"),
@@ -156,9 +157,29 @@ export default {
         category: alias("parentView.category"),
         thumbnails: alias("topic.thumbnails"),
         hasThumbnail: false,
+        averageIntensity: null,
+        thumbnailIsLoaded: false,
+        background: null,
+        backgroundGradient: null,
+        attributeBindings: ["style"],
+        style: alias("background"),
         likeCount: 0,
         hasLiked: false,
         canUnlike: true,
+
+        @discourseComputed("averageIntensity")
+        whiteText() {
+          if (this.averageIntensity > 127) {
+            return false;
+          } else {
+            return this.averageIntensity;
+          }
+        },
+
+        @discourseComputed("whiteText")
+        blackText() {
+          return !this.whiteText && this.averageIntensity;
+        },
 
         // Lifecyle logic
 
@@ -176,7 +197,7 @@ export default {
             // needs 'div's for masonry
             this.set("tagName", "div");
             this.set("classNames", this.classNames.concat("tiles-grid-item"));
-
+            this._setUpColour();
             if (settings.topic_list_tiles_larger_featured_tiles && topic.tags) {
               if (
                 topic.tags.filter(
@@ -267,6 +288,23 @@ export default {
             abbreviatedPosters.push(this.topic.posters[this.topic.posters.length - 1]);
           }
           return abbreviatedPosters;
+        },
+
+        _setUpColour () {
+          let red = this.get("topic.dominant_colour.red") || 255;
+          let green = this.get("topic.dominant_colour.green") || 255;
+          let blue = this.get("topic.dominant_colour.blue") || 255;
+
+          let newRgb = "rgb(" + red + "," + green + "," + blue + ")";
+
+          let averageIntensity =  this.get("topic.dominant_colour") ? (red + green + blue) / 3 : null;
+
+          let maskBackground = `rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(${red}, ${green}, ${blue}, .1) 40%, rgba(${red}, ${green}, ${blue}, .5) 75%, rgba(${red}, ${green}, ${blue}, 1) 100%);`;
+          if (averageIntensity) {
+            this.set("averageIntensity", averageIntensity);
+            this.set("background", htmlSafe(`background: ${newRgb};`));
+            this.set("backgroundGradient", htmlSafe(`background: ${maskBackground}`));
+          }
         },
 
         _setupActions() {
@@ -489,6 +527,19 @@ export default {
             500
           );
         },
+      });
+
+      api.modifyClass("component:search-result-entries", {
+        pluginId: PLUGIN_ID,
+        tagName: "div",
+        classNameBindings: ["thumbnailGrid:thumbnail-grid"],
+
+        @discourseComputed
+        thumbnailGrid() {
+          const siteSettings = container.lookup("site-settings:main");
+
+          return siteSettings.topic_list_search_previews_enabled
+        },
 
         debouncedToggleLike() {
           if (this.get("currentUser")) {
@@ -522,6 +573,25 @@ export default {
             const controller = container.lookup("controller:application");
             controller.send("showLogin");
           }
+        },
+      });
+
+      api.modifyClass("component:search-result-entry", {
+
+        @discourseComputed
+        thumbnailGrid() {
+          const siteSettings = container.lookup("site-settings:main");
+
+          return siteSettings.topic_list_search_previews_enabled
+        },
+
+        @discourseComputed
+        thumbnailOpts() {
+          let opts = { tilesStyle: true };
+
+          opts["thumbnailWidth"] = "100";
+
+          return opts;
         },
       });
 
