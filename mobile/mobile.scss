@@ -1,9 +1,13 @@
  .mobile-view .topic-list {
 
-  //TODO make this dependent on a mobile thumbnail width setting?
-  .right {
-    margin-left: 95px;
+  &.showThumbnail {
+    .right {
+    //TODO make this dependent on a mobile thumbnail width setting?
+      margin-left: 95px;
+    }
+  }
 
+  .right {
     .topic-item-stats {
       display:unset;
     }
