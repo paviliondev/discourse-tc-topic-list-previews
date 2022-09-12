@@ -9,23 +9,34 @@
 
   .right {
     .topic-item-stats {
-      display:unset;
+      display:grid;
+      grid-template-columns: auto 150px;
+      grid-template-areas:
+      "catandtags actionandmeta";
+
+      .category-and-tags {
+        grid-area: catandtags;
+        display: flex-wrap;
+      }
+
+      .hang-right {
+        grid-area: actionandmeta;
+        align-self: end;
+        justify-self: right;
+
+        .keep-in-line {
+          display: inline-block;
+
+          .num {
+            text-align: right;
+            float: right;
+          }
+        }
+      }
     }
 
     .main-link {
       margin-bottom: 8px;
-    }
-  }
-
-  .pull-right {
-    .keep-in-line {
-      display: inline-block;
-      margin-top: 4px;
-
-      .num {
-        text-align: right;
-        float: right;
-      }
     }
   }
 
@@ -75,7 +86,6 @@
   .discourse-tags {
     float: initial;
     clear: initial;
-    margin-right: 30px;
     flex-wrap: wrap;
   }
 }
