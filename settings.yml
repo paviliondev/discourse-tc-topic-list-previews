@@ -115,7 +115,7 @@ topic_list_default_thumbnail_fallback:
   description:
     en:  "Use the default thumbnail when a topic has no previewed image."
 topic_list_thumbnail_resolution_level:
-  default: 2
+  default: 3
   max: 6
   min: 0
   type: integer
