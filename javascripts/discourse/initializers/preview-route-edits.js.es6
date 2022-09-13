@@ -5,6 +5,9 @@ import PreloadStore from "discourse/lib/preload-store";
 import CategoryList from "discourse/models/category-list";
 import TopicList from "discourse/models/topic-list";
 import {findOrResetCachedTopicList} from 'discourse/lib/cached-topic-list';
+import { hash } from "rsvp";
+import EmberObject from "@ember/object";
+import Site from "discourse/models/site";
 
 const PLUGIN_ID = "topic-list-previews-tc";
 
@@ -12,7 +15,7 @@ export default {
   name: 'preview-route-edits',
   initialize(container){
 
-    const site = container.lookup('site:main');
+    const site = container.lookup("service:site");
 
     let discoveryTopicRoutes = [];
     let discoveryCategoryRoutes = [
@@ -101,18 +104,22 @@ export default {
 
         // unfortunately we have to override this whole method to extract the featured topics
         _findCategoriesAndTopics(filter) {
-          return Ember.RSVP.hash({
+          return hash({
             wrappedCategoriesList: PreloadStore.getAndRemove("categories_list"),
             topicsList: PreloadStore.getAndRemove(`topic_list_${filter}`)
-          }).then(hash => {
-            let { wrappedCategoriesList, topicsList } = hash;
-            let categoriesList = wrappedCategoriesList &&
-              wrappedCategoriesList.category_list;
+          }).then((response) => {
+            let { wrappedCategoriesList, topicsList } = response;
+            let categoriesList =
+              wrappedCategoriesList && wrappedCategoriesList.category_list;
+
+            this.setFeaturedTopics(topicsList);
 
             if (categoriesList && topicsList) {
-              this.setFeaturedTopics(topicsList);
+              if (topicsList.topic_list && topicsList.topic_list.top_tags) {
+                Site.currentProp("top_tags", topicsList.topic_list.top_tags);
+              }
 
-              return Ember.Object.create({
+              return EmberObject.create({
                 categories: CategoryList.categoriesFrom(
                   this.store,
                   wrappedCategoriesList
@@ -120,23 +127,21 @@ export default {
                 topics: TopicList.topicsFrom(this.store, topicsList),
                 can_create_category: categoriesList.can_create_category,
                 can_create_topic: categoriesList.can_create_topic,
-                loadBefore: this._loadBefore(this.store),
-                draft_key: categoriesList.draft_key,
-                draft: categoriesList.draft,
-                draft_sequence: categoriesList.draft_sequence
+                loadBefore: this._loadBefore(store),
               });
             }
             // Otherwise, return the ajax result
             return ajax(`/categories_and_${filter}`).then(result => {
-              return Ember.Object.create({
+              if (result.topic_list && result.topic_list.top_tags) {
+                Site.currentProp("top_tags", result.topic_list.top_tags);
+              }
+
+              return EmberObject.create({
                 categories: CategoryList.categoriesFrom(this.store, result),
                 topics: TopicList.topicsFrom(this.store, result),
                 can_create_category: result.category_list.can_create_category,
                 can_create_topic: result.category_list.can_create_topic,
                 loadBefore: this._loadBefore(this.store),
-                draft_key: result.category_list.draft_key,
-                draft: result.category_list.draft,
-                draft_sequence: result.category_list.draft_sequence
               });
             });
           });
