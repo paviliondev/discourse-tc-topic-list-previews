@@ -109,6 +109,7 @@ export default {
 
         // unfortunately we have to override this whole method to extract the featured topics
         _findCategoriesAndTopics(filter) {
+          PreloadStore.reset();
           return hash({
             wrappedCategoriesList: PreloadStore.getAndRemove("categories_list"),
             topicsList: PreloadStore.getAndRemove(`topic_list_${filter}`)
