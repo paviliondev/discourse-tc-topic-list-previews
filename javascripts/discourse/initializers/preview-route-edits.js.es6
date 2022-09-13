@@ -51,7 +51,6 @@ export default {
                 this.setProperties ({
                   featuredTopics: Ember.Object.create (list),
                 });
-
                 this.controllerFor('discovery').set('featuredTopics', this.featuredTopics);
               });
             }
@@ -88,14 +87,13 @@ export default {
       api.modifyClass(`route:discovery-categories`, {
         pluginId: PLUGIN_ID,
 
-        setFeaturedTopics(topicList) {
-          let featuredTopics = null;
-
+        setFeaturedTopics() {
           let filter = `tag/${settings.topic_list_featured_images_tag}`;
           let lastTopicList = findOrResetCachedTopicList (this.session, filter);
-          this.store.findFiltered ('topicList', {filter}).then (list => {
+
+          this.store.findFiltered ("topicList", {filter}).then (list => {
             this.setProperties ({
-              featuredTopics: Ember.Object.create (list),
+              featuredTopics: EmberObject.create (list),
             });
 
             this.controllerFor('discovery').set('featuredTopics', this.featuredTopics);
@@ -112,7 +110,7 @@ export default {
             let categoriesList =
               wrappedCategoriesList && wrappedCategoriesList.category_list;
 
-            this.setFeaturedTopics(topicsList);
+            this.setFeaturedTopics();
 
             if (categoriesList && topicsList) {
               if (topicsList.topic_list && topicsList.topic_list.top_tags) {
