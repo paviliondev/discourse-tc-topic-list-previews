@@ -88,10 +88,17 @@ export default {
         pluginId: PLUGIN_ID,
 
         setFeaturedTopics() {
-          let filter = `tag/${settings.topic_list_featured_images_tag}`;
-          let lastTopicList = findOrResetCachedTopicList (this.session, filter);
+          let sortOrder = settings.topic_list_featured_images_created_order ? "created" : "activity";
 
-          this.store.findFiltered ("topicList", {filter}).then (list => {
+          let filterObject = {
+            filter: "latest",
+            params: {
+              tags: [`${settings.topic_list_featured_images_tag}`],
+              order: sortOrder,
+            },
+          }
+
+          this.store.findFiltered ("topicList", filterObject).then (list => {
             this.setProperties ({
               featuredTopics: EmberObject.create (list),
             });
