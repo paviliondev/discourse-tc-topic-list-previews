@@ -9,8 +9,21 @@
 
   .right {
     .topic-item-stats {
+        grid-template-columns: auto 50px;
+    }
+  }
+
+  &.showActions {
+    .right {
+      .topic-item-stats {
+        grid-template-columns: auto 150px;
+      }
+    }
+  }
+
+  .right {
+    .topic-item-stats {
       display:grid;
-      grid-template-columns: auto 150px;
       grid-template-areas:
       "catandtags actionandmeta";
 
