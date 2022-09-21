@@ -517,17 +517,22 @@ button.list-button {
 
       &.show-details .featured-details {
         img {
-          -webkit-filter: brightness(50%);
+          -webkit-filter: brightness(35%);
           transition: background-color 200ms linear;
         }
 
         .content,
         .content a {
+          color: white;
           z-index: 2;
-          color: var(--secondary);
+
+          .excerpt {
+            font-size: smaller;
+            overflow:hidden;
+          }
 
           a.mention {
-            background-color: var(--primary-high);
+            background-color: dimgray;
           }
 
           img {
