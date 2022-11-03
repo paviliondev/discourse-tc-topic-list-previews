@@ -2,4 +2,18 @@
   .tiles-grid-item:hover {
     filter: invert(10%);
   }
+
+  .tiles-grid-item:hover {
+    background-color: var(--blend-primary-secondary-5);
+  }
+
+  .tiles-grid-item:active {
+    -webkit-transform: translateY(+2px);
+    -ms-transform: translateY(+2px);
+    transform: translateY(+2px);
+    -webkit-transform: translateX(+2px);
+    -ms-transform: translateX(+2px);
+    transform: translateX(+2px);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.16), 0 0 0 0 rgba(0, 0, 0, 0.12);
+  }
 }
