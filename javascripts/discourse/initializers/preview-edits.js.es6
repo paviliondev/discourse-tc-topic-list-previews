@@ -561,6 +561,14 @@ export default {
             controller.send("showLogin");
           }
         },
+
+        _titleElement() {
+          if (this.element !== undefined && this.element !== null) {
+            return this.element.querySelector(".main-link .title");
+          } else {
+            return false;
+          }
+        },
       });
 
       api.modifyClass("component:search-result-entries", {
