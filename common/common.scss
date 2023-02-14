@@ -1,4 +1,29 @@
-//tiles styling  specific styling
+.topic-list .link-bottom-line {
+  display: block;
+}
+
+.topic-thumbnail {
+  float: left;
+  padding-right: 15px;
+
+  .no-thumbnail {
+    display: none;
+  }
+}
+
+.topic-excerpt {
+  display: block;
+  word-break: break-word;
+}
+
+.topic-actions {
+  display: block;
+  .like-count:empty {
+    margin-right: 0;
+  }
+}
+
+// tiles specific styling
 
 .contents.has-more > .topic-list.tiles-style tbody {
   margin-top: 60px;
@@ -327,33 +352,6 @@
       .like-count {
         color:#444;
       }
-    }
-  }
-}
-//styling excluding tiles
-html:not(.tile-style) {
-  .topic-list .link-bottom-line {
-    display: block;
-  }
-
-  .topic-thumbnail {
-    float: left;
-    padding-right: 15px;
-
-    .no-thumbnail {
-      display: none;
-    }
-  }
-
-  .topic-excerpt {
-    display: block;
-    word-break: break-word;
-  }
-
-  .topic-actions {
-    display: block;
-    .like-count:empty {
-      margin-right: 0;
     }
   }
 }
