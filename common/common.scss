@@ -331,7 +331,7 @@
   }
 }
 //styling excluding tiles
-html:not(>tile-style) {
+html:not(.tile-style) {
   .topic-list .link-bottom-line {
     display: block;
   }
