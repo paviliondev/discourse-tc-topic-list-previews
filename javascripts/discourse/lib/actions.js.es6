@@ -1,14 +1,15 @@
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
-import showModal from "discourse/lib/show-modal";
+import ShareTopicModal from "discourse/components/modal/share-topic";
+import { getOwner } from "@ember/application";
 
 var shareTopic = function (topic) {
-  const controller = showModal("share-topic", {
-    model: topic.category,
-  });
-  controller.setProperties({
-    topic: topic,
-  });
+  getOwner(topic).lookup("service:modal").show(ShareTopicModal, {
+    model: {
+      category: topic.category,
+      topic: topic,
+    }
+  })
 };
 
 var addLike = function (postId) {
