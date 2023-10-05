@@ -1,0 +1,19 @@
+<a href="{{this.href}}" class="tlp-featured-topic {{this.featuredTag}}">
+  <div class="featured-details">
+    {{preview-unbound this.args.topic.thumbnails currentUser=this.currentUser opts=(hash featured=true)}}
+    <div class="content">
+      <div class="title">
+        {{this.args.topic.title}}
+      </div>
+      {{#if featuredExcerpt}}
+        <div class="excerpt">
+          {{{this.featuredExcerpt}}}
+        </div>
+      {{/if}}
+      <span class="user">
+        {{this.featuredUsername}}
+        {{avatar this.featuredUser imageSize="small"}}
+      </span>
+    </div>
+  </div>
+</a>

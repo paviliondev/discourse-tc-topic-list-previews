@@ -1,0 +1,21 @@
+<div class="tlp-featured-topics {{if this.hasTopics 'has-topics'}}">
+  {{#if this.hasTopics}}
+    {{#if this.showFeaturedTitle}}
+      <div class="featured-title">
+        {{this.featuredTitle}}
+      </div>
+    {{/if}}
+    <div class="topics">
+      {{#each this.args.featuredTopics as |t|}}
+        <TlpFeaturedTopic @topic={{t}}/>
+      {{/each}}
+    </div>
+    {{#if this.showFeaturedTags}}
+      <div class="featured-tags">
+        {{#each this.featuredTags as |tag|}}
+          {{discourse-tag tag}}
+        {{/each}}
+      </div>
+    {{/if}}
+  {{/if}}
+</div>

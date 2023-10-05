@@ -513,7 +513,7 @@ button.list-button {
         }
       }
 
-      &.show-details .featured-details {
+     .featured-details:hover {
         img {
           -webkit-filter: brightness(35%);
           transition: background-color 200ms linear;
