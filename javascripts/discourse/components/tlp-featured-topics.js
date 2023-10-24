@@ -1,4 +1,4 @@
-import { cookAsync } from 'discourse/lib/text';
+import { cook } from 'discourse/lib/text';
 import { computed } from "@ember/object";
 import Component from '@glimmer/component';
 import { tracked } from "@glimmer/tracking";
@@ -14,7 +14,7 @@ export default class TlpFeaturedTopicsComponent extends Component {
 
     if (this.showFeaturedTitle) {
       const raw = settings.topic_list_featured_title;
-      cookAsync(raw).then((cooked) => this.featuredTitle = cooked);
+      cook(raw).then((cooked) => this.featuredTitle = cooked);
     }
   };
 
