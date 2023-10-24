@@ -1,5 +1,5 @@
 <div class="topic-thumbnail">
   <a href='{{topic.url}}'>
-    {{preview-unbound thumbnails currentUser=currentUser site=site category=category opts=opts}}
+    {{raw-preview-unbound thumbnails currentUser=currentUser site=site category=category opts=opts}}
   </a>
 </div>

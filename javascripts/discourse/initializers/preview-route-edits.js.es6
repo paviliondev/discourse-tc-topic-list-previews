@@ -1,4 +1,3 @@
-import { featuredImagesEnabled } from '../lib/tlp-utilities';
 import { ajax } from 'discourse/lib/ajax';
 import { withPluginApi } from 'discourse/lib/plugin-api';
 import PreloadStore from "discourse/lib/preload-store";
