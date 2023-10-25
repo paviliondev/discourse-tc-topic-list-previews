@@ -29,7 +29,7 @@ export default {
     }
 
     filters.forEach(filter => {
-      const filterCapitalized = filter.capitalize();
+      const filterCapitalized = filter.charAt(0).toUpperCase() + filter.slice(1);
       discoveryTopicRoutes.push(filterCapitalized);
       discoveryCategoryRoutes.push(...[
         `${filterCapitalized}Category`,
