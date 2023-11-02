@@ -1,12 +1,16 @@
-<div class="tlp-featured-topics {{if this.hasTopics 'has-topics'}}">
-  {{#if this.hasTopics}}
+  <div
+    {{did-insert this.getFeaturedTopics}}
+    {{did-update this.getFeaturedTopics this.args.category}}
+    class="tlp-featured-topics {{if this.showFeatured 'has-topics'}}"
+  >
+  {{#if this.showFeatured}}
     {{#if this.showFeaturedTitle}}
       <div class="featured-title">
         {{this.featuredTitle}}
       </div>
     {{/if}}
     <div class="topics">
-      {{#each this.args.featuredTopics as |t|}}
+      {{#each this.featuredTopics as |t|}}
         <TlpFeaturedTopic @topic={{t}}/>
       {{/each}}
     </div>
@@ -17,5 +21,6 @@
         {{/each}}
       </div>
     {{/if}}
-  {{/if}}
-</div>
+    {{/if}}
+  </div>
+
