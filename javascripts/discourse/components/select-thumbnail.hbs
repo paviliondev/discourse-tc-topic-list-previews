@@ -1,0 +1,12 @@
+<div class="select-thumbnail">
+  <DButton 
+    id="select-thumbnail-button" 
+    class="btn-default select-thumbnail"
+    @action={{this.showThumbnailSelector}}
+    @icon="id-card"
+    @label={{theme-prefix "tlp.thumbnail_selector.select_preview_button"}}
+  />
+  {{#if this.showSelected}}
+    <br><img src={{this.args.buffered.user_chosen_thumbnail_url}} class="select-thumbnail-preview">
+  {{/if}}
+</div>
