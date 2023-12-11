@@ -1,0 +1,13 @@
+<DModal
+  @closeModal={{@closeModal}}
+  @flash={{this.flash}}
+  class="select-thumbnail"
+  @title={{i18n (theme-prefix "tlp.thumbnail_selector.title")}}>
+  <h3>{{i18n (theme-prefix "tlp.thumbnail_selector.topic_title_prefix")}} "{{this.args.model.topic_title}}"</h3>
+  <span class="select-thumbnail">
+  {{#each this.args.model.thumbnails as |thumbnail|}}
+    <img class="select-thumbnail-options" src={{thumbnail.image_url}}
+    onclick={{action "selectThumbnail" thumbnail.image_url thumbnail.upload_id}}/>
+  {{/each}}
+  </span>
+</DModal>
