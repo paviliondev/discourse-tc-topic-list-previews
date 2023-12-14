@@ -1,14 +1,12 @@
 import { action } from "@ember/object";
-import { tracked } from "@glimmer/tracking";
-import Component from '@glimmer/component';
+import Component from "@ember/component";
+import { bufferedProperty } from "discourse/mixins/buffered-content";
 
-export default class TlpThumbnailSelectorModalComponent extends Component {
-  @tracked flash = this.args.model?.flash;
-
+export default Component.extend(bufferedProperty("model"), {
   @action
   selectThumbnail(image_url, image_upload_id) {
-    this.args.model.buffered.user_chosen_thumbnail_url = image_url;
-    this.args.model.buffered.image_upload_id = image_upload_id;
-    this.args.closeModal();
+    this.set("model.buffered.user_chosen_thumbnail_url", image_url);
+    this.set("model.buffered.image_upload_id", image_upload_id);
+    this.closeModal();
   }
-};
+});

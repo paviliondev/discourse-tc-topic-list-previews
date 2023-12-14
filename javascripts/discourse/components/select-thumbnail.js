@@ -8,11 +8,6 @@ import TlpThumbnailSelectorModalComponent from "../components/modal/tlp-thumbnai
 export default class SelectThumbnailComponent extends Component {
   @service modal;
 
-  @computed
-  get showSelected() {
-    return this.args.buffered.user_chosen_thumbnail_url ? true : false;
-  };
-
   @action
   showThumbnailSelector() {
     ajax(`/topic-previews/thumbnail-selection.json?topic=${this.args.topic_id}`).then(result => {
@@ -24,7 +19,7 @@ export default class SelectThumbnailComponent extends Component {
           buffered: this.args.buffered
         }
       })
-    }).catch(function(error) {
+    }).catch((error) => {
       popupAjaxError(error);
     });
   }
