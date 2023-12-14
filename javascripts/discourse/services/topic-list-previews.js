@@ -1,7 +1,8 @@
-import Service from "@ember/service";
-import { inject as service } from "@ember/service";
+import Service, { inject as service } from "@ember/service";
 import discourseComputed from "discourse-common/utils/decorators";
 import Site from "discourse/models/site";
+import { action, computed } from "@ember/object";
+import { dependentKeyCompat } from "@ember/object/compat";
 
 const thumbnailsTopicLists = settings.topic_list_thumbnails_topic_lists.split("|");
 const tilesTopicLists = settings.topic_list_tiles_topic_lists.split("|");
@@ -29,10 +30,31 @@ const excerptTags = settings.topic_list_excerpts_tags.split("|");
 const tilesTags = settings.topic_list_tiles_tags.split("|");
 const actionTags = settings.topic_list_actions_tags.split("|");
 
-export default Service.extend({
-  router: service("router"),
+export default class TopicListPreviewsService extends Service {
+  @service router;
+  @service discovery;
 
-  enabledForCurrentTopicListRouteType(currentTopicListRoute, infoType) {
+  @dependentKeyCompat
+  get isTopicListRoute() {
+    return this.discovery.onDiscoveryRoute;
+  }
+
+  @computed("router.currentRouteName")
+  get isTopicRoute() {
+    return this.router.currentRouteName.match(/^topic\./);
+  }
+
+  @dependentKeyCompat
+  get viewingCategoryId() {
+    return this.discovery.category?.id;
+  }
+
+  @dependentKeyCompat
+  get viewingTagId() {
+    return this.discovery.tag?.id;
+  }
+
+  enabledForCurrentTopicListRouteType(infoType) {
     let checkList = [];
 
     switch(infoType)
@@ -50,6 +72,8 @@ export default Service.extend({
         checkList = actionsTopicLists;
     }
 
+    let currentTopicListRoute = this.currentTopicListRoute;
+
     if (currentTopicListRoute == 'userActivity.portfolio') currentTopicListRoute = 'activity-portfolio';
     if (currentTopicListRoute == 'userActivity.topics') currentTopicListRoute = 'activity-topics';
     if (currentTopicListRoute.indexOf("topic") > -1) currentTopicListRoute = 'suggested';
@@ -57,7 +81,6 @@ export default Service.extend({
     let onMobile = Site.current().mobileView;
 
     let found_item = checkList.find(item => {
-      
       let mobileSetting = false;
       let itemShortRouteName = item
     
@@ -68,7 +91,7 @@ export default Service.extend({
 
       if (settings.topic_list_set_category_defaults) {
         if (currentTopicListRoute.indexOf("Category") > -1) {
-          currentTopicListRoute = item.substring(0,item.indexOf("Category"))
+          currentTopicListRoute = currentTopicListRoute.substring(0,currentTopicListRoute.indexOf("Category"))
         } else {
           if (currentTopicListRoute == 'discovery.category') {
             currentTopicListRoute = 'discovery.latest'
@@ -82,90 +105,62 @@ export default Service.extend({
       return false;
     })
     return (found_item && found_item.length > 0)
-  },
+  }
 
-  @discourseComputed(
+  @computed(
    "router.currentRouteName"
   )
-  currentTopicListRoute(currentRouteName) {
-    return currentRouteName
-  },
+  get currentTopicListRoute() {
+    return this.router.currentRouteName
+  }
 
-  @discourseComputed(
-    "router.currentRouteName",
-    "router.currentRoute.attributes.category.id"
-  )
-  viewingCategoryId(currentRouteName, categoryId) {
-    if (!currentRouteName.match(/^discovery\./)) return;
-    return categoryId;
-  },
-
-  @discourseComputed(
-    "router.currentRouteName",
-    "router.currentRoute.attributes.id", // For discourse instances earlier than https://github.com/discourse/discourse/commit/f7b5ff39cf
-    "router.currentRoute.attributes.tag.id"
-  )
-  viewingTagId(currentRouteName, legacyTagId, tagId) {
-    if (!currentRouteName.match(/^tags?\.show/)) {
-      return;
-    }
-    return tagId || legacyTagId;
-  },
-
-  @discourseComputed(
+  @computed(
     "viewingCategoryId",
     "viewingTagId",
     "router.currentRoute.metadata.customThumbnailMode",
     "currentTopicListRoute"
   )
-  displayMode(
-    viewingCategoryId,
-    viewingTagId,
-    customThumbnailMode,
-    currentTopicListRoute,
-  ) {
+  get displayMode() {
     let displayMode = [];
 
-    if (customThumbnailMode) displayMode.push(customThumbnailMode);
-
-    if (thumbnailCategories.includes(viewingCategoryId) || thumbnailTags.includes(viewingTagId) || this.enabledForCurrentTopicListRouteType(currentTopicListRoute, "thumbnails")) {
+    if (thumbnailCategories.includes(this.viewingCategoryId) || thumbnailTags.includes(this.viewingTagId) || this.enabledForCurrentTopicListRouteType("thumbnails")) {
       displayMode.push("thumbnails");
     }
-    if (tilesCategories.includes(viewingCategoryId) || tilesTags.includes(viewingTagId) || this.enabledForCurrentTopicListRouteType(currentTopicListRoute,"tiles")) {
+    if (tilesCategories.includes(this.viewingCategoryId) || tilesTags.includes(this.viewingTagId) || this.enabledForCurrentTopicListRouteType("tiles")) {
       displayMode.push("tiles");
     }
-    if (excerptCategories.includes(viewingCategoryId) || excerptTags.includes(viewingTagId) || this.enabledForCurrentTopicListRouteType(currentTopicListRoute,"excerpts")) {
+    if (excerptCategories.includes(this.viewingCategoryId) || excerptTags.includes(this.viewingTagId) || this.enabledForCurrentTopicListRouteType("excerpts")) {
       displayMode.push("excerpts");
     }
-    if (actionCategories.includes(viewingCategoryId) || actionTags.includes(viewingTagId) || this.enabledForCurrentTopicListRouteType(currentTopicListRoute,"actions")) {
+    if (actionCategories.includes(this.viewingCategoryId) || actionTags.includes(this.viewingTagId) || this.enabledForCurrentTopicListRouteType("actions")) {
       displayMode.push("actions");
     }
 
     return displayMode;
-  },
+  }
 
-  @discourseComputed("displayMode")
-  enabledForRoute(displayMode) {
-    return displayMode !== [];
-  },
+  @computed("displayMode")
+  get enabledForRoute() {
+    return this.displayMode.length !== 0;
+  }
 
-  @discourseComputed("enabledForRoute", "displayMode")
-  displayThumbnails(enabledForRoute, displayMode) {
-    return enabledForRoute && displayMode.includes("thumbnails");
-  },
+  @computed("enabledForRoute", "displayMode")
+  get displayThumbnails() {
+    return this.enabledForRoute && this.displayMode.includes("thumbnails");
+  }
 
-  @discourseComputed("enabledForRoute", "displayMode")
-  displayTiles(enabledForRoute, displayMode) {
-    return enabledForRoute && displayMode.includes("tiles");
-  },
+  @computed("enabledForRoute", "displayMode")
+  get displayTiles() {
+    return this.enabledForRoute && this.displayMode.includes("tiles");
+  }
 
-  @discourseComputed("enabledForRoute", "displayMode")
-  displayExcerpts(enabledForRoute, displayMode) {
-    return enabledForRoute && displayMode.includes("excerpts");
-  },
+  @computed("enabledForRoute", "displayMode")
+  get displayExcerpts() {
+    return this.enabledForRoute && this.displayMode.includes("excerpts");
+  }
 
-  @discourseComputed("enabledForRoute", "displayMode")
-  displayActions(enabledForRoute, displayMode) {
-    return enabledForRoute && displayMode.includes("actions");
-  },
-});
+  @computed("enabledForRoute", "displayMode")
+  get displayActions() {
+    return this.enabledForRoute && this.displayMode.includes("actions");
+  }
+};
