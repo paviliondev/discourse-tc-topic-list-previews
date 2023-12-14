@@ -1,9 +1,10 @@
 import { cook } from 'discourse/lib/text';
-import { action, computed } from "@ember/object";
+import { action, computed, create } from "@ember/object";
 import Component from '@glimmer/component';
 import { tracked } from "@glimmer/tracking";
 import { inject as service } from "@ember/service";
 import {findOrResetCachedTopicList} from 'discourse/lib/cached-topic-list';
+import EmberObject from '@ember/object';
 
 export default class TlpFeaturedTopicsComponent extends Component {
   @service appEvents;
@@ -31,7 +32,7 @@ export default class TlpFeaturedTopicsComponent extends Component {
       let list = await this.store.findFiltered ('topicList', {filter} );
 
       if (typeof list !== 'undefined') {
-          topics = Ember.Object.create(list).topic_list.topics;
+        topics = EmberObject.create(list).topic_list.topics;
 
         if (this.args.category && settings.topic_list_featured_images_from_current_category_only) {
           topics = topics.filter(topic => topic.category_id == this.args.category.id)

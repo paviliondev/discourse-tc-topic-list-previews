@@ -2,23 +2,19 @@ import discourseComputed, {
   on,
   observes,
 } from "discourse-common/utils/decorators";
-import { alias, and, equal, not } from "@ember/object/computed";
-import DiscourseURL from "discourse/lib/url";
-import { testImageUrl, getDefaultThumbnail } from "../lib/tlp-utilities";
+import { alias, and, not } from "@ember/object/computed";
+import { getDefaultThumbnail } from "../lib/tlp-utilities";
 import { shareTopic, addLike, sendBookmark, removeLike } from "../lib/actions";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import PostsCountColumn from "discourse/raw-views/list/posts-count-column";
 import { resizeAllGridItems } from "../lib/gridupdate";
-import Topic from "discourse/models/topic";
 import loadScript from "discourse/lib/load-script";
 import { cook } from "discourse/lib/text";
-import { debounce } from "@ember/runloop";
 import { inject as service } from "@ember/service";
 import { readOnly } from "@ember/object/computed";
 import { computed } from "@ember/object";
 import { htmlSafe } from "@ember/template";
-import { RUNTIME_OPTIONS } from "discourse-common/lib/raw-handlebars-helpers";
-import { findRawTemplate } from "discourse-common/lib/raw-templates";
+import { debounce, run } from '@ember/runloop';
 
 const PLUGIN_ID = "topic-list-previews-tc";
 
@@ -120,7 +116,7 @@ export default {
         @on("didRender")
         completeRender() {
           if (this.get("hasTiles")) {
-            Ember.run.scheduleOnce("afterRender", this, this.applyTiles);
+            run.scheduleOnce("afterRender", this, this.applyTiles);
           }
         },
 
@@ -143,7 +139,7 @@ export default {
       api.modifyClass("component:topic-list-item", {
         pluginId: PLUGIN_ID,
         topicListPreviewsService: service("topic-list-previews"),
-        canBookmark: Ember.computed.bool("currentUser"),
+        canBookmark: computed.bool("currentUser"),
         classNameBindings: ["whiteText:white-text", "blackText:black-text", "hasThumbnail", "tilesStyle:tiles-grid-item"],
         tilesStyle: readOnly("topicListPreviewsService.displayTiles"),
         notTilesStyle: not("topicListPreviewsService.displayTiles"),
@@ -253,7 +249,7 @@ export default {
         },
 
         _afterRender() {
-          Ember.run.scheduleOnce("afterRender", this, () => {
+          run.scheduleOnce("afterRender", this, () => {
             if (this.get("showActions")) {
               this._setupActions();
             }
@@ -413,7 +409,7 @@ export default {
           actions.push(this._shareButton());
           if (this.get("canBookmark")) {
             actions.push(this._bookmarkButton());
-            Ember.run.scheduleOnce("afterRender", this, () => {
+            run.scheduleOnce("afterRender", this, () => {
               let bookmarkStatusElement = this.element.querySelector(
                 ".topic-statuses .op-bookmark"
               );
@@ -494,7 +490,7 @@ export default {
         // Action toggles and server methods
 
         debouncedShare() {
-          Ember.run.debounce(
+          debounce(
             this,
             () => {
               shareTopic(
@@ -506,7 +502,7 @@ export default {
         },
 
         debouncedToggleBookmark() {
-          Ember.run.debounce(
+          debounce(
             this,
             () => {
               sendBookmark(
@@ -530,7 +526,7 @@ export default {
 
         debouncedToggleLike() {
           if (this.get("currentUser")) {
-            Ember.run.debounce(
+            debounce(
               this,
               () => {
                 let change = 0;
