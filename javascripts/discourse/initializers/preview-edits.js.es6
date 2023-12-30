@@ -2,7 +2,7 @@ import discourseComputed, {
   on,
   observes,
 } from "discourse-common/utils/decorators";
-import { alias, and, not } from "@ember/object/computed";
+import { alias, and, bool, not } from "@ember/object/computed";
 import { getDefaultThumbnail } from "../lib/tlp-utilities";
 import { shareTopic, addLike, sendBookmark, removeLike } from "../lib/actions";
 import { withPluginApi } from "discourse/lib/plugin-api";
@@ -14,7 +14,7 @@ import { inject as service } from "@ember/service";
 import { readOnly } from "@ember/object/computed";
 import { computed } from "@ember/object";
 import { htmlSafe } from "@ember/template";
-import { debounce, run } from '@ember/runloop';
+import { debounce, scheduleOnce } from '@ember/runloop';
 
 const PLUGIN_ID = "topic-list-previews-tc";
 
@@ -116,7 +116,7 @@ export default {
         @on("didRender")
         completeRender() {
           if (this.get("hasTiles")) {
-            run.scheduleOnce("afterRender", this, this.applyTiles);
+            scheduleOnce("afterRender", this, this.applyTiles);
           }
         },
 
@@ -139,7 +139,7 @@ export default {
       api.modifyClass("component:topic-list-item", {
         pluginId: PLUGIN_ID,
         topicListPreviewsService: service("topic-list-previews"),
-        canBookmark: computed.bool("currentUser"),
+        canBookmark: bool("currentUser"),
         classNameBindings: ["whiteText:white-text", "blackText:black-text", "hasThumbnail", "tilesStyle:tiles-grid-item"],
         tilesStyle: readOnly("topicListPreviewsService.displayTiles"),
         notTilesStyle: not("topicListPreviewsService.displayTiles"),
@@ -249,7 +249,7 @@ export default {
         },
 
         _afterRender() {
-          run.scheduleOnce("afterRender", this, () => {
+          scheduleOnce("afterRender", this, () => {
             if (this.get("showActions")) {
               this._setupActions();
             }
@@ -409,7 +409,7 @@ export default {
           actions.push(this._shareButton());
           if (this.get("canBookmark")) {
             actions.push(this._bookmarkButton());
-            run.scheduleOnce("afterRender", this, () => {
+            scheduleOnce("afterRender", this, () => {
               let bookmarkStatusElement = this.element.querySelector(
                 ".topic-statuses .op-bookmark"
               );
