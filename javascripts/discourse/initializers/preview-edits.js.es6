@@ -287,9 +287,9 @@ export default {
         },
 
         _setUpColour () {
-          let red = this.get("topic.dominant_colour.red") || 255;
-          let green = this.get("topic.dominant_colour.green") || 255;
-          let blue = this.get("topic.dominant_colour.blue") || 255;
+          let red = this.get("topic.dominant_colour.red") || 0;
+          let green = this.get("topic.dominant_colour.green") || 0;
+          let blue = this.get("topic.dominant_colour.blue") || 0;
 
           let newRgb = "rgb(" + red + "," + green + "," + blue + ")";
 
