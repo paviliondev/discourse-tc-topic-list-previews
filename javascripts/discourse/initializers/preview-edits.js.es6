@@ -304,7 +304,7 @@ export default {
         },
 
         _setupActions() {
-          if (this._state === "destroying") return;
+          if (this.isDestroying || this.element === null) return;
 
           let postId = this.get("topic.topic_post_id"),
             bookmarkElement = this.element.querySelector(".topic-bookmark"),
@@ -410,6 +410,7 @@ export default {
           if (this.get("canBookmark")) {
             actions.push(this._bookmarkButton());
             scheduleOnce("afterRender", this, () => {
+              if (this.isDestroying) return;
               let bookmarkStatusElement = this.element.querySelector(
                 ".topic-statuses .op-bookmark"
               );
