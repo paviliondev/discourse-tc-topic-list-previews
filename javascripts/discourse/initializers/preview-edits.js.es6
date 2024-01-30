@@ -191,8 +191,6 @@ export default {
           this.set("hasThumbnail", (this.get("thumbnails") || settings.topic_list_default_thumbnail) && this.get("showThumbnail"));
           this._setUpColour();
           if (this.get("tilesStyle")) {
-            // needs 'div's for masonry
-            this.set("tagName", "div");
             this.set("classNames", this.classNames.concat("tiles-grid-item"));
             if (settings.topic_list_tiles_larger_featured_tiles && topic.tags) {
               if (
