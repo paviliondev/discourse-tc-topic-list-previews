@@ -54,6 +54,10 @@ export default class TopicListPreviewsService extends Service {
     return this.discovery.tag?.id;
   }
 
+  get wideFormat() {
+    return settings.topic_list_tiles_wide_format;
+  }
+
   enabledForCurrentTopicListRouteType(infoType) {
     let checkList = [];
 

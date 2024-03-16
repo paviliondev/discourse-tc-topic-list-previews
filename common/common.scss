@@ -29,6 +29,11 @@
   margin-top: 60px;
 }
 
+#list-area {
+  container-type: inline-size;
+  container-name: list-area;
+}
+
 .tiles-style {
   th {
     display: none;
@@ -65,7 +70,7 @@
 
   .tiles-grid-item-content {
     display: grid;
-    grid-template-columns: 1;
+    grid-template-columns: auto;
     grid-template-rows: auto auto;
     grid-template-areas:
       "photo"
@@ -202,8 +207,7 @@
     grid-template-columns: 9fr 12fr 10fr;
 
     grid-template-rows: 1;
-    grid-template-areas:
-      "meta posters actions";
+    grid-template-areas: "meta posters actions";
   }
 
   .topic-meta {
@@ -291,6 +295,41 @@
     padding-left: 0;
     padding-top: 3px;
   }
+
+  &.side-by-side {
+    @container list-area (width > 900px) {
+
+      tbody {
+        grid-template-columns: auto;
+
+        .tiles-grid-item-content {
+          grid-template-areas: "photo details";
+          grid-template-columns: 1fr 2fr;
+          grid-template-rows: auto;
+        }
+
+        .topic-details {
+          grid-template-rows: auto auto 30px;
+        }
+
+        .topic-thumbnail {
+          width: 100%;
+          overflow: hidden;
+          margin: 0;
+          padding-top: 56.25%;
+          position: relative;
+          z-index: 100;
+          img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            transform: translate(-50%, -50%);
+          }
+        }
+      }
+    }
+  }
 }
 
 .topic-list-item {
@@ -317,13 +356,12 @@
       .topic-views,
       .badge-posts,
       .like-count {
-        color:#ccc;
+        color: #ccc;
       }
     }
   }
 
   &.black-text {
-
     .discourse-tag.box {
       background-color: #ccc;
     }
@@ -350,7 +388,7 @@
       .topic-views,
       .badge-posts,
       .like-count {
-        color:#444;
+        color: #444;
       }
     }
   }
@@ -513,7 +551,7 @@ button.list-button {
         }
       }
 
-     .featured-details:hover {
+      .featured-details:hover {
         img {
           -webkit-filter: brightness(35%);
           transition: background-color 200ms linear;
@@ -526,7 +564,7 @@ button.list-button {
 
           .excerpt {
             font-size: smaller;
-            overflow:hidden;
+            overflow: hidden;
           }
 
           a.mention {
@@ -586,7 +624,7 @@ img.select-thumbnail-preview {
 
 .portfolio-button-inner {
   min-width: 150px;
-  padding: .5em .65em;
+  padding: 0.5em 0.65em;
   overflow: hidden;
   height: 20px;
   vertical-align: middle;
@@ -643,7 +681,7 @@ img.select-thumbnail-preview {
     grid-template-areas:
       "fpsphoto"
       "fpsheader"
-      "fpscategory"
+      "fpscategory";
   }
 
   .fps-topic-header {
