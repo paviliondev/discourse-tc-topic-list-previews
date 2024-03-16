@@ -94,13 +94,19 @@ export default {
           "hasTiles:tiles-style",
           "hasExcerpts:showExcerpt",
           "hasActions:showActions",
+          "wideFormat:side-by-side"
         ],
         hasThumbnails: readOnly("topicListPreviewsService.displayThumbnails"),
         hasTiles: readOnly("topicListPreviewsService.displayTiles"),
         hasExcerpts: readOnly("topicListPreviewsService.displayExcerpts"),
         hasActions: readOnly("topicListPreviewsService.displayActions"),
-
         listChanged: false,
+        wideFormat: false,
+
+        @discourseComputed("listChanged")
+        wideFormat() {
+          return settings.topic_list_tiles_wide_format
+        },
 
         @on("init")
         setup() {
@@ -140,7 +146,12 @@ export default {
         pluginId: PLUGIN_ID,
         topicListPreviewsService: service("topic-list-previews"),
         canBookmark: bool("currentUser"),
-        classNameBindings: ["whiteText:white-text", "blackText:black-text", "hasThumbnail", "tilesStyle:tiles-grid-item"],
+        classNameBindings: [
+          "whiteText:white-text",
+          "blackText:black-text",
+          "hasThumbnail",
+          "tilesStyle:tiles-grid-item"
+        ],
         tilesStyle: readOnly("topicListPreviewsService.displayTiles"),
         notTilesStyle: not("topicListPreviewsService.displayTiles"),
         showThumbnail: readOnly("topicListPreviewsService.displayThumbnails"),
