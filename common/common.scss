@@ -301,6 +301,14 @@
 
       tbody {
         grid-template-columns: auto;
+        grid-auto-rows: auto;
+
+        .tiles-grid-item {
+          box-sizing: border-box;
+          cursor: pointer;
+          border-radius: 3px;
+          grid-row-end: span 1;
+        }
 
         .tiles-grid-item-content {
           grid-template-areas: "photo details";
