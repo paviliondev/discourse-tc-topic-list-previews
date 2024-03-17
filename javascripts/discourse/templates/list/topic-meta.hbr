@@ -16,6 +16,7 @@
     </div>
     <div class="bottom-line">
       <div class="topic-timing {{class}} {{cold-age-class topic.createdAt startDate=topic.bumpedAt class=""}} activity inline sub" title="{{{topic.bumpedAtTitle}}}">
+        <span class="middot inline sub"></span>
         <a href="{{topic.lastPostUrl}}">
           {{d-icon "far-clock"}}
           {{format-date topic.bumpedAt format="medium-with-ago" noTitle="true"}}

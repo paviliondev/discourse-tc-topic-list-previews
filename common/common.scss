@@ -50,7 +50,8 @@
     border-top: none;
   }
 
-  .topic-list-item, tr {
+  .topic-list-item,
+  tr {
     border: none;
   }
 
@@ -231,7 +232,9 @@
       }
       .bottom-line {
         align-self: start;
-
+        .middot {
+          display: none;
+        }
         .topic-timing {
           vertical-align: top;
         }
@@ -298,7 +301,6 @@
 
   &.side-by-side {
     @container list-area (width > 900px) {
-
       tbody {
         grid-template-columns: auto;
         grid-auto-rows: auto;
@@ -317,7 +319,33 @@
         }
 
         .topic-details {
-          grid-template-rows: auto auto 30px;
+          grid-template-rows: auto auto 15px;
+
+          .topic-users {
+            justify-content: center;
+          }
+
+          .topic-meta {
+            display: flex;
+
+            .container {
+              display: flex;
+              flex-direction: row;
+
+              .bottom-line {
+                padding-left: 3px;
+                padding-top: 1px;
+                align-self: center;
+                display: inline;
+                .middot {
+                  display: inline-block;
+                }
+                .topic-timing {
+                  vertical-align: middle;
+                }
+              }
+            }
+          }
         }
 
         .topic-thumbnail {
