@@ -1,6 +1,5 @@
 import loadScript from 'discourse/lib/load-script';
 
-window.addEventListener ('resize', resizeAllGridItems);
 window.addEventListener ('scroll', resizeAllGridItems);
 
 function resizeGridItem (item, grid, rowHeight, rowGap) {
@@ -9,9 +8,12 @@ function resizeGridItem (item, grid, rowHeight, rowGap) {
   ).then (() => {
     imagesLoaded (item, function () {
       const contentHeight = item.firstElementChild.getBoundingClientRect().height;
-      const rowSpan = Math.ceil (
+      let rowSpan = Math.ceil (
         (contentHeight + rowGap) / (rowHeight + rowGap)
       );
+      if (rowSpan !== rowSpan) {
+        rowSpan = 1;
+      }
       item.style.gridRowEnd = 'span ' + rowSpan;
     });
   });

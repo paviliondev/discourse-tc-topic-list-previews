@@ -102,6 +102,7 @@ export default {
         hasActions: readOnly("topicListPreviewsService.displayActions"),
         listChanged: false,
         wideFormat: false,
+        listAreaSizeObserver: null,
 
         @discourseComputed("listChanged")
         wideFormat() {
@@ -110,6 +111,12 @@ export default {
 
         @on("init")
         setup() {
+          let listAreaSizeObserver;
+          let listArea = document.querySelector("#list-area");
+          if (listArea) {
+            listAreaSizeObserver = new ResizeObserver(resizeAllGridItems).observe(listArea);
+          }
+          this.set("listAreaSizeObserver", listAreaSizeObserver);
           const suggestedList = this.get("suggestedList");
           if (suggestedList) {
             const category = this.get(
@@ -139,6 +146,14 @@ export default {
 
         applyTiles() {
           resizeAllGridItems();
+        },
+
+        willDestroyElement() {
+          this._super();
+          let listArea = document.querySelector("#list-area");
+          if (this.listAreaSizeObserver) {
+            this.listAreaSizeObserver.unobserve(listArea);
+          }
         },
       });
 
