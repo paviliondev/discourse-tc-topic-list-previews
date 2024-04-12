@@ -15,5 +15,8 @@
         [800, 800]
       ]
     },
+    "assets": {
+      "imagesloaded": "assets/imagesloaded.js"
+    },
     "minimum_discourse_version": "2.5.0.beta4"
 }

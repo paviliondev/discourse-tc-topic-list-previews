@@ -4,9 +4,10 @@ window.addEventListener ('scroll', resizeAllGridItems);
 
 function resizeGridItem (item, grid, rowHeight, rowGap) {
   loadScript (
-    'https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js'
+    settings.theme_uploads.imagesloaded
   ).then (() => {
     imagesLoaded (item, function () {
+      console.log('resizeGridItem')
       const contentHeight = item.firstElementChild.getBoundingClientRect().height;
       let rowSpan = Math.ceil (
         (contentHeight + rowGap) / (rowHeight + rowGap)

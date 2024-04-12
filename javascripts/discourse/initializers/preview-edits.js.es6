@@ -24,7 +24,7 @@ export default {
     withPluginApi("0.8.40", (api) => {
       api.onPageChange(() => {
         loadScript(
-          "https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"
+          settings.theme_uploads.imagesloaded
         ).then(() => {
           if (document.querySelector(".tiles-style")) {
             imagesLoaded(
