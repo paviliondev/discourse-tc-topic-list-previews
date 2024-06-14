@@ -214,7 +214,10 @@ export default {
           this.set("likeCount", topic.like_count);
           this.set("hasLiked", topic.topic_post_liked);
           this.set("canUnlike", topic.topic_post_can_unlike);
-          this.set("hasThumbnail", (this.get("thumbnails") || settings.topic_list_default_thumbnail) && this.get("showThumbnail"));
+          if (!thumbnails && defaultThumbnail && settings.topic_list_default_thumbnail_fallback) {
+            this.set("thumbnails", [{ url: defaultThumbnail }]);
+          }
+          this.set("hasThumbnail", this.get("thumbnails") && this.get("showThumbnail"));
           this._setUpColour();
           if (this.get("tilesStyle")) {
             if (settings.topic_list_tiles_larger_featured_tiles && topic.tags) {
