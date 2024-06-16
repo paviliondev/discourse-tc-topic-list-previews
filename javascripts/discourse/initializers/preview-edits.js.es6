@@ -317,6 +317,11 @@ export default {
           let green = this.get("topic.dominant_colour.green") || 0;
           let blue = this.get("topic.dominant_colour.blue") || 0;
 
+          //make 1 the minimum value to avoid total black
+          red =  red == 0 ? 1 : red;
+          green =  green == 0 ? 1 : green;
+          blue =  blue == 0 ? 1 : blue;
+
           let newRgb = "rgb(" + red + "," + green + "," + blue + ")";
 
           let averageIntensity =  this.get("topic.dominant_colour") ? (red + green + blue) / 3 : null;
